@@ -1,4 +1,4 @@
-﻿1、请根据实际情况下调整配置文件： 
+﻿1、请根据实际情况下创建配置文件（参考 \bak 目录）： 
    目录位置： \src\SpecChecker.ConsoleApp\bin\
    文件： SpecChecker.Branchs.config 和 SpecChecker.BusinessUnitConfig.config
 
