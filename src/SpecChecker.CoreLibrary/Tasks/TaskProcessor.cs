@@ -11,14 +11,14 @@ namespace SpecChecker.CoreLibrary.Tasks
 {
 	public sealed class TaskProcessor
 	{
-		public void Execute(string taskXmlFile)
+		public void Execute(string taskXmlFile, bool enableConsoleOut)
 		{
 			if( File.Exists(taskXmlFile) == false )
 				throw new FileNotFoundException("指定的文件不存在：" + taskXmlFile);
 
 			JobOption job = XmlHelper.XmlDeserializeFromFile<JobOption>(taskXmlFile);
 
-			TaskContext context = new TaskContext(job);
+			TaskContext context = new TaskContext(job, enableConsoleOut);
 
 			if( job.Actions == null )
 				return;
@@ -26,9 +26,39 @@ namespace SpecChecker.CoreLibrary.Tasks
 
 			ReplacePathVars(job);
 
-			foreach(TaskAction a in job.Actions ) {
-				ITask task = TaskFactory.CreateTask(a.Type);
-				task.Execute(context, a);
+			try {
+				foreach( TaskAction a in job.Actions ) {
+					ITask task = TaskFactory.CreateTask(a.Type);
+					task.Execute(context, a);
+				}
+			}
+			finally {
+				SaveRunLog(context);
+			}
+		}
+
+
+		private void SaveRunLog(TaskContext context)
+		{
+			if( context.TotalResult == null
+				|| string.IsNullOrEmpty(context.TotalResult.ConsoleText) )
+				return;
+
+
+			try {
+				string logPath = Path.Combine(Environment.CurrentDirectory, @"Log111\RunLog");
+				if( Directory.Exists(logPath) == false )
+					Directory.CreateDirectory(logPath);
+
+				string logFileName = string.Format("{0}--{1}.log",
+					context.Branch.Id, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
+
+				string logFilePath = Path.Combine(logPath, logFileName);
+
+				File.WriteAllText(logFilePath, context.TotalResult.ConsoleText, Encoding.UTF8);
+			}
+			catch {
+				// 写日志文件出错就忽略异常。
 			}
 		}
 

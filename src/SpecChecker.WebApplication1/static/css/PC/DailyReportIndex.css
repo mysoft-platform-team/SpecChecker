@@ -4,9 +4,21 @@
     font-size: 12px;
     font-family: Consolas;
 }
-p{
+p.note{
+	margin: 0px;
 	line-height: 180%;
-	padding: 10px 0px;
+	padding: 15px 0px 3px 0px;
+}
+p.note b{
+	font-weight: bold;
+}
+ul{
+	margin: 0px;
+	padding: 0px 20px;
+}
+ul li{
+	margin: 0px;
+	padding: 3px 3px;
 }
 a{
 	text-decoration: none;

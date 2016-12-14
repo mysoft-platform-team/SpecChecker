@@ -146,3 +146,11 @@ td.graphBarNotVisited {
 	padding: 0px;
 }
 
+pre.consle-out-message{
+	font-size: 12px;
+	font-family: Consolas;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space: pre-wrap;
+	line-height: 150%;
+}

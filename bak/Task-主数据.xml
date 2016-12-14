@@ -14,7 +14,9 @@
   </SlnFiles>
   <Actions>
     <Action Type="ClearBinObj" />
-    <!--<Action Type="Tfs" />-->
+    <Action Type="Tfs">
+      <item>%M6Prod%\99 构建命令</item>
+    </Action>
     <Action Type="ExecuteFile">
       <item>%M6Prod%\99 构建命令\99__Compile-ERP.cmd</item>
     </Action>

@@ -3,6 +3,7 @@
     var model = this.Model as DailyReportViewModel;
 }
 
+@if( string.IsNullOrEmpty(model.TotalResult.ConsoleText) ) {
 <div class="branch">
     <p><br /></p>
     <p><b>分支环境信息</b></p>
@@ -35,3 +36,8 @@
     </table>
 </div>
 
+}
+else {
+    <h3><b>执行消息</b></h3>
+    <pre class="consle-out-message">@model.TotalResult.ConsoleText</pre>
+}

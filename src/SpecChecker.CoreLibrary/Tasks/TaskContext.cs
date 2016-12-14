@@ -17,6 +17,7 @@ namespace SpecChecker.CoreLibrary.Tasks
 {
 	public class TaskContext
 	{
+		private bool _enableConsoleOut;
 		private JobOption _task;
 		private BranchSettings _branch;
 		private string _tempPath;
@@ -43,12 +44,13 @@ namespace SpecChecker.CoreLibrary.Tasks
 			get { return _sb.ToString(); }
 		}
 
-		public TaskContext(JobOption task)
+		public TaskContext(JobOption task, bool enableConsoleOut)
 		{
 			if( task == null )
 				throw new ArgumentNullException(nameof(task));
 
 			_task = task;
+			_enableConsoleOut = enableConsoleOut;
 
 			// 每个小组使用一个临时目录
 			_tempPath = InitTempDirectory(task.Id);
@@ -91,8 +93,8 @@ namespace SpecChecker.CoreLibrary.Tasks
 		{
 			_sb.AppendLine(message);
 
-			//if( ConsoleMode )
-			Console.WriteLine(message);
+			if( _enableConsoleOut )
+				Console.WriteLine(message);
 		}
 
 		public void ProcessException(Exception ex)
