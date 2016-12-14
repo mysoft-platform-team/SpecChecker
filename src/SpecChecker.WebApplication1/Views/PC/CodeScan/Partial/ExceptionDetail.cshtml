@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as ClownFish.Log.Model.ExceptionInfo;
+
+    var xml = ClownFish.Base.Xml.XmlHelper.XmlSerialize(model, System.Text.Encoding.UTF8);
+    var xmlLink = HttpContext.Current.Request.RawUrl + "?xml=1";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <style>
+        * {
+            font-size: 10pt;
+            font-family: Consolas;
+            line-height: 120%;
+        }
+
+        a {
+            text-decoration: none;
+        }        
+    </style>
+</head>
+<body>
+<pre>
+@xml.ToHtml()
+</pre>
+
+    <p style="padding: 20px 5px">
+        <a href="@xmlLink">以XML方式查看</a>
+    </p>
+</body>
+</html>

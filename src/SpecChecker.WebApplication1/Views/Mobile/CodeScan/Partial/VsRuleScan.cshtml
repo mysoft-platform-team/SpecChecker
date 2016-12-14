@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as PagedList<SpecChecker.CoreLibrary.VsRuleScan.VsRuleCheckResult>;
+    int index = model.PageIndex.GetValueOrDefault() * model.PageSize + 1;
+    string divclass = null;
+}
+@if( index == 1 ) {
+    <p><br /></p>
+}
+
+@foreach( var m in model.List ) {
+    divclass = (index % 2) == 0 ? "data0" : "data1";
+    <div class="@divclass">
+        <p># @(index++.ToString())</p>
+        <p>文件路径：<br />
+        @HtmlExtensions.AsFilePathHtml(m.File)
+@if( string.IsNullOrEmpty(m.Line) == false ) { @Html.Raw("<br />Line:")@m.Line}</p>
+        <p>不规范原因：<br />
+            <a href="@m.Url" target="_blank">@m.CheckId</a><br />@m.Message
+        </p>
+    </div>
+}
+
+@if( model.HasNextPage ) {
+    <p class="next-page"><a href="@model.GetNextLink()">下一页</a></p>
+
+}

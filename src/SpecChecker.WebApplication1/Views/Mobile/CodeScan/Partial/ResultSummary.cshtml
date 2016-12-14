@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as DailyReportViewModel;
+}
+
+<div class="branch">
+    <p><br /></p>
+    <p><b>分支环境信息</b></p>
+    <p>数据库连接字符串</p>
+    <p>@model.Branch.DbLocation</p>
+    <p>日志库连接字符串</p>
+    <p>@model.Branch.MongoLocation</p>
+@if( string.IsNullOrEmpty(model.ComplieMessage) == false ) {
+    <p>编译消息</p>
+    <p>@model.ComplieMessage</p>
+}
+
+</div>
+
+
+<div class="summary">
+    <table border="1">
+        <tr class="header">
+            <td style="width: 200px;">扫描类别</td>
+            <td style="width: 200px;">业务单元</td>
+            <td style="width: 100px;">合计数量</td>
+        </tr>
+        @foreach( var item in @model.SubTotalResults ) {
+            <tr>
+                <td>@item.ScanKind</td>
+                <td>@item.BusinessUnit</td>
+                <td>@item.Count.ToString()</td>
+            </tr>
+        }
+    </table>
+</div>
+

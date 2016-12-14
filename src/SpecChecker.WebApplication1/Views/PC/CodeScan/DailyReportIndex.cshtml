@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "/Views/PC/Shared/_Layout.cshtml";
+    var model = this.Model as DailyReportIndexViewModel;
+
+    Page.Title = "代码检查日报--" + model.Today;
+    var colspan = SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs.Count() + 1;
+}
+@section head{
+@this.RenderCss("/static/css/PC/DailyReportIndex.css")
+    @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/metro/easyui.css")
+    @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/icon.css")
+    @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/color.css")
+}
+@section scripts{
+@this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.min.js")
+@this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.easyui.min.js")
+@this.RenderJs("/static/js/jquery-easyui-1.4.5/easyui-lang-zh_CN.js")
+
+<script type="text/javascript">
+    $(function() {
+        $("#todayHeader").click(function () {
+            $("#calendar1").toggle();
+        });
+
+        $('#calendar1').calendar({
+            onSelect: function (date) {
+                var url = "/Report/" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + ".phtml";
+                window.location.href = url;
+            }
+        });
+
+    });
+</script>
+}
+
+<h2 id="todayHeader">代码检查日报-- @model.Today</h2>
+<div id="calendar1" class="easyui-calendar" style="width: 240px; height: 180px; display: none;"></div>
+
+
+@if( model.QaReportTable != null ) {
+<table id="qaReport" border="1">
+    <tr class="header">
+        <td style="width: 100px">扫描类别</td>
+        @foreach( var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs ) {
+            if( b.CanLinkToDailyReportPage(model.Today) ) {
+                <td><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
+}
+            else {
+                <td><b>@b.Name</b></td>
+}
+        }
+    </tr>
+
+    @foreach( var row in model.QaReportTable.Rows ) {
+        <tr><td>@row.ScanKind</td>
+            @foreach( var cell in row.Cells ) {
+                <td>@Html.Raw(cell.GetHtml())</td>
+            }
+        </tr>
+    }
+    <tr><td colspan="@colspan" class="header" style="text-align: left; font-weight: normal">
+        说明：箭头代表与前一天统计数据对比趋势（<b style="color: red">↑</b> 表示上升，<b style="color: green">↓</b> 表示下降）</td></tr>
+</table>
+}
+
+<p>
+    <b>规则列表</b><br />
+    <a href="/static/page/erp-spec.html" target="_blank">ERP代码规范</a><br />
+    <a href="/static/page/ms-MinimumRecommendedRules.html" target="_blank">微软托管代码建议规则</a><br />
+</p>
+
+<p>
+    <br />
+    <b>扫描二维码用手机查看</b><br />
+    <img src="/static/img/spec-check.png?v=1">
+</p>

@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as ExceptionIndexViewModel;
+    int index = model.PageIndex.GetValueOrDefault() * model.PageSize + 1;
+    string divclass = null;
+}
+
+@if( index == 1 ) {
+    <p><br /></p>
+}
+
+@foreach( var m in model.List ) {
+    divclass = (index % 2) == 0 ? "data0" : "data1";
+    <div class="@divclass">
+        <p># @(index++.ToString())</p>
+        @*<p>业务单元：@m.BusinessInfo.Key1</p>*@
+        <p>发生时间：@m.Time.ToTimeString()</p>
+        <p>异常类型：@m.ExceptionType</p>
+        <p>
+            <a href="@model.GetDetailLink(m.InfoGuid)" target="_blank">@m.Message</a>
+            <br />
+            url: @m.GetUrl()
+        </p>
+    </div>
+}
+
+@if( model.HasNextPage ) {
+    <p class="next-page"><a href="@model.GetNextLink()">下一页</a></p>
+
+}

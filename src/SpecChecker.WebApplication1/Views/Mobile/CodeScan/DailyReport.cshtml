@@ -1,0 +1,93 @@
+﻿
+@{
+    Layout = "/Views/PC/Shared/_Layout.cshtml";
+    var model = this.Model as DailyReportViewModel;
+    var total = model.TotalResult;
+
+    Page.Title = "代码检查日报--"  + model.Today;
+}
+
+@section head{
+   @this.RenderCss("/static/css/Mobile/DailyReport.css")
+}
+@section scripts {
+    @this.RenderJs("/static/js/jquery/jquery-1.8.1.min.js")
+    @this.RenderJs("/static/js/mypage/Public.js")
+    @this.RenderJs("/static/js/mypage/DailyReport.js")
+
+    <script type="text/javascript">
+        function gotoTop() {
+            $('html, body').animate({
+                scrollTop: '0px'
+            });
+        }
+    </script>
+}
+
+<div id="topPanel">
+    <div class="branchName"><a href="@HttpContext.Current.Request.RawUrl"><b>@model.Branch.Name （@model.Today）</b></a></div>
+    <div class="gotoTop"><a href="javascript:;" onclick="gotoTop()"><img src="/static/img/goto-top.gif" /></a></div>
+</div>
+
+<div id="leftPanel">    
+    <div style="display: none">
+        <input type="hidden" id="hidden-day" value="@model.Today" />
+        <input type="hidden" id="hidden-branch" value="@model.Branch.Id" />
+    </div>
+    <div id="nvaMenu">
+
+        <ul>
+<li><a href="@model.GetMenuLink("RuntimeScan", 0)">
+    程序集扫描结果(@(total.RuntimeScanException != null ? "?" : total.RuntimeScanResults.Count.ToString()))
+</a></li>
+<li><a href="@model.GetMenuLink("DatabaseScan", 0)">
+    数据库扫描结果(@(total.DbCheckException != null ? "?" : total.DbCheckResults.Count.ToString()))
+</a></li>
+ <li><a href="@model.GetMenuLink("JsCodeScan", 0)">
+    前端代码扫描结果(@(total.CodeCheckException != null ? "?" : total.JsCodeCheckResults.Count.ToString()))
+</a></li>
+<li><a href="@model.GetMenuLink("CsCodeScan", 0)">
+    后端代码扫描结果(@(total.CodeCheckException != null ? "?" : (total.CsCodeCheckResults.Count - total.CommentScanResultCount).ToString()))
+</a></li>
+<li><a href="@model.GetMenuLink("ProjectScan", 0)">
+    项目设置扫描结果(@(total.ProjectCheckException != null ? "?" : total.ProjectCheckResults.Count.ToString()))
+</a></li>
+<li><a href="@model.GetMenuLink("VsRuleScan", 0)">
+    微软规则扫描结果(@(total.VsRuleCheckException != null ? "?" : total.VsRuleCheckResults.Count.ToString()))
+</a></li>
+
+
+@if( total.UnitTestResults != null && total.UnitTestResults.Count > 0 ) {
+<li><a href="@model.GetMenuLink("UnitTest")">
+     单测用例通过率(@(total.UnitTestTotal == 0 ? "0" : ((total.UnitTestPassed * 100) / total.UnitTestTotal).ToString())%)
+</a></li>}
+@if( total.CodeCoverResults != null && total.CodeCoverResults.Count > 0 ) {
+<li><a href="@model.GetMenuLink("CodeCover")">
+    单测代码覆盖率(@(total.CodeCover.ToString())%)
+</a></li>}
+<li><a href="@model.GetMenuLink("CommentScan")">
+    注释扫描结果(@total.CommentScanResultCount)
+</a></li>
+<li><a href="@model.GetMenuLink("PerformanceLog", 0)">
+    性能日志(@(total.PerformanceLogException != null ? "?" : total.PerformanceInfos.Count.ToString()))
+</a></li>
+<li><a href="@model.GetMenuLink("ExceptionLog", 0)">
+     异常日志(@(total.ExceptionLogException != null ? "?" : total.ExceptionInfos.Count.ToString()))
+</a></li>
+
+            @*<li><a href="javascript:;" data-flag="TucaoLog">代码审查结果</a> </li>*@
+        </ul>        
+    </div>
+</div>
+
+<div id="rightPanel">
+    <div id="reportContainer">
+        <div class="innerContainer">
+            @RenderPage("/Views/Mobile/CodeScan/Partial/ResultSummary.cshtml", @model)
+        </div>
+    </div>
+
+</div>
+
+
+<div style="clear: both;"></div>

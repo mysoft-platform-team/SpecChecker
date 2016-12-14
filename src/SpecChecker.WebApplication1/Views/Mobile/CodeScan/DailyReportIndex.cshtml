@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "/Views/PC/Shared/_Layout.cshtml";
+    var model = this.Model as DailyReportIndexViewModel;
+    var colspan = SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs.Count() + 1;
+}
+@section head{
+    @this.RenderCss("/static/css/Mobile/DailyReportIndex.css")
+}
+
+
+<h2>代码检查日报-- @model.Today</h2>
+
+@if( model.QaReportTable != null ) {
+    <table id="qaReport" border="1">
+        <tr class="header">
+            <td style="width: 90px">扫描类别</td>
+            @foreach( var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs ) {
+                if( b.CanLinkToDailyReportPage(model.Today) ) {
+                    <td style="width: 70px"><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
+}
+                else {
+                    <td style="width: 70px"><b>@b.Name</b></td>
+}
+            }
+        </tr>
+        @foreach( var row in model.QaReportTable.Rows ) {
+            <tr>
+                <td>@row.ScanKind</td>
+                @foreach( var cell in row.Cells ) {
+                    <td>@Html.Raw(cell.GetHtml())</td>
+                }
+            </tr>
+        }
+        <tr>
+            <td colspan="@colspan" class="header" style="text-align: left; font-weight: normal">
+                说明：箭头表示与前一天数据的对比趋势（<b style="color: red">↑</b> 上升，<b style="color: green">↓</b> 下降）
+                ，点击<b>列标题</b>可查看详情。
+                <i style="color: #aaa">@model.Today</i>
+            </td>
+        </tr>
+    </table>
+}
+
+
+<p>
+    <b>规则列表</b><br />
+    <a href="/static/page/erp-spec.html" target="_blank">ERP代码规范</a><br />
+    <a href="/static/page/ms-MinimumRecommendedRules.html" target="_blank">微软托管代码建议规则</a><br />
+</p>

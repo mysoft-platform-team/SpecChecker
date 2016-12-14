@@ -1,0 +1,148 @@
+﻿body{
+    padding: 1px;
+    font-size: 14px;
+    font-family: '微软雅黑', '宋体', Calibri, Consolas, Arial;
+}
+table{
+    border-collapse: collapse;
+	border-color:#aaa;
+
+}
+tr{
+	height: 32px;
+}
+tr.header{
+    background-color: #eee;	
+}
+td{
+    padding: 5px;
+	border-color:#aaa;
+}
+td.nowrap {
+    white-space: nowrap;
+}
+i {
+    color: #808080;
+}
+a{
+	text-decoration: none;
+}
+#leftPanel{
+	margin-top: 35px;
+}
+
+#topPanel{
+	width: 100%;
+	height: 36px;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	background-color: #eee;
+}
+#topPanel div.branchName{
+	float: left;
+	padding:8px;
+}
+#topPanel div.gotoTop{
+	float: right;
+	padding:5px 32px 5px 0px;
+}
+#topPanel a{
+	display: block;
+}
+
+
+
+
+#nvaMenu ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+#nvaMenu ul li a{
+	display: block;
+	padding: 8px 5px;
+}
+
+#nvaMenu ul li a:hover{
+	background-color: #eee;
+}
+
+fieldset{
+	margin-bottom: 12px;
+	border-color:#eee;
+}
+
+
+#rightPanel{
+	display:block;
+}
+
+fieldset{
+	width: 99%;
+}
+
+#reportContainer div.data0{
+	padding: 2px 5px;
+	background-color:#eee;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+#reportContainer div.data1{
+	padding: 2px 5px;
+	background-color: #abd4f2;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+#reportContainer div.branch{
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+
+p.next-page a{
+	text-decoration: none;
+	display: block;
+	height: 35px;
+	width: 99%;
+	text-align: center;
+	border: solid 1px #808080;
+	padding-top: 16px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+
+
+
+td.mainTableCellGraph {
+	background: #ffffff;
+	border-right: #dcdcdc 1px solid;
+	padding-right: 5px;
+	height: 14px;
+}
+
+td.mainTableCellGraph tr{
+	height: 14px;
+}
+
+td.graphBarVisited {
+	background: #00df00;
+	color: #00df00;
+	font-size: 2px;
+	border-left: #9c9c9c 1px solid;
+	border-top: #9c9c9c 1px solid;
+	border-bottom: #9c9c9c 1px solid;
+	padding: 0px;
+}
+
+td.graphBarNotVisited {
+	font-size: 2px;
+	border: #9c9c9c 1px solid;
+	background: #df0000;
+	color: #df0000;
+	padding: 0px;
+}
+

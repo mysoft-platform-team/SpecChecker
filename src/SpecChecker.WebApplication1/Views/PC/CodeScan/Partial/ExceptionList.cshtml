@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as ExceptionIndexViewModel;
+    int index = 1;
+}
+
+<table border="1">
+    <tr class="header">
+        <td style="width: 30px">#</td>
+        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("BusinessUnit")" title="按业务单元排序">业务单元</a></td>
+        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("Time")" title="按发生时间排序">发生时间</a></td>
+        <td style="width: 160px"><a class="sort" href="@model.GetSortLink("ExceptionType")" title="按异常类型排序">异常类型</a></td>
+        <td style="width: auto">异常描述</td>
+    </tr>
+    @foreach( var m in model.List ) {
+        <tr>
+            <td>@(index++.ToString())</td>
+            <td class="nowrap">@m.BusinessInfo.Key1</td>
+            <td>@m.Time.ToTimeString()</td>
+            <td>@m.ExceptionType</td>
+            <td>
+                <a href="@model.GetDetailLink(m.InfoGuid)" target="_blank">@m.Message</a>
+                <br />
+                url: @m.GetUrl()
+            </td>
+        </tr>
+    }
+</table>

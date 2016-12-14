@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>6</Id>
+  <Name>公共系统</Name>
+  <CodePath>
+    <string>%MAP%\03公共系统</string>
+    <string>%MAP%\00根站点\PubPlatform</string>
+  </CodePath>
+  <SlnFiles>
+    <string>%MAP%\03公共系统\公共系统.sln</string>
+  </SlnFiles>
+  <Actions>
+    <Action Type="ClearBinObj" />
+    <Action Type="Tfs" />
+    <Action Type="SetProjecctRule" />
+    <Action Type="MsBuild" />
+    <Action Type="ResetProjecctRuleTask" />
+    <Action Type="ExecuteCommnad">
+      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\00根站点\bin\ /y</item>
+    </Action>
+    <Action Type="AssemblyScan">
+      <item>sln=;bin=%MAP%\00根站点\bin</item>
+    </Action>
+    <Action Type="CodeScan" />
+    <Action Type="ProjectScan" />
+    <Action Type="VsRuleScan" />
+    <Action Type="DatabaseScan"></Action>
+    <Action Type="ExceptionLog"></Action>
+    <Action Type="PerformanceLog"></Action>
+    <Action Type="CodeCover" />
+    <Action Type="UploadResult"></Action>
+    <Action Type="UploadClientLog"></Action>
+
+  </Actions>
+</JobOption>

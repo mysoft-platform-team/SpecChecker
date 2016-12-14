@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>7</Id>
+  <Name>主数据</Name>
+  <CodePath>
+    <string>%M6Prod%\04 主数据系统</string>
+    <string>%M6Prod%\01 项目库</string>
+    <string>%M6Prod%\00 根目录\Mdm</string>
+    <string>%M6Prod%\99 packages</string>
+  </CodePath>
+  <SlnFiles>
+    <string>%M6Prod%\01 项目库\项目库.sln</string>
+    <string>%M6Prod%\04 主数据系统\主数据系统.sln</string>
+  </SlnFiles>
+  <Actions>
+    <Action Type="ClearBinObj" />
+    <!--<Action Type="Tfs" />-->
+    <Action Type="ExecuteFile">
+      <item>%M6Prod%\99 构建命令\99__Compile-ERP.cmd</item>
+    </Action>
+    <Action Type="SetProjecctRule" />
+    <Action Type="MsBuild" />
+    <Action Type="ResetProjecctRuleTask" />
+    <Action Type="ExecuteCommnad">
+      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\00根站点\bin\ /y</item>
+    </Action>
+    <Action Type="AssemblyScan">
+      <item>sln=%M6Prod%\01 项目库\项目库.sln;bin=%M6Prod%\00 根目录\bin</item>
+      <item>sln=%M6Prod%\04 主数据系统\主数据系统.sln;bin=%M6Prod%\00 根目录\bin</item>
+    </Action>
+    <Action Type="CodeScan" />
+    <Action Type="ProjectScan" />
+    <Action Type="VsRuleScan" />
+    <Action Type="DatabaseScan"></Action>
+    <Action Type="ExceptionLog"></Action>
+    <Action Type="PerformanceLog"></Action>
+    <Action Type="CodeCover" />
+    <Action Type="UploadResult"></Action>
+    <Action Type="UploadClientLog"></Action>
+
+  </Actions>
+</JobOption>

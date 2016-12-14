@@ -1,0 +1,129 @@
+﻿body {
+	padding: 5px;
+	font-size: 12px;
+	font-family: Consolas;
+}
+
+textarea {
+	padding: 5px;
+	font-size: 12px;
+	font-family: Consolas;
+}
+
+table {
+	border-collapse: collapse;
+	border-color: #aaa;
+}
+
+tr {
+	height: 32px;
+}
+
+	tr.header {
+		background-color: #eee;
+	}
+
+td {
+	padding: 5px;
+	border-color: #aaa;
+}
+
+	td.nowrap {
+		white-space: nowrap;
+	}
+
+i {
+	color: #808080;
+}
+
+a {
+	text-decoration: none;
+}
+
+#leftPanel {
+	float: left;
+	width: 150px;
+	height: 500px;
+	position: fixed;
+	left: 10px;
+	top: 10px;
+}
+
+	#leftPanel div.today {
+		font-size: 36px;
+		font-family: Consolas;
+		padding: 20px 8px;
+	}
+
+	#leftPanel div.branchName {
+		padding: 8px 7px;
+		font-size: 12px;
+	}
+
+
+#nvaMenu ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+	#nvaMenu ul li a {
+		display: block;
+		width: 150px;
+		padding: 8px 5px;
+	}
+
+		#nvaMenu ul li a:hover {
+			background-color: #eee;
+		}
+
+fieldset {
+	margin-bottom: 12px;
+	border-color: #eee;
+}
+
+
+#rightPanel {
+	display: block;
+	margin-left: 160px;
+}
+
+#reportContainer table {
+	table-layout: fixed;
+}
+
+#reportContainer table td {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+
+
+td.mainTableCellGraph {
+	background: #ffffff;
+	border-right: #dcdcdc 1px solid;
+	padding-right: 5px;
+	height: 14px;
+}
+
+td.mainTableCellGraph tr{
+	height: 14px;
+}
+
+td.graphBarVisited {
+	background: #00df00;
+	color: #00df00;
+	font-size: 2px;
+	border-left: #9c9c9c 1px solid;
+	border-top: #9c9c9c 1px solid;
+	border-bottom: #9c9c9c 1px solid;
+	padding: 0px;
+}
+
+td.graphBarNotVisited {
+	font-size: 2px;
+	border: #9c9c9c 1px solid;
+	background: #df0000;
+	color: #df0000;
+	padding: 0px;
+}

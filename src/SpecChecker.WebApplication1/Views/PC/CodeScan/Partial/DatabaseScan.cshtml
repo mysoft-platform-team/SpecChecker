@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as PagedList<SpecChecker.CoreLibrary.DbScan.DbCheckResult>;
+    int index = 1;
+}
+
+<table border="1">
+    <tr class="header">
+        <td style="width: 30px">#</td>
+        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("BusinessUnit")" title="按业务单元排序">业务单元</a></td>
+        <td style="width: 200px"><a class="sort" href="@model.GetSortLink("Reason")" title="按不规范原因排序">不规范原因</a></td>
+        <td style="width: auto">对象信息</td>
+    </tr>
+    @foreach( var m in model.List ) {
+        <tr>
+            <td>@(index++.ToString())</td>
+            <td class="nowrap">@m.BusinessUnit</td>
+            <td>@Html.Raw(m.Reason.Replace(";", "<br />"))</td>
+            <td>@m.Informantion</td>
+        </tr>
+    }
+</table>

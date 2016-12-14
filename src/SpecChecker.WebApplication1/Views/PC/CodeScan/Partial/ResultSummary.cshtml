@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as DailyReportViewModel;
+}
+
+@if( string.IsNullOrEmpty(model.TotalResult.ConsoleText) ) {
+<div class="branch">
+    <fieldset>
+        <legend>分支环境信息</legend>
+        <table>
+@if( string.IsNullOrEmpty(@model.Branch.DbLocation) == false ) {
+            <tr><td>数据库连接字符串</td><td>@model.Branch.DbLocation</td></tr>
+}
+@if( string.IsNullOrEmpty(@model.Branch.MongoLocation) == false ) {
+            <tr><td>日志库连接字符串</td><td>@model.Branch.MongoLocation</td></tr>
+}
+            @if( string.IsNullOrEmpty(model.ComplieMessage) == false ) {
+                <tr><td><b style="color: red">编译消息</b></td><td>
+                    <textarea style="width: 800px; height: 200px">@model.ComplieMessage</textarea></td></tr>
+}
+        </table>
+    </fieldset>
+</div>
+
+
+<div class="summary">
+    <table border="1">
+        <tr class="header">
+            <td style="width: 200px;">扫描类别</td>
+            <td style="width: 200px;">业务单元</td>
+            <td style="width: 100px;">合计数量</td>
+        </tr>
+        @foreach( var item in @model.SubTotalResults ) {
+            <tr>
+                <td>@item.ScanKind</td>
+                <td>@item.BusinessUnit</td>
+                <td>@item.Count.ToString()</td>
+            </tr>
+        }
+    </table>
+</div>
+}
+else {
+    <h3><b>执行消息</b></h3>
+    <p>
+        <textarea style="width: 98%; height: 600px">@model.TotalResult.ConsoleText</textarea>
+    </p>
+}

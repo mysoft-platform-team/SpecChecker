@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as Dictionary<string, string>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>客户端日志列表</title>
+</head>
+<body>
+
+
+@foreach( var kvp in model ) {
+    <p>
+        <a href="@kvp.Value" target="_blank">@kvp.Key</a>
+    </p>
+}
+
+</body>
+</html>

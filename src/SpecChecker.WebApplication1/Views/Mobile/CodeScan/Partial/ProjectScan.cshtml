@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as PagedList<SpecChecker.CoreLibrary.ProjectScan.ProjectCheckResult>;
+    int index = model.PageIndex.GetValueOrDefault() * model.PageSize + 1;
+    string divclass = null;
+}
+
+@if( index == 1 ) {
+    <p><br /></p>
+}
+
+@foreach( var m in model.List ) {
+    divclass = (index % 2) == 0 ? "data0" : "data1";
+    <div class="@divclass">
+        <p># @(index++.ToString())</p>
+        <p>项目文件：<br />@HtmlExtensions.AsFilePathHtml(m.ProjectName)<br />@m.Configuration 模式</p>
+        <p>@m.Reason</p>
+    </div>
+}
+
+@if( model.HasNextPage ) {
+    <p class="next-page"><a href="@model.GetNextLink()">下一页</a></p>
+
+}

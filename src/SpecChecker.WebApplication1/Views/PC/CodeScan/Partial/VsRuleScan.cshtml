@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as PagedList<SpecChecker.CoreLibrary.VsRuleScan.VsRuleCheckResult>;
+    int index = 1;
+}
+
+<table border="1">
+    <tr class="header">
+        <td style="width: 30px">#</td>
+        <td class="nowrap" style="width: 240px">文件路径</td>
+        <td style="width: auto">不规范原因</td>
+
+    </tr>
+    @foreach( var m in model.List ) {
+        <tr>
+            <td>@(index++.ToString())</td>
+            <td class="nowrap">@HtmlExtensions.AsFilePathHtml(m.File)
+            @if( string.IsNullOrEmpty(m.Line) == false ) { @Html.Raw("<br />Line:")@m.Line}
+            </td>
+            <td><a href="@m.Url" target="_blank">@m.CheckId</a><br />@m.Message</td>            
+        </tr>
+    }
+</table>

@@ -1,0 +1,29 @@
+﻿@using SpecChecker.CoreLibrary.UnitTest
+@{
+    Layout = null;
+    var model = this.Model as PagedList<UnitTestResult>;
+}
+
+<table border="1">
+    <tr class="header">
+        <td style="width: 240px">项目名称</td>
+        <td style="width: 70px">用例总数</td>
+        <td style="width: 70px">通过数量</td>
+    </tr>
+    @foreach( var m in model.List ) {
+        <tr>
+            @if( m.LogFileUrl == null ) {
+                <td class="nowrap mainTableCellGraph">
+                    @m.ProjectName<br />
+                    @HtmlExtensions.GetCodeCoverGraphCellTable(m.Total, m.Passed, 240)
+                </td>}
+            else {
+                <td class="nowrap mainTableCellGraph">
+                    <a href="@m.LogFileUrl" target="_blank">@m.ProjectName</a><br />
+                    @HtmlExtensions.GetCodeCoverGraphCellTable(m.Total, m.Passed, 240)
+                </td>}
+            <td>@m.Total</td>
+            <td>@m.Passed</td>
+        </tr>
+    }
+</table>

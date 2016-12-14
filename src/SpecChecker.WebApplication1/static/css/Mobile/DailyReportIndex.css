@@ -1,0 +1,34 @@
+﻿body{
+	margin: 0px;
+    padding: 5px;
+    font-size: 16px;
+    font-family: '微软雅黑', '宋体', Calibri, Consolas, Arial;
+}
+p{
+	line-height: 180%;
+	padding: 10px 0px;
+}
+h2{
+	font-size: 20px;
+}
+a{
+	text-decoration: none;
+}
+
+#qaReport{
+	border-collapse: collapse;
+	border: solid 1px #999;
+}
+#qaReport td{
+	font-family: '微软雅黑', '宋体', Calibri, Consolas, Arial;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	padding: 3px 5px;
+	border:solid #999; border-width:0px 1px 1px 0px;
+	word-break: keep-all;
+	white-space: nowrap;
+}
+#qaReport tr.header{
+	background-color: #d1eed0;
+}

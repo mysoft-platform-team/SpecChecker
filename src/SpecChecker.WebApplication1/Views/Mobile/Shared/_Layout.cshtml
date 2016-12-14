@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Page.Title</title>
+    @this.RenderCss("/static/css/Mobile/StyleSheet.css")
+
+    @RenderSection("head", required: false)
+</head>
+<body>
+    <div id="bodyContainer">
+        <div id="pageHeader">
+            @RenderPage("/Views/Mobile/Shared/PageHeader.cshtml", data: null)
+        </div>
+        <div id="pageBody">
+            @RenderBody()
+        </div>
+        <div id="pageFooter">
+            @RenderPage("/Views/Mobile/Shared/PageFooter.cshtml", data: null)
+        </div>
+    </div>
+
+    <div id="divShade"></div>
+    <div id="divMessage">
+        <div class="messageText"></div>
+        <div class="okPanel"><a class="close" href="javascript:;">确定</a></div>
+        <div class="yesnoPanel"><a class="yes" href="javascript:;">确定</a>&nbsp;&nbsp;&nbsp;<a class="close" href="javascript:;">取消</a></div>
+    </div>
+
+    <div id="ajaxMessage"><span>数据正在提交中，请稍后......</span></div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

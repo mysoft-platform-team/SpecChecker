@@ -1,0 +1,29 @@
+﻿body{
+	margin: 0px;
+    padding: 25px;
+    font-size: 12px;
+    font-family: Consolas;
+}
+p{
+	line-height: 180%;
+	padding: 10px 0px;
+}
+a{
+	text-decoration: none;
+}
+
+#qaReport{
+	border-collapse: collapse;
+	border: solid 1px #808080;
+}
+#qaReport td{
+	font-family: '微软雅黑', Consolas;
+	font-weight: bold;
+	text-align: center;
+	padding: 3px 10px;
+	min-width: 60px;
+	word-break: keep-all;
+}
+#qaReport tr.header{
+	background-color: #d1eed0;
+}

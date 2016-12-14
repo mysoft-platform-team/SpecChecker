@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Name>运行平台</Name>
+  <CodePath>
+    <string>%MAP%\01运行平台</string>
+  </CodePath>
+  <SlnFiles>
+    <string>%MAP%\01运行平台\运行平台.sln</string>
+  </SlnFiles>
+  <Actions>
+    <Action Type="ClearBinObj" />
+    <Action Type="Tfs" />
+    <Action Type="SetProjecctRule" />
+    <Action Type="MsBuild" />
+    <Action Type="ResetProjecctRuleTask" />
+    <Action Type="ExecuteCommnad">
+      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\01运行平台\M6.WebApplication1\bin\ /y</item>
+    </Action>
+    <Action Type="AssemblyScan">
+      <item>sln=;bin=%MAP%\01运行平台\M6.WebApplication1\bin</item>
+    </Action>
+    <Action Type="CodeScan" />
+    <Action Type="ProjectScan" />
+    <Action Type="VsRuleScan" />
+    <Action Type="DatabaseScan"></Action>
+    <Action Type="ExceptionLog"></Action>
+    <Action Type="PerformanceLog"></Action>
+    <Action Type="CodeCover" />
+    <Action Type="UploadResult"></Action>
+    <Action Type="UploadClientLog"></Action>
+  </Actions>
+</JobOption>

@@ -1,0 +1,14 @@
+﻿1、请根据实际情况下调整配置文件： 
+   目录位置： \src\SpecChecker.ConsoleApp\bin\
+   文件： SpecChecker.Branchs.config 和 SpecChecker.BusinessUnitConfig.config
+
+2、根据 SpecChecker.Branchs.config 创建对应的 Task-XXXXXX.xml 任务文件
+
+3、运行批处理文件：\src\SpecChecker.WebApplication1\App_Data\config\update-config-files.cmd
+
+4、将 \src\SpecChecker.WebApplication1 部署成网站
+
+5、调整配置文件：\src\SpecChecker.ConsoleApp\bin\SpecChecker.ConsoleApp.exe.config
+
+6、调整配置文件：\src\SpecChecker.WebApplication1\Web.config 
+   中的 mailSettings 节点设置用于发送邮件，也可直接删除此节点。

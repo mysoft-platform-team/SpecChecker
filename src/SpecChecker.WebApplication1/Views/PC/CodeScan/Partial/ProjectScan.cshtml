@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as PagedList<SpecChecker.CoreLibrary.ProjectScan.ProjectCheckResult>;
+    int index = 1;
+}
+
+<table border="1">
+    <tr class="header">
+        <td style="width: 30px">#</td>
+        <td class="nowrap" style="width: 400px">项目文件</td>
+        <td style="width: auto">不规范原因</td>
+
+    </tr>
+    @foreach( var m in model.List ) {
+        <tr>
+            <td>@(index++.ToString())</td>
+            <td class="nowrap">@HtmlExtensions.AsFilePathHtml(m.ProjectName)<br />@m.Configuration 模式</td>
+            <td>@Html.Raw(m.Reason.Replace(";", "<br />"))</td>
+          </tr>
+    }
+</table>

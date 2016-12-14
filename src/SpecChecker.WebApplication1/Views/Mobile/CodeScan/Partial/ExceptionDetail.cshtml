@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+    var model = this.Model as ClownFish.Log.Model.ExceptionInfo;
+
+    var xml = ClownFish.Base.Xml.XmlHelper.XmlSerialize(model, System.Text.Encoding.UTF8);
+ }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <style>
+        * {
+            font-size: 10pt;
+            font-family: Consolas;
+            line-height: 120%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        pre {
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<pre>
+@xml.ToHtml()
+</pre>
+
+</body>
+</html>
