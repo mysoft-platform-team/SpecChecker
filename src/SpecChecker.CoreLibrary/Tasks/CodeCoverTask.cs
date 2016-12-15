@@ -42,7 +42,7 @@ namespace SpecChecker.CoreLibrary.Tasks
 
 				foreach( var t in totalResult.UnitTestResults ) {
 					caseCount += t.Total;
-					casePassed = t.Passed;
+					casePassed += t.Passed;
 				}
 
 				foreach( var c in totalResult.CodeCoverResults ) {
