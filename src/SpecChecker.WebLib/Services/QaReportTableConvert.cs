@@ -44,16 +44,18 @@ namespace SpecChecker.WebLib.Services
             {"异常日志结果", "ExceptionLogScan"}
         };
 
+		private bool _isExistUnitTestData = false;
 
 		public QaReportTable ToTableData()
 		{
 			if( this.TodaySummary == null || this.LastdaySummary == null )
 				return null;
 
+			_isExistUnitTestData = IsExistUnitTestData();
 			//s_groupNames = (from x in this.TodaySummary select x.GroupName).ToArray();
 
 			QaReportTable table = new QaReportTable();
-
+			
 			string[] scanKinds = (from x in s_scanKind select x.Key).ToArray();
 			table.Rows = new QaReportDataRow[scanKinds.Length];
 
@@ -89,6 +91,18 @@ namespace SpecChecker.WebLib.Services
 		}
 
 
+		private bool IsExistUnitTestData()
+		{
+			foreach(var data in this.TodaySummary ) {
+				if( data.Data != null && data.Data.UnitTestTotal > 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
 
 		private void CreateUnitTestRow(QaReportDataRow row)
 		{
@@ -99,11 +113,15 @@ namespace SpecChecker.WebLib.Services
 				if( summary != null ) {
 					string text = $"{summary.Data.UnitTestPassed}/{summary.Data.UnitTestTotal}";
 
-					if( summary.Data.UnitTestTotal == 0 )
-						row.Cells[j] = new QaReportDataCell("--", "#999");
+					if( summary.Data.UnitTestTotal < 0 )
+						row.Cells[j] = new QaReportDataCell("ERROR", "red");
 
-					else if( summary.Data.UnitTestTotal < 0 )
-						row.Cells[j] = new QaReportDataCell("ERROR", "#999");
+					else if( summary.Data.UnitTestTotal == 0 ) {
+						if( _isExistUnitTestData )
+							row.Cells[j] = new QaReportDataCell("0", "red");
+						else
+							row.Cells[j] = new QaReportDataCell("--", "#999");
+					}
 
 					else {
 						if( summary.Data.UnitTestPassed == summary.Data.UnitTestTotal )
@@ -129,8 +147,16 @@ namespace SpecChecker.WebLib.Services
 				if( summary != null ) {
 					string text = summary.Data.CodeCover.ToString() + "%";
 
-					if( summary.Data.CodeCover == 0 )
-						row.Cells[j] = new QaReportDataCell("--", "#999");
+					if( summary.Data.CodeCover < 0 )
+						row.Cells[j] = new QaReportDataCell("ERROR", "red");
+
+					else if( summary.Data.CodeCover == 0 ) {
+						if( _isExistUnitTestData )
+							row.Cells[j] = new QaReportDataCell("0", "red");
+						else
+							row.Cells[j] = new QaReportDataCell("--", "#999");
+					}
+						
 
 					else if( summary.Data.CodeCover < 60 )
 						row.Cells[j] = new QaReportDataCell(text, "red");

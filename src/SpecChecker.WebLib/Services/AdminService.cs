@@ -18,46 +18,6 @@ namespace SpecChecker.WebLib.Services
 
 /*
 		/// <summary>
-		/// 更新 TotalResult 中的分类汇总数据
-		/// URL： http://localhost:55768/ajax/scan/Admin/UpdateTotalResult.ppx
-		/// </summary>
-		/// <returns></returns>
-		public string UpdateTotalResult()
-		{
-			// 各分支的数据文件数量一样多，所以只取一个分支目录下的文件即可得到所有日期
-			string path = Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\ScanData");
-			string[] files = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
-
-			foreach( string file in files ) {
-				string json = File.ReadAllText(file, Encoding.UTF8);
-				TotalResult totalResult = json.FromJson<TotalResult>();
-
-				//if( totalResult.Version == "2.0" )
-				//	continue;
-
-				ScanJob job = new ScanJob();
-				job.ConsoleMode = false;
-
-				// 重算分类汇总（按扫描类别和业务单元）
-				job.CalculateSubTotal(totalResult);
-
-				if( totalResult.JsCodeCheckResults == null && totalResult.CodeCheckException == null )
-					totalResult.JsCodeCheckResults = new List<CoreLibrary.CodeScan.CodeCheckResult>();
-
-				if( totalResult.CsCodeCheckResults == null && totalResult.CodeCheckException == null )
-					totalResult.CsCodeCheckResults = new List<CoreLibrary.CodeScan.CodeCheckResult>();
-
-				totalResult.Version = "2.0";
-
-				json = totalResult.ToJson();
-				File.WriteAllText(file, json, Encoding.UTF8);
-			}
-
-			return "OK";
-		}
-
-
-		/// <summary>
 		/// 重新计算（按日期）所有的小组日汇总数据
 		/// URL： http://localhost:55768/ajax/scan/Admin/RefreshAllDailySummary.ppx
 		/// </summary>
@@ -150,50 +110,7 @@ namespace SpecChecker.WebLib.Services
 			}
 		}
 
-		/*
-				/// <summary>
-				/// 升级数据格式及文件存放路径
-				/// 1、数据改成ZIP包格式
-				/// 2、各分支不再单独创建目录
-				/// URL： http://localhost:55768/ajax/scan/Admin/UpdateFileFormat.ppx
-				/// </summary>
-				/// <returns></returns>
-				public string UpdateFileFormat()
-				{
-					string root = Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\ScanData");
-					string[] dirs = Directory.GetDirectories(root, "*", SearchOption.TopDirectoryOnly);
 
-					foreach( string branchDir in dirs ) {
-						DirectoryInfo dirInfo = new DirectoryInfo(branchDir);
-
-						if( dirInfo.Name.Length == 1 ) {
-							string[] subDires = Directory.GetDirectories(branchDir, "*", SearchOption.TopDirectoryOnly);
-
-							foreach( string monthDir in subDires ) {
-								DirectoryInfo info2 = new DirectoryInfo(monthDir);
-								string destPath = Path.Combine(root, info2.Name);
-								if( Directory.Exists(destPath) == false )
-									Directory.CreateDirectory(destPath);
-
-								string[] files = Directory.GetFiles(monthDir, "*.json", SearchOption.TopDirectoryOnly);
-
-								foreach( string file in files ) {
-									string destFileName = string.Format("{0}--{1}.zip",
-															Path.GetFileNameWithoutExtension(file), dirInfo.Name);
-
-									string destFilePath = Path.Combine(destPath, destFileName);
-
-									ZipHelper.CreateZipFile(destFilePath, file);
-								}
-							}
-
-						}
-					}
-
-					return "OK";
-				}
-
-			*/
 
 
 

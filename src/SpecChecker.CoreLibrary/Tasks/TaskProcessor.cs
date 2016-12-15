@@ -51,7 +51,7 @@ namespace SpecChecker.CoreLibrary.Tasks
 					Directory.CreateDirectory(logPath);
 
 				string logFileName = string.Format("{0}--{1}.log",
-					context.Branch.Id, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
+					DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), context.Branch.Id);
 
 				string logFilePath = Path.Combine(logPath, logFileName);
 
