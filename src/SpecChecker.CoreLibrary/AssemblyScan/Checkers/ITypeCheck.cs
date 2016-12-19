@@ -45,10 +45,22 @@ namespace SpecChecker.CoreLibrary.AssemblyScan.Checkers
 			string message = (string)_method.Invoke(_instance, new object[] { type });
 
 			if( message != null ) {
-				result.Add(new AssemblyScanResult {
-					Type = type,
-					Message = message
-				});
+				int p = message.IndexOf('\n');
+
+				// 例如下面的返回形式：
+				// return $"SPEC:RM0011; LazyService的实例只能被定义成只读的实例字段\n{f.Name}";
+
+				if( p > 0 )
+					result.Add(new AssemblyScanResult {
+						Type = type,
+						Message = message.Substring(0, p),
+						Remark = message.Substring(p + 1)
+					});
+				else
+					result.Add(new AssemblyScanResult {
+						Type = type,
+						Message = message
+					});
 			}
 		}
 
