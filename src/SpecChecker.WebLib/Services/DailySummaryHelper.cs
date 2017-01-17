@@ -31,7 +31,7 @@ namespace SpecChecker.WebLib.Services
 		/// </summary>
 		/// <param name="day"></param>
 		/// <returns></returns>
-		public List<GroupDailySummary> LoadData(DateTime day)
+		public List<GroupDailySummary2> LoadData(DateTime day)
 		{
 			string filename = GetDataFileName(day);
 
@@ -39,7 +39,7 @@ namespace SpecChecker.WebLib.Services
 
 				string json = File.ReadAllText(filename, Encoding.UTF8);
 
-				return JsonExtensions.FromJson<List<GroupDailySummary>>(json);
+				return JsonExtensions.FromJson<List<GroupDailySummary2>>(json);
 			}
 			else
 				return null;
@@ -54,17 +54,20 @@ namespace SpecChecker.WebLib.Services
 		{
 			StringBuilder sb = new StringBuilder();
 
-			// 各分支的数据文件数量一样多，所以只取一个分支目录下的文件即可得到所有日期
-			string path = Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\ScanData\\1");
-			string[] files = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+			DateTime day = new DateTime(2016, 3, 19);
+			DateTime today = DateTime.Today;
 
-			foreach( string file in files ) {
-				string filename = Path.GetFileNameWithoutExtension(file);
-				DateTime day;
-				if( DateTime.TryParse(filename, out day) ) {
+			while(day <= today ) {
+				// 拿 1 号分支判断有没有数据文件
+				string filePath = ScanResultCache.GetTotalResultFilePath(1, day);
+				if( File.Exists(filePath) ) {
+
+					// 刷新第一天的汇总数据
 					RefreshDailySummary(day);
-					sb.AppendLine(file);
+					sb.AppendLine(filePath);
 				}
+
+				day = day.AddDays(1d);
 			}
 
 			return sb.ToString();
@@ -79,15 +82,15 @@ namespace SpecChecker.WebLib.Services
 		/// <returns></returns>
 		public string RefreshDailySummary(DateTime day)
 		{
-			List<GroupDailySummary> list = new List<GroupDailySummary>();
+			List<GroupDailySummary2> list = new List<GroupDailySummary2>();
 
 			foreach( BranchSettings branch in BranchManager.ConfingInstance.Branchs ) {
 				// 计算当天的汇总数据
 				TotalResult data = ScanResultCache.LoadTotalResult(branch.Id, day, true);
 
-				GroupDailySummary summary = new GroupDailySummary();
+				GroupDailySummary2 summary = new GroupDailySummary2();
 				summary.GroupName = branch.Name;
-				summary.Data = ToSummary(data);
+				summary.Data = ToSummary2(data);
                 list.Add(summary);
 			}
 
@@ -105,37 +108,97 @@ namespace SpecChecker.WebLib.Services
 		}
 
 
-		private TotalSummary ToSummary(TotalResult data)
+
+		//private TotalSummary ToSummary(TotalResult data)
+		//{
+		//	// 如果工具还没有生成扫描数据，就直接创建一个TotalSummary实例（全部属性为零）
+		//	if( data == null )
+		//		return new TotalSummary();
+
+
+		//	TotalSummary summary = new TotalSummary();
+		//	summary.RuntimeScan = data.RuntimeScanException == null ? data.RuntimeScanResults.Count : -1;
+		//	summary.DatabaseScan = data.DbCheckException == null ? data.DbCheckResults.Count : -1;
+		//	summary.JsCodeScan = data.CodeCheckException == null ? data.JsCodeCheckResults.Count : -1;
+		//	summary.CsCodeScan = data.CodeCheckException == null ? data.CsCodeCheckResults.Count : -1;
+		//	summary.ProjectScan = data.ProjectCheckException == null ? data.ProjectCheckResults.Count : -1;
+		//	summary.VsRuleScan = data.VsRuleCheckException == null ? data.VsRuleCheckResults.Count : -1;
+		//          summary.PerformanceLogScan = data.PerformanceLogException == null ? data.PerformanceInfos.Count : -1;
+		//          summary.ExceptionLogScan = data.ExceptionLogException == null ? data.ExceptionInfos.Count : -1;
+		//          summary.UnitTestPassed  = data.UnitTestPassed;
+		//	summary.UnitTestTotal = data.UnitTestTotal;
+		//	summary.CodeCover = data.CodeCover;
+
+		//	if( summary.CsCodeScan > 0 ) {
+		//		// 将注释类的扫描结果独立出来，供报表显示
+		//		summary.CommentScan = data.EvalCommentScanResultCount();
+
+		//		// 扣除注释类的扫描数量
+		//		summary.CsCodeScan -= summary.CommentScan;
+		//	}
+
+		//	return summary;
+		//}
+
+		private int GetIssueCount(string name, params IEnumerable<BaseScanResult>[] array)
+		{
+			if( array == null || array.Length == 0 )
+				return 0;
+
+			int count = 0;
+
+			for(int i=0;i< array.Length; i++ ) {
+				IEnumerable<BaseScanResult> list = array[i];
+				if( list != null ) {
+
+					count += (from x in list
+							  where x.IssueCategory == name
+							  select x).Count();
+				}
+			}
+
+			return count;
+		}
+
+		private TotalSummary2 ToSummary2(TotalResult data)
 		{
 			// 如果工具还没有生成扫描数据，就直接创建一个TotalSummary实例（全部属性为零）
 			if( data == null )
-				return new TotalSummary();
+				return new TotalSummary2();
 
 
-			TotalSummary summary = new TotalSummary();
-			summary.RuntimeScan = data.RuntimeScanException == null ? data.RuntimeScanResults.Count : -1;
-			summary.DatabaseScan = data.DbCheckException == null ? data.DbCheckResults.Count : -1;
-			summary.JsCodeScan = data.CodeCheckException == null ? data.JsCodeCheckResults.Count : -1;
-			summary.CsCodeScan = data.CodeCheckException == null ? data.CsCodeCheckResults.Count : -1;
-			summary.ProjectScan = data.ProjectCheckException == null ? data.ProjectCheckResults.Count : -1;
-			summary.VsRuleScan = data.VsRuleCheckException == null ? data.VsRuleCheckResults.Count : -1;
-            summary.PerformanceLogScan = data.PerformanceLogException == null ? data.PerformanceInfos.Count : -1;
-            summary.ExceptionLogScan = data.ExceptionLogException == null ? data.ExceptionInfos.Count : -1;
-            summary.UnitTestPassed  = data.UnitTestPassed;
+			IEnumerable<BaseScanResult>[] array = {
+						data.RuntimeScanResults,
+						//data.DbCheckResults,
+						data.JsCodeCheckResults,
+						data.CsCodeCheckResults,
+						//data.ProjectCheckResults,
+						data.VsRuleCheckResults };
+
+			TotalSummary2 summary = new TotalSummary2();
+			summary.Security = GetIssueCount("安全规则", array);
+			summary.Performance = GetIssueCount("高性能规则", array);
+			summary.Stability = GetIssueCount("稳定性规则", array);
+			summary.Database = data.DbCheckException == null ? data.DbCheckResults.Count : 0;
+			summary.Project = data.ProjectCheckException == null ? data.ProjectCheckResults.Count : 0;
+			summary.ErpRule = GetIssueCount("ERP特殊规则", array);
+			summary.ObjectName = GetIssueCount("命名规则", array);
+			summary.Comment = GetIssueCount("注释规则", array);
+			summary.VsRule = GetIssueCount("托管规则", array);
+			summary.Others = GetIssueCount(IssueCategoryManager.DefaultCategory, array);
+
+
+
+			summary.PerformanceLog = data.PerformanceLogException == null ? data.PerformanceInfos.Count : 0;
+			summary.ExceptionLog = data.ExceptionLogException == null ? data.ExceptionInfos.Count : 0;
+			summary.UnitTestPassed = data.UnitTestPassed;
 			summary.UnitTestTotal = data.UnitTestTotal;
 			summary.CodeCover = data.CodeCover;
 			
-			if( summary.CsCodeScan > 0 ) {
-				// 将注释类的扫描结果独立出来，供报表显示
-				summary.CommentScan = data.EvalCommentScanResultCount();
-
-				// 扣除注释类的扫描数量
-				summary.CsCodeScan -= summary.CommentScan;
-			}
 
 			return summary;
 		}
 
-		
+
 	}
 }

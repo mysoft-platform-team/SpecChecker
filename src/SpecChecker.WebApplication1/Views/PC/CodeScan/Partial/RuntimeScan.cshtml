@@ -7,14 +7,16 @@
 <table border="1">
     <tr class="header">
         <td style="width: 30px">#</td>
-        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("BusinessUnit")" title="按业务单元排序">业务单元</a></td>
+        @*<td style="width: 70px"><a class="sort" href="@model.GetSortLink("BusinessUnit")" title="按业务单元排序">业务单元</a></td>*@
+        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("IssueCategory")" title="按规则分类排序">规则分类</a></td>
         <td style="width: 300px"><a class="sort" href="@model.GetSortLink("Message")" title="按不规范原因排序">不规范原因</a></td>
         <td style="width: auto">类型及定义信息</td>
     </tr>
     @foreach( var m in model.List ) {
         <tr>
             <td>@(index++.ToString())</td>
-            <td class="nowrap">@m.BusinessUnit</td>
+            @*<td class="nowrap">@m.BusinessUnit</td>*@
+            <td class="nowrap">@m.IssueCategory</td>
             <td>@Html.Raw(m.Message.Replace(";", "<br />"))</td>
             <td>@m.TypeName<br />@m.DllFileName<br />@m.Remark</td>
         </tr>

@@ -12,3 +12,9 @@
 
 6、调整配置文件：\src\SpecChecker.WebApplication1\Web.config 
    中的 mailSettings 节点设置用于发送邮件，也可直接删除此节点。
+
+
+
+--------------------------------
+参考链接：
+http://note.youdao.com/noteshare?id=5e8581f55dfda2a8da59cc4cea582c25&sub=E501E71123EF44628D8C89294A2332B6

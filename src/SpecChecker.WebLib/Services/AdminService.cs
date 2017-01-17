@@ -10,26 +10,51 @@ using SpecChecker.CoreLibrary;
 using SpecChecker.WebLib.Common;
 using SpecChecker.CoreLibrary.Common;
 using SpecChecker.WebLib.Controllers;
+using System.Configuration;
 
 namespace SpecChecker.WebLib.Services
 {
 	public class AdminService : MyBaseController
 	{
+		//http://localhost:55768/ajax/scan/Admin/Login.ppx?key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+		public string Login(string key)
+		{
+			// 这个后台功能应该只有一个人去访问，而且没有界面入口
+			// 所以，这里的登录也简单处理，就是输入一个在AppSettings预先设置的KEY，
+			// 只是KEY匹配就认为登录成功。
 
-/*
+			string adminKey = ConfigurationManager.AppSettings["adminKey"];
+			if( string.IsNullOrEmpty(adminKey) )
+				return "adminKey is empty.";
+
+			bool ok = key == adminKey;
+			if( ok )
+				System.Web.Security.FormsAuthentication.SetAuthCookie("admin", false);
+
+			return ok.ToString();
+		}
+
+
+		// http://localhost:55768/ajax/scan/Admin/GetTime.ppx
+		[Authorize]
+		public string GetTime()
+		{
+			return DateTime.Now.ToString();
+		}
+
 		/// <summary>
 		/// 重新计算（按日期）所有的小组日汇总数据
 		/// URL： http://localhost:55768/ajax/scan/Admin/RefreshAllDailySummary.ppx
 		/// </summary>
 		/// <returns></returns>
+		[Authorize]
 		public string RefreshAllDailySummary()
 		{
 			DailySummaryHelper helper = new DailySummaryHelper();
 			return helper.RefreshAllDailySummary();
 		}
 
-	*/
-	
+
 
 		/// <summary>
 		/// 重新计算某一天的小组日汇总数据
@@ -37,6 +62,7 @@ namespace SpecChecker.WebLib.Services
 		/// </summary>
 		/// <param name="day"></param>
 		/// <returns></returns>
+		[Authorize]
 		public string RefreshDailySummary(DateTime day)
 		{
 			DailySummaryHelper helper = new DailySummaryHelper();
@@ -49,6 +75,7 @@ namespace SpecChecker.WebLib.Services
 		/// URL： http://localhost:55768/ajax/scan/Admin/ClearOldClientLog.ppx
 		/// </summary>
 		/// <returns></returns>
+		[Authorize]
 		public string ClearOldClientLog()
 		{
 			DeleteTxtFiles("*.xml");

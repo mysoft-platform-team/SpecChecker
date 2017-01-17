@@ -174,5 +174,11 @@ namespace SpecChecker.CoreLibrary
 						 || x.Reason.StartsWith("SPEC:C00028;", StringComparison.Ordinal)
 					select x ).ToList();
 		}
+
+
+		public double GetVersinNumber()
+		{
+			return double.Parse(this.Version);
+		}
 	}
 }

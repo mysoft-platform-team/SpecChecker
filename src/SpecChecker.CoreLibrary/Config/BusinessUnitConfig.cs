@@ -52,9 +52,9 @@ namespace SpecChecker.CoreLibrary.Config
 		/// </summary>
 		public List<string> FunctionCodes { get; set; }
 
-		/// <summary>
-		/// 包含的数据表名
-		/// </summary>
-		public List<string> Tables { get; set; }
+		///// <summary>
+		///// 包含的数据表名
+		///// </summary>
+		//public List<string> Tables { get; set; }
 	}
 }

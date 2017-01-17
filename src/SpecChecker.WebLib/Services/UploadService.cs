@@ -29,6 +29,10 @@ namespace SpecChecker.WebLib.Services
 			string json = CompressHelper.GzipDecompress(base64);
 			TotalResult result = json.FromJson<TotalResult>();
 
+			// 设置问题分类
+			result.SetIssueCategory();
+			json = result.ToJson();		// 上面的调用会修改数据，所以重新生成JSON
+
 			DateTime today = DateTime.Today;
 
 			string filename = ScanResultCache.GetTotalResultFilePath(branchId, today);
@@ -42,12 +46,13 @@ namespace SpecChecker.WebLib.Services
 
 			//File.WriteAllText(filename, json, Encoding.UTF8);
 			ZipHelper.CreateZipFileFromText(filename, json);
-
+			
 
 			// 刷新小组汇总数据
 			// 这个任务只能放在服务端完成，因为客户端没有完整的数据
 			DailySummaryHelper helper = new DailySummaryHelper();
 			helper.RefreshDailySummary(today);
+
 
 			// 清除缓存
 			ScanResultCache.RemoveCache(branchId, today);

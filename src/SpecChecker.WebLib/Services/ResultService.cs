@@ -116,6 +116,9 @@ namespace SpecChecker.WebLib.Services
 			else if( _sortField == "Message" )
 				list = (from x in list orderby x.Message select x).ToList();
 
+			else if( _sortField == "IssueCategory" )
+				list = (from x in list orderby x.IssueCategory select x).ToList();
+
 
 			return PageResult("/CodeScan/Partial/RuntimeScan.cshtml", list);
 		}
@@ -156,6 +159,9 @@ namespace SpecChecker.WebLib.Services
 			else if( _sortField == "FileName" )
 				list = (from x in list orderby x.FileName select x).ToList();
 
+			else if( _sortField == "IssueCategory" )
+				list = (from x in list orderby x.IssueCategory select x).ToList();
+
 			return PageResult("/CodeScan/Partial/CodeScan.cshtml", list);
 		}
 		
@@ -177,6 +183,9 @@ namespace SpecChecker.WebLib.Services
 
 			else if( _sortField == "FileName" )
 				list = (from x in list orderby x.FileName select x).ToList();
+
+			else if( _sortField == "IssueCategory" )
+				list = (from x in list orderby x.IssueCategory select x).ToList();
 
 			return PageResult("/CodeScan/Partial/CodeScan.cshtml", list);
 		}

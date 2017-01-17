@@ -69,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminService.cs" />
     <Compile Include="Services\DailySummaryHelper.cs" />
+    <Compile Include="Services\IssueCategoryManager.cs" />
     <Compile Include="Services\QaReportTableConvert.cs" />
     <Compile Include="Services\ResultService.cs" />
     <Compile Include="Services\SendEmailService.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ViewModel\DailyReportViewModel.cs" />
     <Compile Include="ViewModel\ExceptionIndexViewModel.cs" />
     <Compile Include="ViewModel\GroupDailySummary.cs" />
+    <Compile Include="ViewModel\GroupDailySummary2.cs" />
     <Compile Include="ViewModel\PagedList.cs" />
     <Compile Include="ViewModel\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModel\QaReportTable.cs" />

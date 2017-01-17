@@ -78,6 +78,9 @@ namespace SpecChecker.CoreLibrary.ProjectScan
 			}
 
 
+			foreach( var x in result )
+				x.RuleCode = x.GetRuleCode();
+
 
 			return result;
 		}

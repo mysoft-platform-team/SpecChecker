@@ -55,11 +55,12 @@ namespace SpecChecker.CoreLibrary.AssemblyScan
 				// 存在排除规则
 				string[] rules = branch.IgnoreRules.Split(';');
 				list = (from x in list
-						let rulecode = x.Message.Substring(0, 11)	// 11位的编号
-						where rules.FirstOrDefault(r => r == rulecode) == null
+						where rules.FirstOrDefault(r => r == x.RuleCode) == null
 						select x
 							).ToList();
 			}
+
+
 
 			return (from x in list
 					orderby x.BusinessUnit
@@ -198,6 +199,7 @@ namespace SpecChecker.CoreLibrary.AssemblyScan
 
                 info.BusinessUnit = BusinessUnitManager.GetNameByClass(info.Type.ToString().Split(',')[0]);
 
+				info.RuleCode = info.GetRuleCode();
                 info.TypeName = info.Type.FullName;
 				info.Type = null;	// 这个类型不能带到外面的AppDomain
 			}

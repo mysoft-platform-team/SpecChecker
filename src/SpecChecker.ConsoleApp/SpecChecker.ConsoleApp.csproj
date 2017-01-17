@@ -102,6 +102,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Task-TEST.xml" />
     <Content Include="bin\Task-主数据.xml" />
     <Content Include="bin\Task-公共.xml" />
     <Content Include="bin\Task-售楼.xml" />

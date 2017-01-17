@@ -32,8 +32,17 @@ namespace SpecChecker.CoreLibrary.AssemblyScan.Checkers
 					// 非静态类
 
 					MemberInfo[] m1 = type.GetMembers(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+					m1 = (from x in m1
+						  where x.MemberType != MemberTypes.Constructor
+						  select x
+						  ).ToArray();
 
-					MemberInfo[] m2 = type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+					MemberInfo[] m2 = type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+					m2 = (from x in m2
+						  where x.MemberType != MemberTypes.Constructor
+						  select x
+						  ).ToArray();
+
 
 					if( m2.Length == 0 && m1.Length > 0 ) {
 						result.Add(new AssemblyScanResult {

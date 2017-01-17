@@ -28,7 +28,9 @@ namespace SpecChecker.CoreLibrary.DbScan
 			}
 
 			foreach( var item in list ) {
-				if( string.IsNullOrEmpty(item.BusinessUnit))
+				item.RuleCode = item.GetRuleCode();
+
+				if( string.IsNullOrEmpty(item.BusinessUnit) )
 					item.BusinessUnit = BusinessUnitManager.GetNameByTable(item.TableName);
 			}
 

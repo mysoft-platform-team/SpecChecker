@@ -43,13 +43,13 @@ namespace SpecChecker.CoreLibrary.Config
 		{
 			BusinessUnitConfig config = XmlHelper.XmlDeserializeFromFile<BusinessUnitConfig>(files[0]);
 
-			foreach( BusinessUnit unit in config.List ) {
-				for( int i = 0; i <= unit.Tables.Count - 1; i++ ) {
-					string table = unit.Tables[i];
-					if( table.EndsWith("*", StringComparison.Ordinal) )
-						unit.Tables[i] = table.Replace("*", @"\w*");
-				}
-			}
+			//foreach( BusinessUnit unit in config.List ) {
+			//	for( int i = 0; i <= unit.Tables.Count - 1; i++ ) {
+			//		string table = unit.Tables[i];
+			//		if( table.EndsWith("*", StringComparison.Ordinal) )
+			//			unit.Tables[i] = table.Replace("*", @"\w*");
+			//	}
+			//}
 
 			return config;
 		}
@@ -80,21 +80,21 @@ namespace SpecChecker.CoreLibrary.Config
 		/// <returns></returns>
 		public static string GetNameByTable(string tableName)
 		{
-			if( string.IsNullOrEmpty(tableName) )
-				return OthersBusinessUnitName;
+			//if( string.IsNullOrEmpty(tableName) )
+			//	return OthersBusinessUnitName;
 
 
-            foreach ( BusinessUnit unit in ConfingInstance.List )
-				foreach( string table in unit.Tables ) {
-					if( table.EndsWith("*", StringComparison.Ordinal) ) {		// 加载时已将 * 替换成 \w*
-						if( Regex.IsMatch(tableName, table, RegexOptions.IgnoreCase) )
-							return unit.Name;
-					}
-					else {
-						if( tableName.Equals(table, StringComparison.OrdinalIgnoreCase) )
-							return unit.Name;
-					}
-				}
+   //         foreach ( BusinessUnit unit in ConfingInstance.List )
+			//	foreach( string table in unit.Tables ) {
+			//		if( table.EndsWith("*", StringComparison.Ordinal) ) {		// 加载时已将 * 替换成 \w*
+			//			if( Regex.IsMatch(tableName, table, RegexOptions.IgnoreCase) )
+			//				return unit.Name;
+			//		}
+			//		else {
+			//			if( tableName.Equals(table, StringComparison.OrdinalIgnoreCase) )
+			//				return unit.Name;
+			//		}
+			//	}
 
 			return OthersBusinessUnitName;
         }

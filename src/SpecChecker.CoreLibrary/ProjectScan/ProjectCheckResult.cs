@@ -19,6 +19,14 @@ namespace SpecChecker.CoreLibrary.ProjectScan
 		/// </summary>
 		public string Reason { get; set; }
 
+		public override string GetRuleCode()
+		{
+			if( this.Reason.StartsWith("SPEC:") == false )  // 早期的老数据没有定义规范编号
+				return null;
+
+			return this.Reason.Substring(0, 11);
+		}
+
 
 	}
 }

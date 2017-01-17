@@ -31,5 +31,13 @@ namespace SpecChecker.CoreLibrary.AssemblyScan
 		/// </summary>
 		public string DllFileName { get; set; }
 
+		public override string GetRuleCode()
+		{
+			if( this.Message.StartsWith("SPEC:") == false )  // 早期的老数据没有定义规范编号
+				return null;
+
+			//Message = "SPEC:R00028; 扩展类型必须以 Extensions 结尾"
+			return this.Message.Substring(0, 11);
+		}
 	}
 }

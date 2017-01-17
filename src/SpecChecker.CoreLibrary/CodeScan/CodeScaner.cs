@@ -127,7 +127,7 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		{
 			// 下面这些地方是需要汉字描述的。
 			foreach( CodeCheckResult result in _list ) {
-				if( result.Reason.StartsWith("SPEC:C00024") ) {
+				if( result.RuleCode == "SPEC:C00024" ) {
 					// 代码中不允许写界面文字
 					if( result.LineText.IndexOf("[DtoDescription(") >= 0
 						|| result.LineText.IndexOf("static readonly string") >= 0
@@ -161,6 +161,11 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		{
 			// 扫描所有文件
 			ScanAllFiles(srcPath);
+
+			// 设置规范编号
+			foreach( CodeCheckResult result in _list ) 
+				result.RuleCode = result.GetRuleCode();
+			
 
 			//特别排除 SPEC:C00024 规则的部分结果
 			ExcludeC00024();

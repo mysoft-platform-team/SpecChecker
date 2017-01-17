@@ -9,6 +9,7 @@ using ClownFish.Base;
 using ClownFish.Web;
 using SpecChecker.CoreLibrary;
 using SpecChecker.CoreLibrary.Common;
+using SpecChecker.WebLib.Services;
 
 namespace SpecChecker.WebLib.Common
 {
@@ -50,7 +51,12 @@ namespace SpecChecker.WebLib.Common
 			//string json = File.ReadAllText(filename, Encoding.UTF8);
 
 			string json = ZipHelper.ReadTextFromZipFile(filename);
-			return json.FromJson<TotalResult>();
+			var data = json.FromJson<TotalResult>();
+
+			if( data.GetVersinNumber() < 3d )
+				data.SetIssueCategory();
+
+			return data;
 		}
 
 

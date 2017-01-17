@@ -112,6 +112,8 @@ namespace SpecChecker.CoreLibrary.VsRuleScan
 			}
 
 			foreach( var result in list ) {
+				result.RuleCode = result.GetRuleCode();
+
 				if( result.File.IndexOf('\\') > 0 )
 					result.BusinessUnit = BusinessUnitManager.GetNameByFilePath(result.File);
 			}

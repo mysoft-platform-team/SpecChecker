@@ -17,5 +17,11 @@ namespace SpecChecker.CoreLibrary.VsRuleScan
 
 		public string Line { get; set; }
 
+
+		public override string GetRuleCode()
+		{
+			return this.CheckId;
+		}
+
 	}
 }

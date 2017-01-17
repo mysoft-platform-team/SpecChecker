@@ -4,33 +4,35 @@
 
     Page.Title = "代码检查日报--" + model.Today;
     var colspan = SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs.Count() + 1;
+
+    DateTime currentDay = DateTime.Parse(model.Today);
 }
 @section head{
-@this.RenderCss("/static/css/PC/DailyReportIndex.css")
+    @this.RenderCss("/static/css/PC/DailyReportIndex.css")
     @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/metro/easyui.css")
     @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/icon.css")
     @this.RenderCss("/static/js/jquery-easyui-1.4.5/themes/color.css")
 }
 @section scripts{
-@this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.min.js")
-@this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.easyui.min.js")
-@this.RenderJs("/static/js/jquery-easyui-1.4.5/easyui-lang-zh_CN.js")
+    @this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.min.js")
+    @this.RenderJs("/static/js/jquery-easyui-1.4.5/jquery.easyui.min.js")
+    @this.RenderJs("/static/js/jquery-easyui-1.4.5/easyui-lang-zh_CN.js")
 
-<script type="text/javascript">
-    $(function() {
-        $("#todayHeader").click(function () {
-            $("#calendar1").toggle();
+    <script type="text/javascript">
+        $(function () {
+            $("#todayHeader").click(function () {
+                $("#calendar1").toggle();
+            });
+
+            $('#calendar1').calendar({
+                onSelect: function (date) {
+                    var url = "/Report/" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + ".phtml";
+                    window.location.href = url;
+                }
+            });
+            $('#calendar1').calendar('moveTo', new Date(@currentDay.Year, @(currentDay.Month - 1), @currentDay.Day));
         });
-
-        $('#calendar1').calendar({
-            onSelect: function (date) {
-                var url = "/Report/" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + ".phtml";
-                window.location.href = url;
-            }
-        });
-
-    });
-</script>
+    </script>
 }
 
 <h2 id="todayHeader">代码检查日报-- @model.Today</h2>
@@ -38,30 +40,41 @@
 
 
 @if( model.QaReportTable != null ) {
-<table id="qaReport" border="1">
-    <tr class="header">
-        <td style="width: 100px">扫描类别</td>
-        @foreach( var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs ) {
-            if( b.CanLinkToDailyReportPage(model.Today) ) {
-                <td><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
+    <table id="qaReport" border="1">
+        <tr class="header">
+            <td style="width: 100px">扫描类别</td>
+            @foreach( var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs ) {
+                if( b.CanLinkToDailyReportPage(model.Today) ) {
+                    <td><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
 }
-            else {
-                <td><b>@b.Name</b></td>
+                else {
+                    <td><b>@b.Name</b></td>
 }
-        }
-    </tr>
-
-    @foreach( var row in model.QaReportTable.Rows ) {
-        <tr><td>@row.ScanKind</td>
-            @foreach( var cell in row.Cells ) {
-                <td>@Html.Raw(cell.GetHtml())</td>
             }
         </tr>
-    }
-    <tr><td colspan="@colspan" class="header" style="text-align: left; font-weight: normal">
-        说明：箭头代表与前一天统计数据对比趋势（<b style="color: red">↑</b> 表示上升，<b style="color: green">↓</b> 表示下降）</td></tr>
-</table>
+
+        @foreach( var row in model.QaReportTable.Rows ) {
+            <tr>
+                <td>@row.ScanKind</td>
+                @foreach( var cell in row.Cells ) {
+                    <td>@Html.Raw(cell.GetHtml())</td>
 }
+            </tr>
+        }
+        <tr>
+            <td colspan="@colspan" class="header" style="text-align: left; font-weight: normal">
+                说明：箭头代表与前一天统计数据对比趋势（<b style="color: red">↑</b> 表示上升，<b style="color: green">↓</b> 表示下降）
+            </td>
+        </tr>
+    </table>
+}
+
+<p class="note">
+    <b>配置介绍</b>
+    <ul>
+        <li><a href="http://note.youdao.com/noteshare?id=5e8581f55dfda2a8da59cc4cea582c25&sub=E501E71123EF44628D8C89294A2332B6" target="_blank">代码扫描工具配置介绍</a></li>
+    </ul>
+</p>
 
 <p class="note">
     <b>规则列表</b>
@@ -84,6 +97,8 @@
 
     </ul>
 </p>
+
+
 
 <p>
     <br />

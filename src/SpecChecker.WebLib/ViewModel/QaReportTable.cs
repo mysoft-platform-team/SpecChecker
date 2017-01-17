@@ -73,8 +73,13 @@ namespace SpecChecker.WebLib.ViewModel
 			if( this.Value < 0 )
 				return $"<span style=\"color: red\">ERROR</span>";
 
-			if( this.Direction == 0 )
-				return string.Format("<span style=\"color: #999\">{0}</span>", this.Value.ToString());
+			if( this.Direction == 0 ) {
+				if( this.Value  > 0 )
+					return string.Format("<span style=\"color: #333\">{0}</span>", this.Value.ToString());
+				else
+					return string.Format("<span style=\"color: #999\">{0}</span>", this.Value.ToString());
+			}
+				
 
 			if( this.Direction < 0 )
 				return string.Format("<span style=\"color: green\">{0}&nbsp;↓</span>", this.Value.ToString());

@@ -127,7 +127,7 @@ namespace SpecChecker.CoreLibrary.Tasks
 			TotalResult totalResult = new TotalResult();
 			totalResult.Today = DateTime.Today.ToDateString();
 			totalResult.Branch = _branch;
-			totalResult.Version = "2.0";
+			totalResult.Version = "3.0";
 
 
 			//// 初始一些集合便于后续操作
