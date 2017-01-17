@@ -29,44 +29,44 @@ namespace SpecChecker.WebLib.ViewModel
 	public sealed class TotalSummary2
 	{
 		/// <summary>
-		/// 安全规则
+		/// 安全规范
 		/// </summary>
 		public int Security { get; set; }
 		/// <summary>
-		/// 高性能规则
+		/// 高性能规范
 		/// </summary>
 		public int Performance { get; set; }
 		/// <summary>
-		/// 稳定性规则
+		/// 稳定性规范
 		/// </summary>
 		public int Stability { get; set; }
 		/// <summary>
-		/// 数据库设计
+		/// 数据库规范
 		/// </summary>
 		public int Database { get; set; }
 		/// <summary>
-		/// 项目设置
+		/// 项目设置规范
 		/// </summary>
 		public int Project { get; set; }
 		/// <summary>
-		/// ERP特殊规则
+		/// ERP特殊规范
 		/// </summary>
 		public int ErpRule { get; set; }
 		/// <summary>
-		/// 命名规则
+		/// 命名规范
 		/// </summary>
 		public int ObjectName { get; set; }
 		/// <summary>
-		/// 托管规则
+		/// 微软托管规则
 		/// </summary>
 		public int VsRule { get; set; }
 		/// <summary>
-		/// 注释规则
+		/// 注释规范
 		/// </summary>
 		public int Comment { get; set; }
 
 		/// <summary>
-		/// 杂类规则
+		/// 杂类规范
 		/// </summary>
 		public int Others { get; set; }
 

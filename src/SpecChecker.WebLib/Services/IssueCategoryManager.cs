@@ -26,7 +26,7 @@ namespace SpecChecker.WebLib.Services
 		private static bool s_inited = false;
 		private static readonly object s_lock = new object();
 
-		public static readonly string DefaultCategory = "杂类规则";
+		public static readonly string DefaultCategory = "杂类规范";
 
 
 		private static List<IssueCategory> s_list;
@@ -64,7 +64,7 @@ namespace SpecChecker.WebLib.Services
 
 
 			if( ruleCode.Length < 11 )
-				return "托管规则";
+				return "微软托管规则";
 
 			return DefaultCategory;
 		}

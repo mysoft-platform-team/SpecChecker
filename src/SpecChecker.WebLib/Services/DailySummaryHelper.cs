@@ -176,15 +176,15 @@ namespace SpecChecker.WebLib.Services
 						data.VsRuleCheckResults };
 
 			TotalSummary2 summary = new TotalSummary2();
-			summary.Security = GetIssueCount("安全规则", array);
-			summary.Performance = GetIssueCount("高性能规则", array);
-			summary.Stability = GetIssueCount("稳定性规则", array);
+			summary.Security = GetIssueCount("安全规范", array);
+			summary.Performance = GetIssueCount("高性能规范", array);
+			summary.Stability = GetIssueCount("稳定性规范", array);
 			summary.Database = data.DbCheckException == null ? data.DbCheckResults.Count : 0;
 			summary.Project = data.ProjectCheckException == null ? data.ProjectCheckResults.Count : 0;
-			summary.ErpRule = GetIssueCount("ERP特殊规则", array);
-			summary.ObjectName = GetIssueCount("命名规则", array);
-			summary.Comment = GetIssueCount("注释规则", array);
-			summary.VsRule = GetIssueCount("托管规则", array);
+			summary.ErpRule = GetIssueCount("ERP特殊规范", array);
+			summary.ObjectName = GetIssueCount("命名规范", array);
+			summary.Comment = GetIssueCount("注释规范", array);
+			summary.VsRule = GetIssueCount("微软托管规则", array);
 			summary.Others = GetIssueCount(IssueCategoryManager.DefaultCategory, array);
 
 
