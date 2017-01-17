@@ -67,7 +67,7 @@ namespace SpecChecker.WebLib.ViewModel
 
 		public string GetHtml()
 		{
-			if( this.HtmlText != null )
+			if( this.HtmlText != null )	
 				return this.HtmlText;
 
 			if( this.Value < 0 )

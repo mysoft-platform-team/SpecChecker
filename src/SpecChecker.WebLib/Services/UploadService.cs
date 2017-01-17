@@ -60,7 +60,7 @@ namespace SpecChecker.WebLib.Services
 
 			// 发送通知邮件
 			Uri requestUri = this.HttpContext.Request.Url;
-			SendEmailService.Send(today, branchId, requestUri);
+			SendEmailHelper.Send(today, branchId, requestUri);
 
 			return "OK";
 		}

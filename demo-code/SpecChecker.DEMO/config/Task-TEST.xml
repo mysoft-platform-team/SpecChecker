@@ -3,13 +3,12 @@
   <Id>1</Id>
   <Name>TEST</Name>
   <CodePath>
-    <string>G:\my-github\SpecChecker\demo-code\SpeChecker.DEMO</string>
+    <string>G:\my-github\SpecChecker\demo-code\SpecChecker.DEMO</string>
   </CodePath>
   <SlnFiles>
-    <string>\SpeChecker.DEMO.sln</string>
+    <string>\SpecChecker.DEMO.sln</string>
   </SlnFiles>
   <Actions>
-    <Action Type="ClearBinObj" />
     <Action Type="SetProjecctRule" />
     <Action Type="MsBuild" />
     <Action Type="ResetProjecctRuleTask" />
@@ -20,6 +19,6 @@
     <Action Type="ProjectScan" />
     <Action Type="VsRuleScan" />
     <Action Type="UploadResult"></Action>
-    <Action Type="UploadClientLog"></Action>
+    <Action Type="OpenWebsite"></Action>
   </Actions>
 </JobOption>

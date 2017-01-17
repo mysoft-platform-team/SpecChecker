@@ -69,10 +69,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminService.cs" />
     <Compile Include="Services\DailySummaryHelper.cs" />
+    <Compile Include="Services\IssueCategoryExtensions.cs" />
     <Compile Include="Services\IssueCategoryManager.cs" />
     <Compile Include="Services\QaReportTableConvert.cs" />
     <Compile Include="Services\ResultService.cs" />
-    <Compile Include="Services\SendEmailService.cs" />
+    <Compile Include="Services\SendEmailHelper.cs" />
     <Compile Include="Services\SimulateService.cs" />
     <Compile Include="Services\UploadService.cs" />
     <Compile Include="ViewModel\DailyReportIndexViewModel.cs" />

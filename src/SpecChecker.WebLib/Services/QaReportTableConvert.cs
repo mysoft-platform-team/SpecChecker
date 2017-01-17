@@ -29,7 +29,7 @@ namespace SpecChecker.WebLib.Services
 
 
 		// 顺序必须和页面输出上的标题一致
-		internal static readonly string[] s_groupNames =
+		internal static readonly string[] GroupNames =
 			(from x in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs
 			 select x.Name).ToArray();
 
@@ -61,27 +61,32 @@ namespace SpecChecker.WebLib.Services
 			if( this.TodaySummary == null || this.LastdaySummary == null )
 				return null;
 
+			// 判断是否有单元测试数据。早期是没有单元测试采集的，所以对于早期数据，虽然数值是 0，但是用  -- 来展示
 			_isExistUnitTestData = IsExistUnitTestData();
+			
 			//s_groupNames = (from x in this.TodaySummary select x.GroupName).ToArray();
 
+			// 计算所有的规则类别
 			string[] scanKinds = (from x in s_propertyDict select x.Key).ToArray();
 
+			// 构造表格数据对象
 			QaReportTable table = new QaReportTable();
 			table.Rows = new QaReportDataRow[scanKinds.Length];
 
 			int i = -1;
 			foreach(string kind in scanKinds ) {
 				i++;
+				// 每次循环创建一行数据
 				QaReportDataRow row = new QaReportDataRow();
 				table.Rows[i] = row;
 
 				row.ScanKind = kind;
-				row.Cells = new QaReportDataCell[s_groupNames.Length];
+				row.Cells = new QaReportDataCell[GroupNames.Length];
 
 
 				if( kind == "基础问题小计" ) {
-					for( int j = 0; j < s_groupNames.Length; j++ )
-						row.Cells[j] = CreateTotalCell(s_groupNames[j]);
+					for( int j = 0; j < GroupNames.Length; j++ )
+						row.Cells[j] = CreateTotalCell(GroupNames[j]);
 				}
 				else if( kind == "单测用例通过率" ) {
 					CreateUnitTestRow(row);
@@ -90,8 +95,8 @@ namespace SpecChecker.WebLib.Services
 					CreateCodeCoverRow(row);
 				}
 				else {
-					for( int j = 0; j < s_groupNames.Length; j++ ) 
-						row.Cells[j] = CreateCell(kind, s_groupNames[j]);
+					for( int j = 0; j < GroupNames.Length; j++ ) 
+						row.Cells[j] = CreateCell(kind, GroupNames[j]);
 				}
 			}
 
@@ -186,12 +191,14 @@ namespace SpecChecker.WebLib.Services
 		private void CreateUnitTestRow(QaReportDataRow row)
 		{
 			// 增加单元测试结果行
-			for( int j = 0; j < s_groupNames.Length; j++ ) {
-				GroupDailySummary2 summary = this.TodaySummary.FirstOrDefault(x => x.GroupName == s_groupNames[j]);
+			for( int j = 0; j < GroupNames.Length; j++ ) {
+				// 取各小组的扫描数据
+				GroupDailySummary2 summary = this.TodaySummary.FirstOrDefault(x => x.GroupName == GroupNames[j]);
 
 				if( summary != null ) {
 					string text = $"{summary.Data.UnitTestPassed}/{summary.Data.UnitTestTotal}";
 
+					// 单元测试如果执行失败，就以 -1 表示
 					if( summary.Data.UnitTestTotal < 0 )
 						row.Cells[j] = new QaReportDataCell("ERROR", "red");
 
@@ -199,6 +206,7 @@ namespace SpecChecker.WebLib.Services
 						if( _isExistUnitTestData )
 							row.Cells[j] = new QaReportDataCell("0", "red");
 						else
+							// 老数据中，没有采集单元数据，需要特殊处理
 							row.Cells[j] = new QaReportDataCell("--", "#999");
 					}
 
@@ -211,6 +219,7 @@ namespace SpecChecker.WebLib.Services
 					}
 				}
 				else {
+					// 未知场景，也按没有采集数据来处理
 					row.Cells[j] = new QaReportDataCell("--", "#999");
 				}
 			}
@@ -220,12 +229,14 @@ namespace SpecChecker.WebLib.Services
 		private void CreateCodeCoverRow(QaReportDataRow row)
 		{
 			// 增加单元测试结果行
-			for( int j = 0; j < s_groupNames.Length; j++ ) {
-				GroupDailySummary2 summary = this.TodaySummary.FirstOrDefault(x => x.GroupName == s_groupNames[j]);
+			for( int j = 0; j < GroupNames.Length; j++ ) {
+				// 取各小组的扫描数据
+				GroupDailySummary2 summary = this.TodaySummary.FirstOrDefault(x => x.GroupName == GroupNames[j]);
 
 				if( summary != null ) {
 					string text = summary.Data.CodeCover.ToString() + "%";
 
+					// 单元测试如果执行失败，就以 -1 表示
 					if( summary.Data.CodeCover < 0 )
 						row.Cells[j] = new QaReportDataCell("ERROR", "red");
 
@@ -233,6 +244,7 @@ namespace SpecChecker.WebLib.Services
 						if( _isExistUnitTestData )
 							row.Cells[j] = new QaReportDataCell("0", "red");
 						else
+							// 老数据中，没有采集单元数据，需要特殊处理
 							row.Cells[j] = new QaReportDataCell("--", "#999");
 					}
 
@@ -247,6 +259,7 @@ namespace SpecChecker.WebLib.Services
 						row.Cells[j] = new QaReportDataCell(text, null);
 				}
 				else {
+					// 未知场景，也按没有采集数据来处理
 					row.Cells[j] = new QaReportDataCell("--", "#999");
 				}
 			}

@@ -152,6 +152,10 @@
     <Folder Include="App_Data\ScanData\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SpecChecker.ConsoleApp\SpecChecker.ConsoleApp.csproj">
+      <Project>{85d32b98-f06b-482b-a4d2-a2d30bff457a}</Project>
+      <Name>SpecChecker.ConsoleApp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpecChecker.CoreLibrary\SpecChecker.CoreLibrary.csproj">
       <Project>{9a24bffe-210b-4477-b36d-81b3aa6db354}</Project>
       <Name>SpecChecker.CoreLibrary</Name>

@@ -27,6 +27,8 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +39,8 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClownFish.Base, Version=3.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
@@ -126,6 +130,7 @@
     <Compile Include="Tasks\ExecuteFileTask.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\MsBuildTask.cs" />
+    <Compile Include="Tasks\OpenWebsiteTask.cs" />
     <Compile Include="Tasks\PerformanceLogTask.cs" />
     <Compile Include="Tasks\ProjectScanTask.cs" />
     <Compile Include="Tasks\SetProjecctRuleTask.cs" />

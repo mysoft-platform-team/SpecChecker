@@ -27,7 +27,7 @@ namespace MyClassLibrary1
 		{
 			if( trans == null )
 				throw new Exception("transaction is null.");
-			if( SQL.Trim() == "")
+			if( SQL == "")
 				throw new Exception("SQL is empty.");
 
 			try {

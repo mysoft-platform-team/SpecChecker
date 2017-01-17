@@ -12,7 +12,7 @@ using SpecChecker.WebLib.ViewModel;
 
 namespace SpecChecker.WebLib.Services
 {
-    public class SendEmailService
+    public class SendEmailHelper
     {
 		public static void Send(DateTime? day, int branchId, Uri requestUri)
 		{
@@ -44,7 +44,7 @@ namespace SpecChecker.WebLib.Services
 				//row.ScanKind
 				int i = 0;
 				foreach( var cell in row.Cells ) {
-					if( QaReportTableConvert.s_groupNames[i] == branch.Name && cell.Direction == 1 ) {
+					if( QaReportTableConvert.GroupNames[i] == branch.Name && cell.Direction == 1 ) {
 						mailMessage.AppendLine($"{row.ScanKind}问题上升至{cell.Value}");
 					}
 					i++;

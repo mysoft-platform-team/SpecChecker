@@ -99,38 +99,5 @@ namespace SpecChecker.WebLib.Services
 				}
 			}
 		}
-
-
-		internal static void SetIssueCategory(this IEnumerable<BaseScanResult> list)
-		{
-			if( list == null )
-				return;
-
-			foreach(var x in list ) {
-				if( string.IsNullOrEmpty(x.RuleCode) )
-					x.RuleCode = x.GetRuleCode();
-
-				if( string.IsNullOrEmpty(x.RuleCode) == false ) 
-					x.IssueCategory = GetCategoryName(x.RuleCode);
-				
-			}
-		}
-
-
-		internal static void SetIssueCategory(this TotalResult data)
-		{
-			if( data == null )
-				return;
-
-			data.RuntimeScanResults.SetIssueCategory();
-			data.DbCheckResults.SetIssueCategory();
-			data.JsCodeCheckResults.SetIssueCategory();
-			data.CsCodeCheckResults.SetIssueCategory();
-			data.ProjectCheckResults.SetIssueCategory();
-			data.VsRuleCheckResults.SetIssueCategory();
-			data.RuntimeScanResults.SetIssueCategory();
-		}
-
-
 	}
 }

@@ -24,6 +24,11 @@ namespace SpecChecker.CoreLibrary.Tasks
 		private TotalResult _totalResult;
 		private StringBuilder _sb = new StringBuilder();
 
+
+		public bool EnableConsoleOut {
+			get { return _enableConsoleOut; }
+		}
+
 		public JobOption JobOption {
 			get { return _task; }
 		}

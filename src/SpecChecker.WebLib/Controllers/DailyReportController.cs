@@ -20,16 +20,19 @@ namespace SpecChecker.WebLib.Controllers
 		[PageRegexUrl(Url = @"/Report/{day:date}.phtml")]
 		public IActionResult Index(DateTime? day)
 		{
+			// 如果URL中没有指定日期，就取当天日期去查询数据
 			DateTime today = day.HasValue ? day.Value.Date : DateTime.Today;
 
+			// 天于【今天】的日期，肯定是没有数据的
 			if( today > DateTime.Today )
 				return new TextResult("day is invaild.");
 
-
+			// 指定的日期可能没有数据，这里会往前找，直到找到一个有数据的日期为止。
 			DateTime? day1 = GetResultfulDay(today);
 			if( day1.HasValue == false )
 				return new TextResult("day is invaild.");
 
+			// 同样的，去找一个有数据的日期
 			DateTime? day2 = GetResultfulDay(day1.Value.AddDays(-1d));
 			if( day2.HasValue == false )
 				day2 = day1;
@@ -41,10 +44,11 @@ namespace SpecChecker.WebLib.Controllers
 			// 加载各小组的分类汇总数据
 			DailySummaryHelper helper = new DailySummaryHelper();
 
+			// 加载二天的数据，做【上升，下降】的趋势对比
 			QaReportTableConvert convert = new QaReportTableConvert();
 			convert.TodaySummary = helper.LoadData(day1.Value);
 			convert.LastdaySummary = helper.LoadData(day2.Value);
-
+			// 将数据转成表格形式
 			model.QaReportTable = convert.ToTableData();
 
 			return PageResult("/CodeScan/DailyReportIndex.cshtml", model);
@@ -100,6 +104,10 @@ namespace SpecChecker.WebLib.Controllers
 			model.SubTotalResults = totalResult.Summary;
 			model.ComplieMessage = totalResult.CompilerError;
 			model.TotalResult = totalResult;
+
+			// 注意：注释问题不是单独扫描出来的，
+			// 是由于大家觉得这类问题的修复优先级可以降低点，所以就从【代码扫描结果】中提取
+			// 提取之后，还要从【代码扫描结果】去掉那部分数据
 			totalResult.EvalCommentScanResultCount();
 			
 			return PageResult("/CodeScan/DailyReport.cshtml", model);

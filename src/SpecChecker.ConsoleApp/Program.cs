@@ -91,6 +91,14 @@ namespace SpecChecker.ConsoleJob
 				try {
 					string jobFilePath = Path.Combine(currentDirectory, $"Task-{branch.Name}.xml");
 
+
+					if( s_enableConsoleOut ) {
+						Console.WriteLine("\r\n\r\n=========================================================");
+						Console.WriteLine("开始执行任务："+ branch.Name);
+						Console.WriteLine("\r\n");
+					}
+
+
 					// 执行每个任务
 					TaskProcessor task = new TaskProcessor();
 					task.Execute(jobFilePath, s_enableConsoleOut);

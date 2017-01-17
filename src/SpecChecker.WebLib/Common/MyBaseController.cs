@@ -10,6 +10,8 @@ namespace SpecChecker.WebLib.Common
 {
 	public class MyBaseController : BaseController
 	{
+		internal static readonly string SimulateCookieName = "_device";
+
 		/// <summary>
 		/// 当前请求是不是手机浏览器发起的
 		/// </summary>
@@ -38,7 +40,7 @@ namespace SpecChecker.WebLib.Common
 				return true;
 
 			// PC上用特殊的 cookie 模拟手机浏览操作
-			if( this.GetCookie(SimulateService.SimulateCookieName) != null )
+			if( this.GetCookie(SimulateCookieName) != null )
 				return true;
 
 			return false;
