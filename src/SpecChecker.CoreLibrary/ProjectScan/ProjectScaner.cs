@@ -35,6 +35,10 @@ namespace SpecChecker.CoreLibrary.ProjectScan
 
 				Project project = SlnFileHelper.ParseCsprojFile(filePath);
 
+				// 判断项目是不是【纯类库】项目
+				bool isLibrary = project.IsLibrary() && project.IsWebApplication() == false;
+				
+
 				foreach( var group in project.Groups ) {
 					if( string.IsNullOrEmpty(group.Condition) )
 						continue;
@@ -57,7 +61,7 @@ namespace SpecChecker.CoreLibrary.ProjectScan
 					}
 
 
-					if( string.IsNullOrEmpty(group.DocumentationFile) ) {
+					if( isLibrary && string.IsNullOrEmpty(group.DocumentationFile) ) {
 						result.Add(new ProjectCheckResult {
 							ProjectName = filePath.Substring(slnPath.Length + 1),
 							Configuration = configuration,

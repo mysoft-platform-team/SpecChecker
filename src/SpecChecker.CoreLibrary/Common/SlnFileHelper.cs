@@ -62,6 +62,10 @@ namespace SpecChecker.CoreLibrary.Common
 					if( typeGuid == "2150E333-8FDC-42A3-9474-1A3956D46DE8" )        // Solution Folder
 						continue;
 
+					// http://www.cnblogs.com/landywzx/archive/2013/02/05/2893332.html
+					if( typeGuid == "E24C65DC-7377-472B-9ABA-BC803B73C61A" )        // website
+						continue;
+
 					SlnProjectInfo project = new SlnProjectInfo();
 					project.Name = m.Groups["name"].Value;
 					project.File = m.Groups["file"].Value;

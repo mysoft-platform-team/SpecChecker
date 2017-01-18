@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecChecker.WebLib", "src\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecChecker.WebApplication1", "src\SpecChecker.WebApplication1\SpecChecker.WebApplication1.csproj", "{3F213454-5A3D-48B9-8DA3-BF1D56A6837E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{5C66F9C5-B5D1-47E6-99B0-7563BFD940BA}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.txt = TODO.txt
+		部署说明.txt = 部署说明.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -267,6 +267,9 @@ namespace SpecChecker.CoreLibrary.CodeScan
 				if( file.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase) )
 					return true;
 
+				if( file.EndsWith(".Designer.cs", StringComparison.OrdinalIgnoreCase) )
+					return true;
+
 				// WPF会在 obj 目录中生成一临时cs文件，用于编译
 				if( file.IndexOf("obj", StringComparison.OrdinalIgnoreCase) >= 0 )
 					return true;
