@@ -18,7 +18,7 @@ namespace MyClassLibrary1
 
 
 		/// <summary>
-		/// 执行一批SQL语句
+		/// 执行SQL语句
 		/// </summary>
 		/// <param name="trans"></param>
 		/// <param name="SQL"></param>
@@ -45,7 +45,7 @@ namespace MyClassLibrary1
 
 
 		/// <summary>
-		/// ReadFile
+		/// Read the file
 		/// </summary>
 		/// <param name="RelativePath"></param>
 		/// <returns></returns>
