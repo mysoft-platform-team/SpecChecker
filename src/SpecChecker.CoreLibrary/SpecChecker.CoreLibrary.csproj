@@ -96,6 +96,7 @@
     <Compile Include="AssemblyScan\AssemblyScanOption.cs" />
     <Compile Include="BaseScanResult.cs" />
     <Compile Include="CodeScan\CodeCheckResult.cs" />
+    <Compile Include="CodeScan\CommentRule.cs" />
     <Compile Include="CodeScan\ExcludeInfo.cs" />
     <Compile Include="CodeScan\Rule.cs" />
     <Compile Include="CodeScan\CodeScaner.cs" />

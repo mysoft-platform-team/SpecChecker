@@ -31,6 +31,8 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		internal static Rule Rule25;
 		internal static Regex Rule25Regex;
 
+		
+
 
 		private static List<Rule> LoadConfig(string[] files)
 		{
@@ -293,11 +295,21 @@ namespace SpecChecker.CoreLibrary.CodeScan
 				if( CanSkipFile(file, out isCsFile) )
 					continue;
 
-				ScanFile(file, checkerList);
+
+				string[] lines = File.ReadAllLines(file, Encoding.UTF8);
+
+				// 执行每个检查规则
+				foreach( RuleChecker checker in checkerList )
+					_list.AddRange(checker.Execute(file, lines));
+
+				// 公开成员的文档注释检查（三斜杠注释）
+				if( file.EndsWith(".cs", StringComparison.OrdinalIgnoreCase)
+					&& CodeScaner.Rule25Regex != null )
+					_list.AddRange(CheckDocComment(file, lines));
 
 
+				// 方法体的相关规则扫描
 				if( isCsFile ) {
-					// 方法的相关规则扫描
 					MethodScaner methodScaner = new MethodScaner();
 					_list.AddRange(methodScaner.Execute(file));
 				}
@@ -305,17 +317,6 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		}
 
 
-		private void ScanFile(string file, List<RuleChecker> checkerList)
-		{
-			string[] lines = File.ReadAllLines(file, Encoding.UTF8);
-
-			foreach(RuleChecker checker in checkerList)
-				_list.AddRange(checker.Execute(file, lines));
-
-			// 增加：检查文档注释
-			if( file.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) )
-				_list.AddRange(CheckDocComment(file, lines));
-		}
 
 		/// <summary>
 		/// 检查文档注释（目前仅检查描述部分）
@@ -345,8 +346,9 @@ namespace SpecChecker.CoreLibrary.CodeScan
 				}
 
 				// 判断空的【文档注释】，三个斜线开头的
-				if( inSummaryComment && CodeScaner.Rule25Regex != null ) {
-					if( CodeScaner.Rule25Regex.IsMatch(line) ) {
+				if( inSummaryComment  ) {
+					//if( CodeScaner.Rule25Regex.IsMatch(line) ) {
+					if( CommentRule.GetWordCount(line) < 3 ) {
 						list.Add(new CodeCheckResult {
 							Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
 							LineText = (line.Length > 120 ? line.Substring(0, 117) + "..." : line),

@@ -15,9 +15,19 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		public string RuleName { get; set; }
 
 		/// <summary>
-		/// 正则表达式（可匹配）
+		/// 正则表达式（筛选条件）
 		/// </summary>
 		public string Regex { get; set; }
+
+		///// <summary>
+		///// 正则表达式（并且满足条件）
+		///// </summary>
+		//public string RegexAnd { get; set; }
+
+		///// <summary>
+		///// 正则表达式（排除条件）
+		///// </summary>
+		//public string RegexNot { get; set; }
 
 		/// <summary>
 		/// 文件类型

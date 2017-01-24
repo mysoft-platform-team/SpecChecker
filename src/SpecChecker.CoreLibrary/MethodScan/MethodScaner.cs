@@ -125,7 +125,7 @@ namespace SpecChecker.CoreLibrary.MethodScan
 					results.Add(new MethodCheckResult() {
 						FilePath = method.FilePath,
 						Method = method,
-						Reason = "SPEC:C00027; 每个方法体不允许大于50行（有效代码）"
+						Reason = $"SPEC:C00027; 每个方法体不允许大于50行（有效代码）\n（{lineCount}）"
 					});
 				}
 
@@ -136,7 +136,7 @@ namespace SpecChecker.CoreLibrary.MethodScan
 						results.Add(new MethodCheckResult() {
 							FilePath = method.FilePath,
 							Method = method,
-							Reason = "SPEC:C00028; 大于10行（有效代码）的方法，注释行/代码有效行数之比要大于1/3"
+							Reason = $"SPEC:C00028; 大于10行（有效代码）的方法，注释行/代码有效行数之比要大于1/3\n（{commentCount}/{lineCount}）"
 						});
 				}
 			}
@@ -145,10 +145,10 @@ namespace SpecChecker.CoreLibrary.MethodScan
 		}
 
 
-		/// <summary>
-		/// 匹配有效注释（至少包含5个连续汉字）
-		/// </summary>
-		private static readonly Regex s_chineseRegex = new Regex(@"//.+[\u4e00-\u9fa5]{5,}", RegexOptions.Compiled);
+		///// <summary>
+		///// 匹配有效注释（至少包含5个连续汉字）
+		///// </summary>
+		//private static readonly Regex s_chineseRegex = new Regex(@"//.+[\u4e00-\u9fa5]{3,}", RegexOptions.Compiled);
 
 		private void AnalyzeMethod(MethodCodeInfo method, out int lineCount, out int commentCount)
 		{
@@ -178,11 +178,11 @@ namespace SpecChecker.CoreLibrary.MethodScan
 						)
 						continue;
 
-					if( line.StartsWith("//") ) {	// 注释行
-						if( s_chineseRegex.IsMatch(line) )
-							commentCount++;
-					}
-					else {
+					//if( line.StartsWith("//") ) {   // 注释行
+					//	if( CommentRule.GetWordCount(line) >= 3 )
+					//		commentCount++;
+					//}
+					//else {
 						if( line.StartsWith("if")
 							|| line.StartsWith("for")
 							|| line.StartsWith("foreach")
@@ -190,9 +190,13 @@ namespace SpecChecker.CoreLibrary.MethodScan
 							|| line.EndsWith(";")
 							)
 							lineCount++;
-					}
+					//}
 
-					
+					// 只要包含合理数量的汉字，就认为是一个有效的【注释行】，
+					// 因为有时候就是处理汉字消息，再写汉字注释就显得多余了
+					if( CommentRule.GetWordCount(line) >= 3 )
+						commentCount++;
+
 				}
 			}
 		}
