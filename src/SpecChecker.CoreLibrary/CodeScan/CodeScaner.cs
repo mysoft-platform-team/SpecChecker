@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using ClownFish.Base.Files;
 using ClownFish.Base.Xml;
 using SpecChecker.CoreLibrary.Config;
@@ -61,7 +62,7 @@ namespace SpecChecker.CoreLibrary.CodeScan
 
 		#endregion
 
-		
+		private string _currentFilePath = null;
 		private List<CodeCheckResult> _list = new List<CodeCheckResult>();
 
 		private List<ExcludeInfo> LoadExcludeSettings(string srcPath)
@@ -296,6 +297,7 @@ namespace SpecChecker.CoreLibrary.CodeScan
 					continue;
 
 
+				_currentFilePath = file;
 				string[] lines = File.ReadAllLines(file, Encoding.UTF8);
 
 				// 执行每个检查规则
@@ -304,8 +306,8 @@ namespace SpecChecker.CoreLibrary.CodeScan
 
 				// 公开成员的文档注释检查（三斜杠注释）
 				if( file.EndsWith(".cs", StringComparison.OrdinalIgnoreCase)
-					&& CodeScaner.Rule25Regex != null )
-					_list.AddRange(CheckDocComment(file, lines));
+							&& CodeScaner.Rule25Regex != null )
+					CheckDocComment(lines);
 
 
 				// 方法体的相关规则扫描
@@ -321,48 +323,108 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		/// <summary>
 		/// 检查文档注释（目前仅检查描述部分）
 		/// </summary>
-		/// <param name="filePath"></param>
 		/// <param name="lines"></param>
-		/// <returns></returns>
-		private List<CodeCheckResult> CheckDocComment(string filePath, string[] lines)
+		private void CheckDocComment(string[] lines)
 		{
-			List<CodeCheckResult> list = new List<CodeCheckResult>();
+			// 保存最近一次扫描出来的XML注释
+			List<string> commentLines = new List<string>(128);
+			// XML注释出现的开始行号
+			int commentStartLine = 0;
 
-			// 是否进入文档注释的描述区域
-			bool inSummaryComment = false;
 
+			// 临时变量，指示当前行号
 			int index = 0;
 			foreach( string line in lines ) {
 				index++;
+				string currentLine = line.Trim();
 
-				if( line.IndexOf("/// <summary>") >= 0 ) {
-					inSummaryComment = true;
-					continue;
+				// 如果是XML注释行，就累加
+				if( currentLine.StartsWith("///") ) {
+
+					// 记住开始行号
+					if( commentStartLine == 0 )
+						commentStartLine = index;
+
+					// 累加流行行（去掉开头的 三斜杠）
+					commentLines.Add(currentLine.Substring(3));
 				}
+				else {
+					// 分析XML注释块
+					if( commentStartLine > 0 ) {
+						CheckXmlComment(commentLines, commentStartLine);
 
-				if( line.IndexOf("/// </summary>") >= 0 ) {
-					inSummaryComment = false;
-					continue;
-				}
-
-				// 判断空的【文档注释】，三个斜线开头的
-				if( inSummaryComment  ) {
-					//if( CodeScaner.Rule25Regex.IsMatch(line) ) {
-					if( CommentRule.GetWordCount(line) < 3 ) {
-						list.Add(new CodeCheckResult {
-							Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
-							LineText = (line.Length > 120 ? line.Substring(0, 117) + "..." : line),
-							LineNo = index,
-							FileName = filePath,
-							BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
-						});
-
-						continue;
+						// 清空变量，等待下次收集XML注释行
+						commentStartLine = 0;
+						commentLines.Clear();
 					}
 				}
 			}
-
-			return list;
+			
+			if( commentStartLine > 0 ) {
+				CheckXmlComment(commentLines, commentStartLine);
+			}
 		}
+
+		private void CheckXmlComment(List<string> commentLines, int commentStartLine)
+		{
+			if( commentStartLine <= 0 || commentLines.Count == 0 )
+				return;
+
+			// 全并成XML字符串
+			string xml = string.Join("\n", commentLines.ToArray());
+
+			// XML注释中的summary的内容
+			string summary = null;
+
+			// 加载XML
+			XmlDocument xmldoc = new XmlDocument();
+			try {
+				xmldoc.LoadXml(xml);
+
+				// 读取summary节点
+				XmlNode node = xmldoc.SelectSingleNode("//summary");
+				summary = node.InnerText;
+			}
+			catch /* XML注释如果不能加载，就不检查了！  */ {
+				return;
+			}
+
+			// 纯粹的空注释
+			if( string.IsNullOrEmpty(summary) ) {
+				_list.Add(new CodeCheckResult {
+					Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
+					LineText = commentLines[0],
+					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
+					LineNo = commentStartLine + 1,
+					FileName = _currentFilePath,
+					BusinessUnit = BusinessUnitManager.GetNameByFilePath(_currentFilePath)
+				});
+
+				return;
+			}
+
+			// summary内容没不符合规范
+			if( CommentRule.GetWordCount(summary) < 3 ) {
+				_list.Add(new CodeCheckResult {
+					Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
+					// 取第一行
+					LineText = GetFirstLine(summary),
+					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
+					LineNo = commentStartLine + 1,
+					FileName = _currentFilePath,
+					BusinessUnit = BusinessUnitManager.GetNameByFilePath(_currentFilePath)
+				});
+
+			}
+		}
+
+		private string GetFirstLine(string text)
+		{
+			string[] lines = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+			string line = lines[0];
+			return line.Length > 120 ? line.Substring(0, 117) + "..." : line;
+		}
+
+
 	}
 }
