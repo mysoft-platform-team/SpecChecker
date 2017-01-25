@@ -37,13 +37,9 @@ namespace SpecChecker.CoreLibrary.Config
 			return config;
 		}
 
-		private static string GetConfigFilePath()
+		public static string GetConfigFilePath()
 		{
-			bool isAspnetApp = string.IsNullOrEmpty(System.Web.HttpRuntime.AppDomainAppId) == false;
-			if( isAspnetApp )
-				return Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\config\\SpecChecker.Branchs.config");
-			else
-				return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpecChecker.Branchs.config");
+			return ConfigHelper.GetFilePath("SpecChecker.Branchs.config");
 		}
 
 		public static BranchSettings GetBranch(int id)

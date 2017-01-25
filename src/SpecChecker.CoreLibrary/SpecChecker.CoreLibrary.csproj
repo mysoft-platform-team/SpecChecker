@@ -112,6 +112,7 @@
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Config\BusinessUnitConfig.cs" />
     <Compile Include="Config\BusinessUnitManager.cs" />
+    <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="DbScan\DatabaseScaner.cs" />
     <Compile Include="DbScan\DbCheckResult.cs" />
     <Compile Include="ErpLog\ExceptionLogScaner.cs" />
@@ -184,9 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TucaoLog\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AssemblyScan\Checkers\_next_spec_code.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

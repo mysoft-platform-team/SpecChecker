@@ -212,6 +212,10 @@ namespace SpecChecker.CoreLibrary.AssemblyScan
 			//Console.WriteLine("Scan Assembly: " + assembly.FullName);
 
 			try {
+				// 排除自动生成的程序集
+				if( assembly.GetCustomAttribute<CompilerGeneratedAttribute>() != null )
+					return;
+
 				// 忽略经过混淆处理的程序集。
 				var attrs = assembly.GetCustomAttributes();
 				if( attrs.FirstOrDefault(a => a.GetType().Name == "DotfuscatorAttribute") != null )

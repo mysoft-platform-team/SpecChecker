@@ -372,6 +372,7 @@ namespace SpecChecker.CoreLibrary.CodeScan
 
 			// 全并成XML字符串
 			string xml = string.Join("\n", commentLines.ToArray());
+			xml = "<xml>" + xml + "</xml>";	// 重新构造一个根节点，要不然就是不合法的XML
 
 			// XML注释中的summary的内容
 			string summary = null;
@@ -383,9 +384,10 @@ namespace SpecChecker.CoreLibrary.CodeScan
 
 				// 读取summary节点
 				XmlNode node = xmldoc.SelectSingleNode("//summary");
-				summary = node.InnerText;
+				summary = node.InnerText.Trim();
 			}
-			catch /* XML注释如果不能加载，就不检查了！  */ {
+			catch(Exception ex) /* XML注释如果不能加载，就不检查了！  */ {
+				string message = ex.Message;	// 方便调试时查看
 				return;
 			}
 

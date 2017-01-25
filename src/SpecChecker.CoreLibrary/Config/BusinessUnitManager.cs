@@ -32,11 +32,7 @@ namespace SpecChecker.CoreLibrary.Config
 
 		private static string GetConfigFilePath()
 		{
-			bool isAspnetApp = string.IsNullOrEmpty(System.Web.HttpRuntime.AppDomainAppId) == false;
-			if( isAspnetApp )
-				return Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\config\\SpecChecker.BusinessUnitConfig.config");
-			else
-				return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpecChecker.BusinessUnitConfig.config");
+			return ConfigHelper.GetFilePath("SpecChecker.BusinessUnitConfig.config");
 		}
 
 		private static BusinessUnitConfig LoadConfig(string[] files)

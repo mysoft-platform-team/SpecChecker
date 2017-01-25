@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ClownFish.Base.Xml;
 using ClownFish.Web;
 using SpecChecker.CoreLibrary;
+using SpecChecker.CoreLibrary.Config;
 
 namespace SpecChecker.WebLib.Services
 {
@@ -85,7 +86,7 @@ namespace SpecChecker.WebLib.Services
 		private static void LoadData()
 		{
 			// 加载配置文件
-			string configPath = Path.Combine(WebRuntime.Instance.GetWebSitePath(), "App_Data\\config\\IssueCategory.config");
+			string configPath = ConfigHelper.GetFilePath("SpecChecker.IssueCategory.config");
 			s_list = XmlHelper.XmlDeserializeFromFile<List<IssueCategory>>(configPath);
 
 
