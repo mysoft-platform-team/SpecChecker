@@ -28,7 +28,14 @@ namespace SpecChecker.CoreLibrary.Common
 		private static string MatchEvaluator(Match m)
 		{
 			string name = m.Groups[1].Value;
-			return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
+
+
+			// 优先从配置文件中读取环境变量
+			// 配置文件中的环境变量，要求以  "var-" 开头
+			return System.Configuration.ConfigurationManager.AppSettings["var-" + name]
+				?? Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
 		}
+
+
 	}
 }

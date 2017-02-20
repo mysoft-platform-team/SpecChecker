@@ -3,24 +3,25 @@
   <Id>3</Id>
   <Name>售楼系统</Name>
   <CodePath>
-    <string>%M6Prod%\02 售楼系统</string>
-    <string>%M6Prod%\00 根目录\Slxt</string>
-    <string>%M6Prod%\99 packages</string>
+    <string>%售楼%</string>
   </CodePath>
   <SlnFiles>
-    <string>%M6Prod%\02 售楼系统\售楼系统.sln</string>
+    <string>%售楼%\售楼整体解决方案.sln</string>
   </SlnFiles>
   <Actions>
     <Action Type="ClearBinObj" />
-    <!--<Action Type="Tfs" />-->
+    <Action Type="Tfs" />
+    <Action Type="ExecuteFile">
+      <item>%售楼%\00_Pull.cmd</item>
+    </Action>
     <Action Type="SetProjecctRule" />
     <Action Type="MsBuild" />
     <Action Type="ResetProjecctRuleTask" />
     <Action Type="ExecuteCommnad">
-      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\00根站点\bin\ /y</item>
+      <item>copy CustomizeCheckerAssemblyNames.txt  %售楼%\00_根目录\bin\ /y</item>
     </Action>
     <Action Type="AssemblyScan">
-      <item>sln=;bin=%M6Prod%\00 根目录\bin</item>
+      <item>sln=;bin=%售楼%\00_根目录\bin</item>
     </Action>
     <Action Type="CodeScan" />
     <Action Type="ProjectScan" />

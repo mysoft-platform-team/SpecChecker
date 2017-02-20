@@ -65,6 +65,11 @@ namespace SpecChecker.CoreLibrary.CodeScan
 		private string _currentFilePath = null;
 		private List<CodeCheckResult> _list = new List<CodeCheckResult>();
 
+		/// <summary>
+		/// 需要排除扫描的目录
+		/// </summary>
+		public string[] ExcludePaths { get; set; }
+
 		private List<ExcludeInfo> LoadExcludeSettings(string srcPath)
 		{
 			string filePath = Path.Combine(srcPath, "exclude-specification-codescan.txt");
@@ -279,6 +284,11 @@ namespace SpecChecker.CoreLibrary.CodeScan
 
 				isCsFile = true;
 			}
+
+			// 如果有指定忽略目录的配置文件，再检查路径是否为忽略目录
+			if( this.ExcludePaths != null
+				&& this.ExcludePaths.FirstOrDefault(x => file.StartsWith(x, StringComparison.OrdinalIgnoreCase)) != null )
+				return true;
 			
 			
 			// 不是可忽略的文件

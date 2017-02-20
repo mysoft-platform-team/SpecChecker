@@ -49,6 +49,8 @@ namespace SpecChecker.ConsoleJob
 				Environment.CurrentDirectory = currentPath;
 
 				CheckAppSettings();
+				CheckEnvironmentVariable();
+
 				ExecuteAllJob();
 			}
 			catch(Exception ex ) {
@@ -66,6 +68,19 @@ namespace SpecChecker.ConsoleJob
                 Console.ReadLine();
             }
         }
+
+
+		static void CheckEnvironmentVariable()
+		{
+			foreach(var key in ConfigurationManager.AppSettings.AllKeys ) {
+				if( key.StartsWith("var-") ) {
+					string path = ConfigurationManager.AppSettings[key];
+
+					if( System.IO.Directory.Exists(path) == false )
+						throw new DirectoryNotFoundException($"环境变量{key}对应的目录不存在。");
+				}
+			}
+		}
 
 		static void CheckAppSettings()
 		{

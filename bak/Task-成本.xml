@@ -3,24 +3,25 @@
   <Id>4</Id>
   <Name>成本系统</Name>
   <CodePath>
-    <string>%M6Prod%\03 成本系统</string>
-    <string>%M6Prod%\00 根目录\Cbxt</string>
-    <string>%M6Prod%\99 packages</string>
+    <string>%成本%</string>
   </CodePath>
   <SlnFiles>
-    <string>%M6Prod%\03 成本系统\成本系统.sln</string>
+    <string>%成本%\成本整体解决方案.sln</string>
   </SlnFiles>
   <Actions>
     <Action Type="ClearBinObj" />
-    <!--<Action Type="Tfs" />-->
+    <Action Type="Tfs" />
+    <Action Type="ExecuteFile">
+      <item>%成本%\00_Pull.cmd</item>
+    </Action>
     <Action Type="SetProjecctRule" />
     <Action Type="MsBuild" />
     <Action Type="ResetProjecctRuleTask" />
     <Action Type="ExecuteCommnad">
-      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\00根站点\bin\ /y</item>
+      <item>copy CustomizeCheckerAssemblyNames.txt %成本%\00_根目录\bin\ /y</item>
     </Action>
     <Action Type="AssemblyScan">
-      <item>sln=;bin=%M6Prod%\00 根目录\bin</item>
+      <item>sln=;bin=%成本%\00_根目录\bin</item>
     </Action>
     <Action Type="CodeScan" />
     <Action Type="ProjectScan" />

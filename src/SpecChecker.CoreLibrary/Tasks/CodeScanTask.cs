@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace SpecChecker.CoreLibrary.Tasks
 			try {
 				foreach( string path in action.Items ) {
 					CodeScaner scaner = new CodeScaner();
+					scaner.ExcludePaths = LoadExcludePaths(path);
 					List<CodeCheckResult> list = scaner.Execute(context.Branch, path);
 					resultList.AddRange(list);
 				}
@@ -46,6 +48,28 @@ namespace SpecChecker.CoreLibrary.Tasks
 				totalResult.CodeCheckException = ex.ToString();
 				context.ProcessException(ex);
 			}
+		}
+
+
+		private string[] LoadExcludePaths(string scrPath)
+		{
+			string excludeSettingFile = Path.Combine(scrPath, "SpecChecker-CodeScan-Exclude-Settings.txt");
+			if( File.Exists(excludeSettingFile) == false )
+				return null;
+
+			return (from x in File.ReadAllLines(excludeSettingFile, Encoding.UTF8)
+					let line = x.Trim()
+					where line.Length > 0
+					select AddBackslash(Path.Combine(scrPath, line))
+					).ToArray();
+		}
+
+		private string AddBackslash(string path)
+		{
+			if( path.EndsWith("\\") )
+				return path;
+			else
+				return path + "\\";
 		}
 	}
 }
