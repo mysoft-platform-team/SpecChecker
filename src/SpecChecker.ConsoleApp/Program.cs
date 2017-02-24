@@ -5,16 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using ClownFish.Base.Json;
-using ClownFish.Base.WebClient;
-using ClownFish.Base.Xml;
 using ClownFish.Log.Model;
-using SpecChecker.CoreLibrary;
-using SpecChecker.CoreLibrary.Common;
 using SpecChecker.CoreLibrary.Config;
-using SpecChecker.CoreLibrary.Tasks;
-using SpecChecker.CoreLibrary.UnitTest;
+using SpecChecker.ScanLibrary.Tasks;
+using SpecChecker.ScanLibrary.UnitTest;
 using TucaoClient.Win32;
 
 namespace SpecChecker.ConsoleJob
@@ -117,10 +112,6 @@ namespace SpecChecker.ConsoleJob
 					// 执行每个任务
 					TaskProcessor task = new TaskProcessor();
 					task.Execute(jobFilePath, s_enableConsoleOut);
-				}
-				catch( WebException wex ) {
-					RemoteWebException remoteWebException = new RemoteWebException(wex);
-					ProcessException(remoteWebException);
 				}
 				catch( Exception ex ) {
 					ProcessException(ex);

@@ -16,7 +16,7 @@ namespace SpecChecker.CoreLibrary.Config
 	/// </summary>
 	public static class BusinessUnitManager
 	{
-		internal static readonly string OthersBusinessUnitName = "未知业务单元";
+		public static readonly string OthersBusinessUnitName = "未知业务单元";
 
 		private static readonly FileDependencyManager<BusinessUnitConfig>
 					s_config = new FileDependencyManager<BusinessUnitConfig>(		// 基于文件修改通知的缓存实例

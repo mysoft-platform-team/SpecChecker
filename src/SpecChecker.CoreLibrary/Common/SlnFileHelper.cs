@@ -6,12 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ClownFish.Base.Xml;
-using SpecChecker.CoreLibrary.Config;
-using SpecChecker.CoreLibrary.ProjectScan.Model;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.CoreLibrary.Common
 {
-	internal static class SlnFileHelper
+	public static class SlnFileHelper
 	{
 		/// <summary>
 		/// 解析解决方案文件中项目的正则表达式，

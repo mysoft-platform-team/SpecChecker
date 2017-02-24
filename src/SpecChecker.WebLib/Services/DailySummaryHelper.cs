@@ -11,6 +11,7 @@ using SpecChecker.CoreLibrary.Config;
 using SpecChecker.WebLib.Common;
 using SpecChecker.WebLib.ViewModel;
 using SpecChecker.CoreLibrary.Common;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.WebLib.Services
 {

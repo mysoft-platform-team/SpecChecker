@@ -700,7 +700,7 @@
             当前实例的连接设置
             </summary>
         </member>
-        <member name="P:ClownFish.Log.Serializer.MongoDbWriter.CrrentSetting">
+        <member name="P:ClownFish.Log.Serializer.MongoDbWriter.CurrentSetting">
             <summary>
             可用于当前实例的连接设置
             </summary>

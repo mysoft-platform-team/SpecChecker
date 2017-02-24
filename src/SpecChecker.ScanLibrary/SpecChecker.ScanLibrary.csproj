@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A9683408-F0C3-4161-99D8-BEED31CC3A15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpecChecker.ScanLibrary</RootNamespace>
+    <AssemblyName>SpecChecker.ScanLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClownFish.Base">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ClownFish.Data">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ClownFish.Log">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Log.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ClownFish.Web">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\lib\roslyn\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\lib\roslyn\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\lib\mongo-csharp-driver-2.2.4\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\lib\mongo-csharp-driver-2.2.4\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core">
+      <HintPath>..\..\lib\mongo-csharp-driver-2.2.4\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\roslyn\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\lib\roslyn\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyScan\AssemblyScaner.cs" />
+    <Compile Include="AssemblyScan\AssemblyScanException.cs" />
+    <Compile Include="AssemblyScan\AssemblyScanOption.cs" />
+    <Compile Include="AssemblyScan\Checkers\BaseClassChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\EventDefineChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\ExceptionSerializeChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\FieldChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\IAssemblyCheck.cs" />
+    <Compile Include="AssemblyScan\Checkers\IMethodCheck.cs" />
+    <Compile Include="AssemblyScan\Checkers\ITypeCheck.cs" />
+    <Compile Include="AssemblyScan\Checkers\MethodChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\PropertyChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\ServiceDefineChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\ServiceMethodChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\StaticClassChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\TypeDefineChecker.cs" />
+    <Compile Include="AssemblyScan\Checkers\TypeNameChecker.cs" />
+    <Compile Include="AssemblyScan\ScanerProxy.cs" />
+    <Compile Include="AssemblyScan\SomeExtensions.cs" />
+    <Compile Include="CodeScan\CodeScaner.cs" />
+    <Compile Include="CodeScan\CommentRule.cs" />
+    <Compile Include="CodeScan\ExcludeInfo.cs" />
+    <Compile Include="CodeScan\Rule.cs" />
+    <Compile Include="CodeScan\RuleChecker.cs" />
+    <Compile Include="DbScan\DatabaseScaner.cs" />
+    <Compile Include="ErpLog\ExceptionLogScaner.cs" />
+    <Compile Include="ErpLog\PerformanceLogScaner.cs" />
+    <Compile Include="Tasks\FileHelper.cs" />
+    <Compile Include="MethodScan\MethodScaner.cs" />
+    <Compile Include="ProjectScan\ProjectScaner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\AssemblyScanTask.cs" />
+    <Compile Include="Tasks\ChangeWorkingDirectoryTask.cs" />
+    <Compile Include="Tasks\ClearBinObjTask.cs" />
+    <Compile Include="Tasks\CodeCoverTask.cs" />
+    <Compile Include="Tasks\CodeScanTask.cs" />
+    <Compile Include="Tasks\DatabaseScanTask.cs" />
+    <Compile Include="Tasks\ExceptionLogTask.cs" />
+    <Compile Include="Tasks\ExecuteCommnadTask.cs" />
+    <Compile Include="Tasks\ExecuteFileTask.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\JobOption.cs" />
+    <Compile Include="Tasks\MsBuildTask.cs" />
+    <Compile Include="Tasks\OpenWebsiteTask.cs" />
+    <Compile Include="Tasks\PerformanceLogTask.cs" />
+    <Compile Include="Tasks\ProjectScanTask.cs" />
+    <Compile Include="Tasks\SetProjecctRuleTask.cs" />
+    <Compile Include="Tasks\TaskContext.cs" />
+    <Compile Include="Tasks\TaskFactory.cs" />
+    <Compile Include="Tasks\TaskProcessor.cs" />
+    <Compile Include="Tasks\TfsTask.cs" />
+    <Compile Include="Tasks\UploadClientLogTask.cs" />
+    <Compile Include="Tasks\UploadResultTask.cs" />
+    <Compile Include="Tasks\VsRuleScanTask.cs" />
+    <Compile Include="UnitTest\CoverageParams.cs" />
+    <Compile Include="UnitTest\MergeParams.cs" />
+    <Compile Include="UnitTest\NunitTestResult.cs" />
+    <Compile Include="UnitTest\ReportParams.cs" />
+    <Compile Include="UnitTest\ReportResult.cs" />
+    <Compile Include="UnitTest\SlnUnitTestResult.cs" />
+    <Compile Include="UnitTest\UnitTestRunner.cs" />
+    <Compile Include="VsRuleScan\Models\FxCopReport.cs" />
+    <Compile Include="VsRuleScan\VsRuleScaner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpecChecker.CoreLibrary\SpecChecker.CoreLibrary.csproj">
+      <Project>{9a24bffe-210b-4477-b36d-81b3aa6db354}</Project>
+      <Name>SpecChecker.CoreLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TucaoLog\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

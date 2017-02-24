@@ -4,13 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Log.Model;
-using SpecChecker.CoreLibrary.CodeScan;
 using SpecChecker.CoreLibrary.Config;
-using SpecChecker.CoreLibrary.DbScan;
-using SpecChecker.CoreLibrary.ProjectScan;
-using SpecChecker.CoreLibrary.AssemblyScan;
-using SpecChecker.CoreLibrary.UnitTest;
-using SpecChecker.CoreLibrary.VsRuleScan;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.CoreLibrary
 {

@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
     </Reference>
+    <Reference Include="ClownFish.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
+    </Reference>
     <Reference Include="ClownFish.Log, Version=1.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Log.dll</HintPath>
@@ -99,6 +103,10 @@
     <ProjectReference Include="..\SpecChecker.CoreLibrary\SpecChecker.CoreLibrary.csproj">
       <Project>{9a24bffe-210b-4477-b36d-81b3aa6db354}</Project>
       <Name>SpecChecker.CoreLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpecChecker.ScanLibrary\SpecChecker.ScanLibrary.csproj">
+      <Project>{a9683408-f0c3-4161-99d8-beed31cc3a15}</Project>
+      <Name>SpecChecker.ScanLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

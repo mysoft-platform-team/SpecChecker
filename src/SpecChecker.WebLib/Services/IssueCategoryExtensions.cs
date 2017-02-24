@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpecChecker.CoreLibrary;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.WebLib.Services
 {

@@ -46,44 +46,29 @@
     <Reference Include="ClownFish.Base, Version=3.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClownFish.Data">
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClownFish.Log, Version=1.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Log.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClownFish.Web, Version=3.0.0.0, Culture=neutral, PublicKeyToken=50c3f9ec42abc06d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\..\lib\roslyn\Microsoft.CodeAnalysis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>..\..\lib\roslyn\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\roslyn\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Reflection.Metadata">
-      <HintPath>..\..\lib\roslyn\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xaml" />
@@ -93,14 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyScan\AssemblyScanOption.cs" />
-    <Compile Include="BaseScanResult.cs" />
-    <Compile Include="CodeScan\CodeCheckResult.cs" />
-    <Compile Include="CodeScan\CommentRule.cs" />
-    <Compile Include="CodeScan\ExcludeInfo.cs" />
-    <Compile Include="CodeScan\Rule.cs" />
-    <Compile Include="CodeScan\CodeScaner.cs" />
-    <Compile Include="CodeScan\RuleChecker.cs" />
+    <Compile Include="Models\BaseScanResult.cs" />
     <Compile Include="Common\CommandLineHelper.cs" />
     <Compile Include="Common\CompressHelper.cs" />
     <Compile Include="Common\ModelHelper.cs" />
@@ -113,79 +91,22 @@
     <Compile Include="Config\BusinessUnitConfig.cs" />
     <Compile Include="Config\BusinessUnitManager.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
-    <Compile Include="DbScan\DatabaseScaner.cs" />
-    <Compile Include="DbScan\DbCheckResult.cs" />
-    <Compile Include="ErpLog\ExceptionLogScaner.cs" />
-    <Compile Include="ErpLog\PerformanceLogScaner.cs" />
-    <Compile Include="FileHelper.cs" />
-    <Compile Include="MethodScan\MethodCheckResult.cs" />
-    <Compile Include="MethodScan\MethodCodeInfo.cs" />
-    <Compile Include="MethodScan\MethodScaner.cs" />
-    <Compile Include="Tasks\AssemblyScanTask.cs" />
-    <Compile Include="Tasks\ChangeWorkingDirectoryTask.cs" />
-    <Compile Include="Tasks\ClearBinObjTask.cs" />
-    <Compile Include="Tasks\CodeCoverTask.cs" />
-    <Compile Include="Tasks\CodeScanTask.cs" />
-    <Compile Include="Tasks\DatabaseScanTask.cs" />
-    <Compile Include="Tasks\ExceptionLogTask.cs" />
-    <Compile Include="Tasks\ExecuteCommnadTask.cs" />
-    <Compile Include="Tasks\ExecuteFileTask.cs" />
-    <Compile Include="Tasks\ITask.cs" />
-    <Compile Include="Tasks\MsBuildTask.cs" />
-    <Compile Include="Tasks\OpenWebsiteTask.cs" />
-    <Compile Include="Tasks\PerformanceLogTask.cs" />
-    <Compile Include="Tasks\ProjectScanTask.cs" />
-    <Compile Include="Tasks\SetProjecctRuleTask.cs" />
-    <Compile Include="Tasks\TaskContext.cs" />
-    <Compile Include="Tasks\TaskFactory.cs" />
-    <Compile Include="Tasks\JobOption.cs" />
-    <Compile Include="Tasks\TaskProcessor.cs" />
-    <Compile Include="Tasks\TfsTask.cs" />
-    <Compile Include="Tasks\UploadClientLogTask.cs" />
-    <Compile Include="Tasks\UploadResultTask.cs" />
-    <Compile Include="Tasks\VsRuleScanTask.cs" />
-    <Compile Include="UnitTest\NunitTestResult.cs" />
     <Compile Include="Common\PathHelper.cs" />
-    <Compile Include="ProjectScan\ProjectCheckResult.cs" />
-    <Compile Include="ProjectScan\ProjectScaner.cs" />
-    <Compile Include="ProjectScan\Model\PropertyGroup.cs" />
+    <Compile Include="Models\AssemblyScanResult.cs" />
+    <Compile Include="Models\CodeCheckResult.cs" />
+    <Compile Include="Models\DbCheckResult.cs" />
+    <Compile Include="Models\MethodCheckResult.cs" />
+    <Compile Include="Models\MethodCodeInfo.cs" />
+    <Compile Include="Models\ProjectCheckResult.cs" />
+    <Compile Include="Models\ProjectPropertyGroup.cs" />
+    <Compile Include="Models\UnitTestResult.cs" />
+    <Compile Include="Models\VsRuleCheckResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AssemblyScan\Checkers\BaseClassChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\EventDefineChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\ExceptionSerializeChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\FieldChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\IAssemblyCheck.cs" />
-    <Compile Include="AssemblyScan\Checkers\IMethodCheck.cs" />
-    <Compile Include="AssemblyScan\Checkers\ITypeCheck.cs" />
-    <Compile Include="AssemblyScan\Checkers\MethodChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\PropertyChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\ServiceDefineChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\ServiceMethodChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\StaticClassChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\TypeDefineChecker.cs" />
-    <Compile Include="AssemblyScan\Checkers\TypeNameChecker.cs" />
-    <Compile Include="AssemblyScan\AssemblyScanException.cs" />
-    <Compile Include="AssemblyScan\AssemblyScanResult.cs" />
-    <Compile Include="AssemblyScan\AssemblyScaner.cs" />
-    <Compile Include="AssemblyScan\ScanerProxy.cs" />
-    <Compile Include="AssemblyScan\SomeExtensions.cs" />
     <Compile Include="Common\SlnFileHelper.cs" />
     <Compile Include="SubTotalResult.cs" />
     <Compile Include="TotalResult.cs" />
-    <Compile Include="UnitTest\CoverageParams.cs" />
-    <Compile Include="UnitTest\MergeParams.cs" />
-    <Compile Include="UnitTest\ReportParams.cs" />
-    <Compile Include="UnitTest\ReportResult.cs" />
-    <Compile Include="UnitTest\UnitTestResult.cs" />
-    <Compile Include="UnitTest\UnitTestRunner.cs" />
-    <Compile Include="UnitTest\SlnUnitTestResult.cs" />
-    <Compile Include="VsRuleScan\VsRuleScaner.cs" />
-    <Compile Include="VsRuleScan\Model\FxCopReport.cs" />
-    <Compile Include="VsRuleScan\VsRuleCheckResult.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TucaoLog\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
