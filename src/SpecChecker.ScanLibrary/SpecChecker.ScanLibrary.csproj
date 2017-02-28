@@ -103,9 +103,14 @@
     <Compile Include="AssemblyScan\Checkers\TypeNameChecker.cs" />
     <Compile Include="AssemblyScan\ScanerProxy.cs" />
     <Compile Include="AssemblyScan\SomeExtensions.cs" />
+    <Compile Include="CodeScan\C00021RuleExecutor.cs" />
+    <Compile Include="CodeScan\C00024RuleExecutor.cs" />
+    <Compile Include="CodeScan\C00025RuleExecutor.cs" />
     <Compile Include="CodeScan\CodeScaner.cs" />
     <Compile Include="CodeScan\CommentRule.cs" />
     <Compile Include="CodeScan\ExcludeInfo.cs" />
+    <Compile Include="CodeScan\IRuleExecutor.cs" />
+    <Compile Include="CodeScan\RegexRuleExecutor.cs" />
     <Compile Include="CodeScan\Rule.cs" />
     <Compile Include="CodeScan\RuleChecker.cs" />
     <Compile Include="DbScan\DatabaseScaner.cs" />

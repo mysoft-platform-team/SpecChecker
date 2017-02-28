@@ -19,6 +19,12 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		/// </summary>
 		public string Regex { get; set; }
 
+		/// <summary>
+		/// 实现了IRuleExecutor接口的类型名称，用于复杂的扫描（不能通过一个正则表达式描述）
+		/// 注意：和Regex属性同时指定蝗，优先使用此属性
+		/// </summary>
+		public string TypeName { get; set; }
+
 		///// <summary>
 		///// 正则表达式（并且满足条件）
 		///// </summary>

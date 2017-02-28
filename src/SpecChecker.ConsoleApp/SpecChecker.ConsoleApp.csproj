@@ -111,13 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Task-TEST.xml" />
-    <Content Include="bin\Task-主数据.xml" />
-    <Content Include="bin\Task-公共.xml" />
-    <Content Include="bin\Task-售楼.xml" />
-    <Content Include="bin\Task-建模平台.xml" />
-    <Content Include="bin\Task-成本.xml" />
-    <Content Include="bin\Task-运行平台.xml" />
-    <Content Include="bin\Task-集成平台.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

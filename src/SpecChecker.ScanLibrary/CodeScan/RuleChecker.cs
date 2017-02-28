@@ -12,10 +12,19 @@ namespace SpecChecker.ScanLibrary.CodeScan
 	internal sealed class RuleChecker
 	{
 		private Rule _rule;
+		private IRuleExecutor _executor;
 
 		public RuleChecker(Rule rule)
 		{
 			_rule = rule;
+
+			if( string.IsNullOrEmpty(rule.TypeName) ) {
+				_executor = new RegexRuleExecutor();
+			}
+			else {
+				Type t = Type.GetType(rule.TypeName);
+				_executor = (IRuleExecutor)Activator.CreateInstance(t);
+			}
 		}
 
 		public List<CodeCheckResult> Execute(string filePath, string[] lines)
@@ -26,36 +35,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				return list;
 
 			
-
-			Regex regex = new Regex(_rule.Regex, RegexOptions.IgnoreCase);
-			
-			int index = 0;
-			foreach( string line in lines ) {
-				index++;
-
-				// js 混淆后的代码
-				if( line.Length > 500 && filePath.EndsWith(".js", StringComparison.OrdinalIgnoreCase) )
-					continue;
-
-				string line2 = line.Trim();
-				if( line2.StartsWith("//") )		// 排除注释
-					continue;
-
-
-				int p = line2.IndexOf("//");		// 排除半行注释（行尾注释）
-				if( p > 0 )
-					line2 = line2.Substring(0, p);
-
-				if( regex.IsMatch(line2) ) {
-					list.Add(new CodeCheckResult {
-						Reason = _rule.RuleCode + "; " + _rule.RuleName,
-						LineText = (line2.Length > 120 ? line2.Substring(0, 117) + "..." : line2) ,
-						LineNo = index,
-						FileName = filePath,
-						BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
-					});
-				}
-			}
+			_executor.Execute(list, _rule, filePath, lines);
 
 			return list;
 		}

@@ -30,12 +30,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		}
 
 
-		internal static Rule Rule25;
-		internal static Regex Rule25Regex;
-
-		
-
-
 		private static List<Rule> LoadConfig(string[] files)
 		{
 			List<Rule> list = XmlHelper.XmlDeserializeFromFile<List<Rule>>(files[0]);
@@ -48,16 +42,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 					}
 				}
 			}
-
-			// 这个规则比较特殊，需要单独检查，可参考调用处
-			Rule25 = list.FirstOrDefault(x => x.RuleCode == "SPEC:C00025");
-			if( Rule25 != null ) {
-				Rule25Regex = new Regex(Rule25.Regex, RegexOptions.IgnoreCase);
-
-				// 排除这个特殊的规则，避免重复执行
-				list = (from x in list where x.RuleCode != "SPEC:C00025" select x).ToList();
-			}
-
 			return list;
 		}
 
@@ -129,29 +113,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		}
 
 
-		/// <summary>
-		/// 特别排除 SPEC:C00024 规则的部分结果
-		/// </summary>
-		private void ExcludeC00024()
-		{
-			// 下面这些地方是需要汉字描述的。
-			foreach( CodeCheckResult result in _list ) {
-				if( result.RuleCode == "SPEC:C00024" ) {
-					// 代码中不允许写界面文字
-					if( result.LineText.IndexOf("[DtoDescription(") >= 0
-						|| result.LineText.IndexOf("static readonly string") >= 0
-						|| result.LineText.IndexOf("[ActionDescription(") >= 0
-						|| result.LineText.IndexOf("[AppServiceScope(") >= 0
-						|| result.LineText.IndexOf("#region ") >= 0
-						|| result.LineText.IndexOf("throw new ") >= 0
-						|| result.LineText.IndexOf("宋体") > 0
-						|| result.LineText.IndexOf("微软雅黑") > 0
-						)
-						result.Reason = null;       // 先做个标记，后面将会忽略这些结果
-				}
-			}
-		}
-
 
 		private void ExcludeIgnoreRules(BranchSettings branch)
 		{
@@ -159,7 +120,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				// 存在排除规则
 				string[] rules = branch.IgnoreRules.Split(';');
 				_list = (from x in _list
-						let rulecode = x.Reason.Substring(0, 11)    // 11位的编号
+						let rulecode = x.RuleCode
 						where rules.FirstOrDefault(r => r == rulecode) == null
 						select x
 							).ToList();
@@ -171,14 +132,14 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			// 扫描所有文件
 			ScanAllFiles(srcPath);
 
-			// 设置规范编号
-			foreach( CodeCheckResult result in _list ) 
-				result.RuleCode = result.GetRuleCode();
-			
 
-			//特别排除 SPEC:C00024 规则的部分结果
-			ExcludeC00024();
-			
+			// 设置规范编号
+			foreach( CodeCheckResult result in _list ) {
+				// 早期没有这个属性，后来为了简单就统一在这里填充属性
+				if( string.IsNullOrEmpty(result.RuleCode) )
+					result.RuleCode = result.GetRuleCode();	
+			}
+
 			// 排除一些误报的结果
 			CheckExcludeRule(srcPath);
 
@@ -315,11 +276,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				foreach( RuleChecker checker in checkerList )
 					_list.AddRange(checker.Execute(file, lines));
 
-				// 公开成员的文档注释检查（三斜杠注释）
-				if( file.EndsWith(".cs", StringComparison.OrdinalIgnoreCase)
-							&& CodeScaner.Rule25Regex != null )
-					CheckDocComment(lines);
-
 
 				// 方法体的相关规则扫描
 				if( isCsFile ) {
@@ -331,112 +287,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 
 
 
-		/// <summary>
-		/// 检查文档注释（目前仅检查描述部分）
-		/// </summary>
-		/// <param name="lines"></param>
-		private void CheckDocComment(string[] lines)
-		{
-			// 保存最近一次扫描出来的XML注释
-			List<string> commentLines = new List<string>(128);
-			// XML注释出现的开始行号
-			int commentStartLine = 0;
 
-
-			// 临时变量，指示当前行号
-			int index = 0;
-			foreach( string line in lines ) {
-				index++;
-				string currentLine = line.Trim();
-
-				// 如果是XML注释行，就累加
-				if( currentLine.StartsWith("///") ) {
-
-					// 记住开始行号
-					if( commentStartLine == 0 )
-						commentStartLine = index;
-
-					// 累加流行行（去掉开头的 三斜杠）
-					commentLines.Add(currentLine.Substring(3));
-				}
-				else {
-					// 分析XML注释块
-					if( commentStartLine > 0 ) {
-						CheckXmlComment(commentLines, commentStartLine);
-
-						// 清空变量，等待下次收集XML注释行
-						commentStartLine = 0;
-						commentLines.Clear();
-					}
-				}
-			}
-			
-			if( commentStartLine > 0 ) {
-				CheckXmlComment(commentLines, commentStartLine);
-			}
-		}
-
-		private void CheckXmlComment(List<string> commentLines, int commentStartLine)
-		{
-			if( commentStartLine <= 0 || commentLines.Count == 0 )
-				return;
-
-			// 全并成XML字符串
-			string xml = string.Join("\n", commentLines.ToArray());
-			xml = "<xml>" + xml + "</xml>";	// 重新构造一个根节点，要不然就是不合法的XML
-
-			// XML注释中的summary的内容
-			string summary = null;
-
-			// 加载XML
-			XmlDocument xmldoc = new XmlDocument();
-			try {
-				xmldoc.LoadXml(xml);
-
-				// 读取summary节点
-				XmlNode node = xmldoc.SelectSingleNode("//summary");
-				summary = node.InnerText.Trim();
-			}
-			catch(Exception ex) /* XML注释如果不能加载，就不检查了！  */ {
-				string message = ex.Message;	// 方便调试时查看
-				return;
-			}
-
-			// 纯粹的空注释
-			if( string.IsNullOrEmpty(summary) ) {
-				_list.Add(new CodeCheckResult {
-					Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
-					LineText = commentLines[0],
-					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
-					LineNo = commentStartLine + 1,
-					FileName = _currentFilePath,
-					BusinessUnit = BusinessUnitManager.GetNameByFilePath(_currentFilePath)
-				});
-
-				return;
-			}
-
-			// summary内容没不符合规范
-			if( CommentRule.GetWordCount(summary) < 3 ) {
-				_list.Add(new CodeCheckResult {
-					Reason = CodeScaner.Rule25.RuleCode + "; " + CodeScaner.Rule25.RuleName,
-					// 取第一行
-					LineText = GetFirstLine(summary),
-					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
-					LineNo = commentStartLine + 1,
-					FileName = _currentFilePath,
-					BusinessUnit = BusinessUnitManager.GetNameByFilePath(_currentFilePath)
-				});
-
-			}
-		}
-
-		private string GetFirstLine(string text)
-		{
-			string[] lines = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-			string line = lines[0];
-			return line.Length > 120 ? line.Substring(0, 117) + "..." : line;
-		}
 
 
 	}
