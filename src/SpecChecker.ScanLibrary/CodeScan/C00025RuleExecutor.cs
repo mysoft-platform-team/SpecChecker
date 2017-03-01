@@ -125,7 +125,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 
 
 			// summary内容没不符合规范
-			if( CommentRule.GetWordCount(summary) < 3 ) {
+			if( isOK == false ) {
 				_list.Add(new CodeCheckResult {
 					RuleCode = _rule.RuleCode,
 					Reason = _rule.RuleCode + "; " + _rule.RuleName,

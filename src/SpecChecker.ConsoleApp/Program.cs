@@ -30,12 +30,12 @@ namespace SpecChecker.ConsoleJob
 					s_enableConsoleOut = false;
 			}
 
-			//Console.Write("Press ENTER continue......");
-			//Console.ReadLine();
+			int selectBranchId = ShowMenu();
+			if( selectBranchId < 0 )
+				return;
 
 
 			DateTime startTime = DateTime.Now;
-
 			DefaultJsonSerializer.SetDefaultJsonSerializerSettings += DefaultJsonSerializer_SetDefaultJsonSerializerSettings;
 
 			try {
@@ -46,7 +46,7 @@ namespace SpecChecker.ConsoleJob
 				CheckAppSettings();
 				CheckEnvironmentVariable();
 
-				ExecuteAllJob();
+				ExecuteAllJob(selectBranchId);
 			}
 			catch(Exception ex ) {
 				ProcessException(ex);
@@ -90,11 +90,42 @@ namespace SpecChecker.ConsoleJob
             e.Settings.Formatting = Newtonsoft.Json.Formatting.Indented;
         }
 
-		static void ExecuteAllJob()
+		static int ShowMenu()
+		{
+			// 如果只配置了一个分支，就不显示菜单了
+			if( BranchManager.ConfingInstance.Branchs.Count < 2 )
+				return 0;
+
+
+			if( s_enableConsoleOut && ConfigurationManager.AppSettings["AllowSelectBranchRun"] == "1" ) {
+				// 显示分支，可选择只扫描一个分支，方便测试
+				// 如果是计划任务模式，s_enableConsoleOut应该是false
+				foreach( BranchSettings branch in BranchManager.ConfingInstance.Branchs ) {
+					Console.WriteLine("{0}: {1}", branch.Id, branch.Name);
+				}
+				Console.WriteLine("0: 全部运行");
+				Console.WriteLine("输入其它非数字将会退出。");
+				Console.Write("请选择要运行的分支（输入ID序号）：");
+
+				string text = Console.ReadLine();
+
+				int id = -1;
+				int.TryParse(text, out id);
+				return id;
+			}
+
+			// 如果不显示菜单就默认全部运行。
+			return 0;
+		}
+
+		static void ExecuteAllJob(int selectBranchId)
 		{
 			string currentDirectory = Environment.CurrentDirectory;
 
 			foreach( BranchSettings branch in BranchManager.ConfingInstance.Branchs ) {
+				if( selectBranchId > 0 && selectBranchId != branch.Id )
+					continue;
+
 				// 每次都切回程序目录，防止任务执行过程完没有切回来
 				Environment.CurrentDirectory = currentDirectory;
 
@@ -117,7 +148,6 @@ namespace SpecChecker.ConsoleJob
 					ProcessException(ex);
 				}
 			}
-
 		}
 
 
