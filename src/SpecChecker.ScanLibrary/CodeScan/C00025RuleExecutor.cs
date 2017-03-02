@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using SpecChecker.CoreLibrary.Config;
@@ -17,6 +18,9 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		private Rule _rule;
 		private List<CodeCheckResult> _list;
 		private string _filePath;
+
+		private static Regex s_fileRegex = new Regex(@"[\\\.]Model(s)?\\", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
 
 		public void Execute(List<CodeCheckResult> list, Rule rule, string filePath, string[] lines)
 		{
@@ -118,7 +122,8 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			int wordCount = CommentRule.GetWordCount(summary);
 
 			bool isOK = false;
-			if( _filePath.IndexOf(".Model") > 0 )
+			//if( _filePath.IndexOf(".Model") > 0 )
+			if( s_fileRegex.IsMatch(_filePath) )
 				isOK = wordCount >= 2;      // 允许实体的属性只包含2个汉字
 			else
 				isOK = wordCount >= CommentRule.LeastWordCount;      // 默认要求注释要包含5个汉字
