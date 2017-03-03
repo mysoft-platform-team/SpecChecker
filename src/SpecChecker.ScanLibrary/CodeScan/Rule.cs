@@ -25,10 +25,10 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		/// </summary>
 		public string TypeName { get; set; }
 
-		///// <summary>
-		///// 正则表达式（并且满足条件）
-		///// </summary>
-		//public string RegexAnd { get; set; }
+		/// <summary>
+		/// 正则表达式（并且满足条件）
+		/// </summary>
+		public string RegexAnd { get; set; }
 
 		///// <summary>
 		///// 正则表达式（排除条件）

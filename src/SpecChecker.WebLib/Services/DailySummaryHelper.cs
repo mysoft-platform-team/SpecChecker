@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using ClownFish.Web;
 using ClownFish.Base;
 using SpecChecker.CoreLibrary;
@@ -26,6 +27,11 @@ namespace SpecChecker.WebLib.Services
 												day.ToDateString() + ".json");
 		}
 
+		private string CreateCacheKey(DateTime day)
+		{
+			return "DailySummaryHelper-" + day.ToDateString();
+		}
+
 		/// <summary>
 		/// 加载某一天的小组分类汇总数据，
 		/// 如果没有指定日期的数据，返回 null
@@ -33,6 +39,28 @@ namespace SpecChecker.WebLib.Services
 		/// <param name="day"></param>
 		/// <returns></returns>
 		public List<GroupDailySummary2> LoadData(DateTime day)
+		{
+			if( day == DateTime.Today )		// 不缓存当天的数据
+				return LoadDataFromFile(day);
+
+			else {
+				string cacheKey = CreateCacheKey(day);
+				List<GroupDailySummary2> result = HttpRuntime.Cache[cacheKey] as List<GroupDailySummary2>;
+				if( result == null ) {
+					// 缓存没有就加载数据
+					result = LoadDataFromFile(day);
+
+					// 如果加载成功，就放入缓存
+					if( result != null )
+						HttpRuntime.Cache[cacheKey] = result;
+				}
+				// 如果文件不存在，可能返回为NULL
+				return result;
+			}
+		}
+
+
+		private List<GroupDailySummary2> LoadDataFromFile(DateTime day)
 		{
 			string filename = GetDataFileName(day);
 

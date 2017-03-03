@@ -70,6 +70,20 @@ namespace SpecChecker.WebLib.ViewModel
 		/// </summary>
 		public int Others { get; set; }
 
+		/// <summary>
+		/// 基础问题小计
+		/// </summary>
+		[System.Xml.Serialization.XmlIgnore]
+		[Newtonsoft.Json.JsonIgnore]
+		public int BaseTotal {
+			get {
+				return this.Security + this.Performance
+					+ this.Stability + this.Database
+					+ this.Project + this.ErpRule
+					+ this.ObjectName + this.VsRule
+					+ this.Others;
+			}
+		}
 
 		/// <summary>
 		/// 性能日志数据
@@ -93,7 +107,6 @@ namespace SpecChecker.WebLib.ViewModel
 		/// 单元测试，代码覆盖率
 		/// </summary>
 		public int CodeCover { get; set; }
-
 
 	}
 }

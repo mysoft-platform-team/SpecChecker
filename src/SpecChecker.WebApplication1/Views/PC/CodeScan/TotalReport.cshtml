@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>数据变化趋势分析表</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        button{
+            padding: 8px 22px;
+        }
+        button.current {
+            background-color: #ff6a00;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div style="height: 20px;">
+        <br />
+    </div>
+    <div id="toolbar-dateRange" style="text-align: center; display:  none;">
+        <button data-flag="1">最近半月</button>
+        <button data-flag="2">最近一月</button>
+        <button data-flag="3">最近二月</button>
+        <button data-flag="4">最近三月</button>
+        <button data-flag="5">最近半年</button>
+    </div>
+
+    @this.RenderJs("/static/js/jquery/jquery-1.8.1.min.js")
+    @this.RenderJs("/static/js/chart/highcharts.js")
+    @this.RenderJs("/static/js/chart/theme.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var firstButtone = $("#toolbar-dateRange button")[0];
+            RefreshChart(firstButtone);
+        });
+
+        function RefreshChart(button) {
+            $("#toolbar-dateRange button").removeClass("current");
+            var flag = $(button).attr("data-flag");
+            var currentText = $(button).text();
+            $(button).text("Loading...");
+
+            $.ajax({
+                url: "/ajax/scan/data/GetKindTotal.ppx",
+                data: { flag: flag },
+                headers: { "X-Gzip-Respond": "1" },
+                dataType: "json",
+                complete: function(){
+                    $(button).text(currentText);
+                },
+                success: function (data) {
+                    $('#container').highcharts(data);
+                    $("#toolbar-dateRange").show();
+                    $(button).addClass("current");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("服务端发生错误");
+                }
+            });
+        }
+
+
+        $("#toolbar-dateRange button").click(function () {
+            RefreshChart(this);
+        });
+
+
+    </script>
+</body>
+</html>

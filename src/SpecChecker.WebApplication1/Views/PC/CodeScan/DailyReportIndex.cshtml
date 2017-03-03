@@ -31,6 +31,14 @@
                 }
             });
             $('#calendar1').calendar('moveTo', new Date(@currentDay.Year, @(currentDay.Month - 1), @currentDay.Day));
+
+            $("#datachart button").click(function(){
+                $(this).hide();
+                var width = $("#qaReport").width();
+                $("#chartReport").css({ width: width + "px", height: "530px" })
+                    .show()
+                    .attr("src", "/TotalReport.phtml");
+            });
         });
     </script>
 }
@@ -43,22 +51,22 @@
     <table id="qaReport" border="1">
         <tr class="header">
             <td style="width: 100px">扫描类别</td>
-            @foreach( var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs ) {
-                if( b.CanLinkToDailyReportPage(model.Today) ) {
+            @foreach (var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs) {
+                if (b.CanLinkToDailyReportPage(model.Today)) {
                     <td><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
-}
+                }
                 else {
                     <td><b>@b.Name</b></td>
-}
+                }
             }
         </tr>
 
-        @foreach( var row in model.QaReportTable.Rows ) {
+        @foreach (var row in model.QaReportTable.Rows) {
             <tr>
                 <td>@row.ScanKind</td>
-                @foreach( var cell in row.Cells ) {
+                @foreach (var cell in row.Cells) {
                     <td>@Html.Raw(cell.GetHtml())</td>
-}
+                }
             </tr>
         }
         <tr>
@@ -67,6 +75,14 @@
             </td>
         </tr>
     </table>
+
+
+    <div id="datachart" style="margin: 0; padding-top: 32px;">
+        <div><button style="background-color:salmon; padding: 8px 25px;">查看数据变化趋势分析表</button>
+        </div>
+        <iframe id="chartReport" src="" frameborder="0" scrolling="no" style="height: 530px; width: 99%; display: none;"></iframe>
+    </div>
+
 }
 
 <p class="note">

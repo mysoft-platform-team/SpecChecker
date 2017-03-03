@@ -129,6 +129,9 @@
     <Content Include="static\img\goto-top.gif" />
     <Content Include="static\img\ok.gif" />
     <Content Include="static\img\spec-check.png" />
+    <Content Include="static\js\chart\exporting.js" />
+    <Content Include="static\js\chart\highcharts.js" />
+    <Content Include="static\js\chart\theme.js" />
     <Content Include="static\js\jquery-easyui-1.4.5\jquery.calendar.js" />
     <Content Include="static\js\jquery\jquery-1.8.1.min.js" />
     <Content Include="static\js\jquery\jquery.form.js" />
@@ -245,6 +248,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClownFish.Log.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\PC\CodeScan\TotalReport.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

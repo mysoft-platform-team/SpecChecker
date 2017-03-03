@@ -154,24 +154,15 @@ namespace SpecChecker.WebLib.Services
 			GroupDailySummary2 todaySummary = this.TodaySummary.Find(x => x.GroupName == groupName);
 			int todayValue = 0;
 			if( todaySummary?.Data != null ) {
-				todayValue =
-					todaySummary.Data.Security + todaySummary.Data.Performance
-					+ todaySummary.Data.Stability + todaySummary.Data.Database
-					+ todaySummary.Data.Project + todaySummary.Data.ErpRule
-					+ todaySummary.Data.ObjectName + todaySummary.Data.VsRule
-					+ todaySummary.Data.Others;
+				todayValue = todaySummary.Data.BaseTotal;
 			}
 
 			GroupDailySummary2 lastdaySummary = this.LastdaySummary.Find(x => x.GroupName == groupName);
 			int lastdayValue = 0;
 			if( lastdaySummary?.Data != null ) {
-				lastdayValue =
-					lastdaySummary.Data.Security + lastdaySummary.Data.Performance
-					+ lastdaySummary.Data.Stability + lastdaySummary.Data.Database
-					+ lastdaySummary.Data.Project + lastdaySummary.Data.ErpRule
-					+ lastdaySummary.Data.ObjectName + lastdaySummary.Data.VsRule
-					+ lastdaySummary.Data.Others;
+				lastdayValue =lastdaySummary.Data.BaseTotal;
 			}
+
 			return new QaReportDataCell(todayValue, lastdayValue);
 		}
 

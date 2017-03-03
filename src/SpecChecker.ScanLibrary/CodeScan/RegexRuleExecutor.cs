@@ -15,6 +15,8 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		public void Execute(List<CodeCheckResult> list, Rule rule, string filePath, string[] lines)
 		{
 			Regex regex = new Regex(rule.Regex, RegexOptions.IgnoreCase);
+			Regex regexAnd = string.IsNullOrEmpty(rule.RegexAnd) 
+							? null : new Regex(rule.RegexAnd, RegexOptions.IgnoreCase);
 
 			int index = 0;
 			foreach( string line in lines ) {
@@ -33,7 +35,10 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				if( p > 0 )
 					line2 = line2.Substring(0, p);
 
-				if( regex.IsMatch(line2) ) {
+				bool isMatch1 = regex.IsMatch(line2);
+				bool isMatch2 = regexAnd == null ? true : regexAnd.IsMatch(line2);
+
+				if( isMatch1 && isMatch2 ) {
 					CodeCheckResult result = new CodeCheckResult {
 						RuleCode = rule.RuleCode,
 						Reason = rule.RuleCode + "; " + rule.RuleName,

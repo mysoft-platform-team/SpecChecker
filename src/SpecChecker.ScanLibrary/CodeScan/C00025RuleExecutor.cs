@@ -19,7 +19,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 		private List<CodeCheckResult> _list;
 		private string _filePath;
 
-		private static Regex s_fileRegex = new Regex(@"[\\\.]Model(s)?\\", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex s_fileRegex = new Regex(@"[\\\.]Model(s)?\\", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 
 		public void Execute(List<CodeCheckResult> list, Rule rule, string filePath, string[] lines)

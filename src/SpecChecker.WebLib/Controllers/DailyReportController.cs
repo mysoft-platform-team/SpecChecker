@@ -55,6 +55,15 @@ namespace SpecChecker.WebLib.Controllers
 		}
 
 
+		[PageUrl(Url = @"/TotalReport.phtml")]
+		public IActionResult TotalResport()
+		{
+			//return PageResult("/CodeScan/TotalReport.cshtml", null);
+
+			// 这个页面二边是一样的，所以共用一个版本
+			return new PageResult("/Views/PC/CodeScan/TotalReport.cshtml");
+		}
+
 		/// <summary>
 		/// 从某天开始算起，找出一个有数据的日期，
 		/// 如果参数中的日期没有数据，就往前找，直到有数据为止。

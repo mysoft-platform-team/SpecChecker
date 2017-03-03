@@ -103,6 +103,7 @@
     <Compile Include="AssemblyScan\Checkers\TypeNameChecker.cs" />
     <Compile Include="AssemblyScan\ScanerProxy.cs" />
     <Compile Include="AssemblyScan\SomeExtensions.cs" />
+    <Compile Include="CodeScan\C00005RuleExecutor.cs" />
     <Compile Include="CodeScan\C00021RuleExecutor.cs" />
     <Compile Include="CodeScan\C00024RuleExecutor.cs" />
     <Compile Include="CodeScan\C00025RuleExecutor.cs" />

@@ -29,3 +29,5 @@ ScanData
 *.CodeAnalysisLog.xml
 *.lastcodeanalysissucceeded
 .vs/
+/packages
+packages.config
