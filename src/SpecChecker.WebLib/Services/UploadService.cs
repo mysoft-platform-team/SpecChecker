@@ -58,9 +58,9 @@ namespace SpecChecker.WebLib.Services
 			ScanResultCache.RemoveCache(branchId, today);
 
 
-			// 发送通知邮件
-			Uri requestUri = this.HttpContext.Request.Url;
-			SendEmailHelper.Send(today, branchId, requestUri);
+			//// 发送通知邮件
+			//Uri requestUri = this.HttpContext.Request.Url;
+			//SendEmailHelper.Send(today, branchId, requestUri);
 
 			return "OK";
 		}
