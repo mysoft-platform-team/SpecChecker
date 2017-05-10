@@ -98,6 +98,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="bin\SpecChecker.Branchs.config" />
+    <None Include="bin\SpecChecker.IssueCategory.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpecChecker.CoreLibrary\SpecChecker.CoreLibrary.csproj">
