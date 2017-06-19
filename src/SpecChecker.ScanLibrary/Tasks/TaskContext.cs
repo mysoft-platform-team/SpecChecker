@@ -15,19 +15,18 @@ namespace SpecChecker.ScanLibrary.Tasks
 	public class TaskContext
 	{
 		private bool _enableConsoleOut;
-		private JobOption _task;
+		private JobOption _job;
 		private BranchSettings _branch;
 		private string _tempPath;
 		private TotalResult _totalResult;
 		private StringBuilder _sb = new StringBuilder();
 
-
-		public bool EnableConsoleOut {
+        public bool EnableConsoleOut {
 			get { return _enableConsoleOut; }
 		}
 
 		public JobOption JobOption {
-			get { return _task; }
+			get { return _job; }
 		}
 		public TotalResult TotalResult 
 		{
@@ -46,16 +45,16 @@ namespace SpecChecker.ScanLibrary.Tasks
 			get { return _sb.ToString(); }
 		}
 
-		public TaskContext(JobOption task, bool enableConsoleOut)
+		public TaskContext(JobOption job, bool enableConsoleOut)
 		{
-			if( task == null )
-				throw new ArgumentNullException(nameof(task));
+			if( job == null )
+				throw new ArgumentNullException(nameof(job));
 
-			_task = task;
+			_job = job;
 			_enableConsoleOut = enableConsoleOut;
 
 			// 每个小组使用一个临时目录
-			_tempPath = InitTempDirectory(task.Id);
+			_tempPath = InitTempDirectory(job.Id);
 
 			// 加载小组的分支配置信息
 			_branch = GetBranchConfig();
@@ -66,7 +65,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 
 		private BranchSettings GetBranchConfig()
 		{
-			var branch = BranchManager.ConfingInstance.Branchs.FirstOrDefault(b => b.Id == _task.Id);
+			var branch = BranchManager.ConfingInstance.Branchs.FirstOrDefault(b => b.Id == _job.Id);
 			if( branch == null )
 				throw new ArgumentException("Id的值无效。");
 
