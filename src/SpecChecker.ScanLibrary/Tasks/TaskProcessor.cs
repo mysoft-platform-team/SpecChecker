@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClownFish.Base;
 using ClownFish.Base.Xml;
 using SpecChecker.CoreLibrary.Common;
 using SpecChecker.ScanLibrary.AssemblyScan;
@@ -47,7 +48,8 @@ namespace SpecChecker.ScanLibrary.Tasks
 
         private void LogRuntimeEnvironment(TaskContext context, string taskXmlFile)
         {
-            context.ConsoleWrite("\r\n任务配置文件：");
+            context.ConsoleWrite("\r\n开始时间：" + DateTime.Now.ToTimeString());
+            context.ConsoleWrite("任务配置文件：");
             context.ConsoleWrite(File.ReadAllText(taskXmlFile, Encoding.UTF8));
 
             try {

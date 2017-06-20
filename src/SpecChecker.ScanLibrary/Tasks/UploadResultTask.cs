@@ -25,9 +25,10 @@ namespace SpecChecker.ScanLibrary.Tasks
 			// 按业务单元和扫描类别分组小计
 			CalculateSubTotal(totalResult);
 			context.ConsoleWrite("ExecSubTotalResult OK");
+            context.ConsoleWrite("\r\n结束时间：" + DateTime.Now.ToTimeString());
 
-			// 获取控件台的所有输出内容
-			totalResult.ConsoleText = context.OutputText;
+            // 获取控件台的所有输出内容
+            totalResult.ConsoleText = context.OutputText;
 
 
 			// 为了防止提交的数据过大，所以采用压缩的方式提交数据（大约可压缩10倍），
