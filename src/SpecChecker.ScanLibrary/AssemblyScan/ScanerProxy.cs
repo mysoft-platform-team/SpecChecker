@@ -54,7 +54,7 @@ namespace SpecChecker.ScanLibrary.AssemblyScan
 			// 过滤一些可忽略的规则
 			if( string.IsNullOrEmpty(branch.IgnoreRules) == false ) {
 				// 存在排除规则
-				string[] rules = branch.IgnoreRules.Split(';');
+				string[] rules = branch.IgnoreRules.Split(new char[] { ';' },  StringSplitOptions.RemoveEmptyEntries);
 				list = (from x in list
 						where rules.FirstOrDefault(r => r == x.RuleCode) == null
 						select x

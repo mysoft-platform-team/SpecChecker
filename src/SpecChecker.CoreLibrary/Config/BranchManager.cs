@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,13 +27,23 @@ namespace SpecChecker.CoreLibrary.Config
 
 		private static BranchConfig LoadConfig(string[] files)
 		{
+			
+
 			BranchConfig config = XmlHelper.XmlDeserializeFromFile<BranchConfig>(files[0]);
 
-			//if( config != null && config.Branchs != null  ) {
-			//	foreach( var b in config.Branchs )
-			//		b.LocalDirectory = PathHelper.ReplaceEnvVars(b.LocalDirectory);
-			//}
+			string defaultIgnoreRules = ConfigurationManager.AppSettings["default-IgnoreRules"];
 
+			if( string.IsNullOrEmpty(defaultIgnoreRules) == false ) {
+
+				if( config != null && config.Branchs != null ) {
+					foreach( var b in config.Branchs ) {
+						if( string.IsNullOrEmpty(b.IgnoreRules) )
+							b.IgnoreRules = defaultIgnoreRules;
+						else
+							b.IgnoreRules = b.IgnoreRules + defaultIgnoreRules;
+					}
+				}
+			}
 
 			return config;
 		}
