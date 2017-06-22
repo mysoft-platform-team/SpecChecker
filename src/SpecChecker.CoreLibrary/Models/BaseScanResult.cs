@@ -12,7 +12,7 @@ namespace SpecChecker.CoreLibrary.Models
 		/// <summary>
 		/// 业务单元
 		/// </summary>
-		public string BusinessUnit { get; set; }
+		//public string BusinessUnit { get; set; }
 
 
 		/// <summary>

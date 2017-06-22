@@ -51,21 +51,8 @@ namespace SpecChecker.ScanLibrary.AssemblyScan
 			// 扫描所有指定的程序集
 			List<AssemblyScanResult> list = Scan(assemblies);
 
-			// 过滤一些可忽略的规则
-			if( string.IsNullOrEmpty(branch.IgnoreRules) == false ) {
-				// 存在排除规则
-				string[] rules = branch.IgnoreRules.Split(new char[] { ';' },  StringSplitOptions.RemoveEmptyEntries);
-				list = (from x in list
-						where rules.FirstOrDefault(r => r == x.RuleCode) == null
-						select x
-							).ToList();
-			}
-
-
-
-			return (from x in list
-					orderby x.BusinessUnit
-					select x).ToList();
+            // 过滤一些可忽略的规则
+            return list.ExecExcludeIgnoreRules(branch);
 		}
 
 		private List<Assembly> LoadAssemblies(AssemblyScanOption option)
@@ -198,7 +185,7 @@ namespace SpecChecker.ScanLibrary.AssemblyScan
 				if( info.DllFileName == null )
 					info.DllFileName = info.Type.Assembly.ManifestModule.Name;
 
-                info.BusinessUnit = BusinessUnitManager.GetNameByClass(info.Type.ToString().Split(',')[0]);
+                //info.BusinessUnit = BusinessUnitManager.GetNameByClass(info.Type.ToString().Split(',')[0]);
 
 				info.RuleCode = info.GetRuleCode();
                 info.TypeName = info.Type.FullName;

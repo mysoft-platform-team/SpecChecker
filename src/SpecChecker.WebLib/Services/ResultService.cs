@@ -104,10 +104,10 @@ namespace SpecChecker.WebLib.Services
 
 			List<AssemblyScanResult> list = _totalResult.RuntimeScanResults;
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessUnit select x).ToList();
+			//if( _sortField == "BusinessUnit" )
+			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
-			else if( _sortField == "Message" )
+			if( _sortField == "Message" )
 				list = (from x in list orderby x.Message select x).ToList();
 
 			else if( _sortField == "IssueCategory" )
@@ -126,10 +126,10 @@ namespace SpecChecker.WebLib.Services
 
 			List<DbCheckResult> list = _totalResult.DbCheckResults;
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessUnit select x).ToList();
+			//if( _sortField == "BusinessUnit" )
+			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
-			else if( _sortField == "Reason" )
+			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
 
 			return PageResult("/CodeScan/Partial/DatabaseScan.cshtml", list);
@@ -144,10 +144,10 @@ namespace SpecChecker.WebLib.Services
 
 			List<CodeCheckResult> list = _totalResult.JsCodeCheckResults;
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessUnit select x).ToList();
+			//if( _sortField == "BusinessUnit" )
+			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
-			else if( _sortField == "Reason" )
+			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
 
 			else if( _sortField == "FileName" )
@@ -169,10 +169,10 @@ namespace SpecChecker.WebLib.Services
 			//List<CodeCheckResult> list = _totalResult.CsCodeCheckResults;
 			List<CodeCheckResult> list = _totalResult.GetCsCodeCheckResults();
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessUnit select x).ToList();
+			//if( _sortField == "BusinessUnit" )
+			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
-			else if( _sortField == "Reason" )
+			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
 
 			else if( _sortField == "FileName" )
@@ -193,10 +193,10 @@ namespace SpecChecker.WebLib.Services
 
 			List<CodeCheckResult> list = _totalResult.GetCommentScanResults();
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessUnit select x).ToList();
+			//if( _sortField == "BusinessUnit" )
+			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
-			else if( _sortField == "Reason" )
+			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
 
 			else if( _sortField == "FileName" )

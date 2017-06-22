@@ -25,9 +25,10 @@ namespace SpecChecker.WebLib.ViewModel
 		public BranchSettings Branch { get; set; }
 
 		/// <summary>
-		/// 分类汇总结果
+		/// 分类汇总结果（向后兼容保留，不要删除）
 		/// </summary>
 		public List<SubTotalResult> SubTotalResults { get; set; }
+
 
 		public TotalResult TotalResult { get; set; }
 

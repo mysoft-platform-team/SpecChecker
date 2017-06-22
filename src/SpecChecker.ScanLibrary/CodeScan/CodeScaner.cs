@@ -111,21 +111,7 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				}
 			}
 		}
-
-
-
-		private void ExcludeIgnoreRules(BranchSettings branch)
-		{
-			if( string.IsNullOrEmpty(branch.IgnoreRules) == false ) {
-				// 存在排除规则
-				string[] rules = branch.IgnoreRules.Split(';');
-				_list = (from x in _list
-						let rulecode = x.RuleCode
-						where rules.FirstOrDefault(r => r == rulecode) == null
-						select x
-							).ToList();
-			}
-		}
+        
 
 		public List<CodeCheckResult> Execute(BranchSettings branch, string srcPath)
 		{
@@ -146,12 +132,13 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			// 过滤有效的结果
 			_list = (from x in _list
 					 where x.Reason != null
-					 orderby x.BusinessUnit
+					 //orderby x.BusinessUnit
 					 select x).ToList();
 
 
-			// 排除指定要忽略的规则
-			ExcludeIgnoreRules(branch);
+            // 排除指定要忽略的规则
+            _list = _list.ExecExcludeIgnoreRules(branch);
+
 
 			// 整理文件名，去掉根目录，变成相对目录的短名
 			int rootLen = srcPath.Length;

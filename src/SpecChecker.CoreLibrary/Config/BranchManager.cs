@@ -40,7 +40,7 @@ namespace SpecChecker.CoreLibrary.Config
 						if( string.IsNullOrEmpty(b.IgnoreRules) )
 							b.IgnoreRules = defaultIgnoreRules;
 						else
-							b.IgnoreRules = b.IgnoreRules + defaultIgnoreRules;
+							b.IgnoreRules = b.IgnoreRules + ";" + defaultIgnoreRules;
 					}
 				}
 			}

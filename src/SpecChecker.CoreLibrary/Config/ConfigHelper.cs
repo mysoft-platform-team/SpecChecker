@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.CoreLibrary.Config
 {
@@ -28,5 +29,21 @@ namespace SpecChecker.CoreLibrary.Config
 
 			throw new FileNotFoundException($"没有找到 {filename} 文件。");
 		}
-	}
+
+
+        public static List<T> ExecExcludeIgnoreRules<T>(this List<T> list, BranchSettings branch) where T: BaseScanResult
+        {
+            if( string.IsNullOrEmpty(branch.IgnoreRules) == false ) {
+                // 存在排除规则
+                string[] rules = branch.IgnoreRules.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                return (from x in list
+                        where rules.FirstOrDefault(r => r == x.RuleCode) == null
+                        select x
+                            ).ToList();
+            }
+
+            return list;
+        }
+
+    }
 }
