@@ -24,6 +24,11 @@ namespace SpecChecker.CoreLibrary.Models
 		/// </summary>
 		public string TableName { get; set; }
 
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        public string ObjectName { get; set; }
+
 
 		public override string GetRuleCode()
 		{

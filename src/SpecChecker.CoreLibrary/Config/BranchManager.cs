@@ -32,8 +32,9 @@ namespace SpecChecker.CoreLibrary.Config
 			BranchConfig config = XmlHelper.XmlDeserializeFromFile<BranchConfig>(files[0]);
 
 			string defaultIgnoreRules = ConfigurationManager.AppSettings["default-IgnoreRules"];
+            string defaultIgnoreDbOjects = ConfigurationManager.AppSettings["default-IgnoreDbOjects"];
 
-			if( string.IsNullOrEmpty(defaultIgnoreRules) == false ) {
+            if( string.IsNullOrEmpty(defaultIgnoreRules) == false ) {
 
 				if( config != null && config.Branchs != null ) {
 					foreach( var b in config.Branchs ) {
@@ -45,7 +46,19 @@ namespace SpecChecker.CoreLibrary.Config
 				}
 			}
 
-			return config;
+            if( string.IsNullOrEmpty(defaultIgnoreDbOjects) == false ) {
+
+                if( config != null && config.Branchs != null ) {
+                    foreach( var b in config.Branchs ) {
+                        if( string.IsNullOrEmpty(b.IgnoreDbObjects) )
+                            b.IgnoreDbObjects = defaultIgnoreDbOjects;
+                        else
+                            b.IgnoreDbObjects = b.IgnoreDbObjects + ";" + defaultIgnoreDbOjects;
+                    }
+                }
+            }
+
+            return config;
 		}
 
 		public static string GetConfigFilePath()

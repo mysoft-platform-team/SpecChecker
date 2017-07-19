@@ -151,6 +151,7 @@
     <Compile Include="UnitTest\ReportResult.cs" />
     <Compile Include="UnitTest\SlnUnitTestResult.cs" />
     <Compile Include="UnitTest\UnitTestRunner.cs" />
+    <Compile Include="UnitTest\UnitTestWorker.cs" />
     <Compile Include="VsRuleScan\Models\FxCopReport.cs" />
     <Compile Include="VsRuleScan\VsRuleScaner.cs" />
   </ItemGroup>

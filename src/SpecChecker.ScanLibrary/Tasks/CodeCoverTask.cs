@@ -23,9 +23,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 
 			try {
 				foreach( string path in action.Items ) {
-					UnitTestRunner runner = new UnitTestRunner();
-					runner.ConsoleWrite = context.ConsoleWrite;
-					runner.WriteTempFile = context.WriteTempFile;
+					UnitTestRunner runner = new UnitTestRunner(context);
 
 					SlnUnitTestResult total = runner.Execute(context.Branch, path);
 					if( total != null ) {

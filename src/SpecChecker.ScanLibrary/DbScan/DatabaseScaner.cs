@@ -29,21 +29,32 @@ namespace SpecChecker.ScanLibrary.DbScan
 				list.AddRange(CheckStoreProcedure());
 				list.AddRange(CheckUserFunction());
 			}
-            
-            return list.ExecExcludeIgnoreRules(branch);
-		}
+
+            list =  list.ExecExcludeIgnoreRules(branch);
+
+            if( string.IsNullOrEmpty(branch.IgnoreDbObjects) == false ) {
+                string[] names = branch.IgnoreDbObjects.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                list = (from x in list
+                        where names.FirstOrDefault(n => x.ObjectName.Equals(n, StringComparison.OrdinalIgnoreCase)) == null
+                        select x).ToList();
+            }
+
+            return list;
+        }
 		
 
-
-		/// <summary>
-		/// 检查表是否已创建主键
-		/// </summary>
-		/// <returns>检查结果列表</returns>
-		private List<DbCheckResult> CheckPrimaryKey()
+        /// <summary>
+        /// 检查表是否已创建主键
+        /// </summary>
+        /// <returns>检查结果列表</returns>
+        private List<DbCheckResult> CheckPrimaryKey()
 		{
             return CPQuery.Create(@"
-SELECT  'SPEC:D00001; 表没有指定主键(聚集索引)' AS Reason, 'SPEC:D00001' AS RuleCode,
-		'表名：' + tab.name AS Informantion , tab.name as TableName
+SELECT  'SPEC:D00001; 表没有指定主键(聚集索引)' AS Reason, 
+        'SPEC:D00001' AS RuleCode,
+		'表名：' + tab.name AS Informantion , 
+        tab.name as TableName, 
+        tab.name as ObjectName
 FROM    sys.tables tab
         LEFT JOIN sys.indexes idx ON idx.object_id = tab.object_id
                                         AND tab.type = 'u'
@@ -118,6 +129,7 @@ DROP TABLE #temp").ToDataTable();
                 if( string.IsNullOrEmpty(pair1.Key) == false ) {
                     list.Add(new DbCheckResult {
                         Reason = "SPEC:D00002; 禁止定义冗余的索引",
+                        ObjectName = indexName,
                         RuleCode = "SPEC:D00002",
                         Informantion = string.Format("表名：{0} 索引【{1}】包含索引【{2}】", name, pair1.Key, indexName),
                         TableName = name
@@ -130,6 +142,7 @@ DROP TABLE #temp").ToDataTable();
                 if( string.IsNullOrEmpty(pair2.Key) == false ) {
                     list.Add(new DbCheckResult {
                         Reason = "SPEC:D00002; 禁止定义冗余的索引",
+                        ObjectName = indexName,
                         RuleCode = "SPEC:D00002",
                         Informantion = string.Format("表名：{0} 索引【{1}】包含索引【{2}】", name, indexName, pair2.Key),
                         TableName = name
@@ -150,8 +163,11 @@ DROP TABLE #temp").ToDataTable();
 		private List<DbCheckResult> TextFieldWrongType()
 		{
 			return CPQuery.Create(@"
-SELECT  'SPEC:D00003; 文本字段必须选择带N的字段类型' AS Reason , 'SPEC:D00003' AS RuleCode,
-        '表【' + TABLE_NAME + '】的字段【' + COLUMN_NAME + '】类型为【' + DATA_TYPE + '】' AS Informantion , TABLE_NAME as TableName
+SELECT  'SPEC:D00003; 文本字段必须选择带N的字段类型' AS Reason, 
+        'SPEC:D00003' AS RuleCode,
+        '表【' + TABLE_NAME + '】的字段【' + COLUMN_NAME + '】类型为【' + DATA_TYPE + '】' AS Informantion , 
+        TABLE_NAME + '.' + COLUMN_NAME  AS ObjectName,
+        TABLE_NAME as TableName
 FROM    information_schema.columns
 WHERE   TABLE_NAME IN ( SELECT  name
                         FROM    sys.tables
@@ -168,8 +184,11 @@ ORDER BY TABLE_NAME ,
 		private List<DbCheckResult> CanNotUseTrigger()
 		{
 			return CPQuery.Create(@"
-SELECT  'SPEC:D00004; 禁止使用触发器' AS Reason , 'SPEC:D00004' AS RuleCode,
-        '触发器名称：' + a.name AS Informantion   ,object_name(b.parent_obj) AS TableName
+SELECT  'SPEC:D00004; 禁止使用触发器' AS Reason, 
+        'SPEC:D00004' AS RuleCode,
+        '触发器名称：' + a.name AS Informantion,
+        a.name AS ObjectName,
+        object_name(b.parent_obj) AS TableName
 FROM  sys.triggers a , sys.sysobjects b 
 WHERE a.object_id = b.id").ToList<DbCheckResult>();
 		}
@@ -181,8 +200,11 @@ WHERE a.object_id = b.id").ToList<DbCheckResult>();
 		private List<DbCheckResult> CanNotUseCLRSP()
 		{
 			return CPQuery.Create(@"
-SELECT  'SPEC:D00005;禁止使用CLR SP' AS Reason , 'SPEC:D00005' AS RuleCode,
-        '程序集名称：' + name AS Informantion  , '' as TableName
+SELECT  'SPEC:D00005;禁止使用CLR SP' AS Reason, 
+        'SPEC:D00005' AS RuleCode,
+        '程序集名称：' + name AS Informantion,
+        name AS ObjectName,
+        '' as TableName
 FROM    sys.assemblies
 WHERE   assembly_id <> 1").ToList<DbCheckResult>();
 		}
@@ -194,8 +216,11 @@ WHERE   assembly_id <> 1").ToList<DbCheckResult>();
 		private List<DbCheckResult> CheckEnumTextField()
 		{
 			return CPQuery.Create(@"
-SELECT  N'SPEC:D00006; 枚举字段没有对应的文本字段' AS Reason, 'SPEC:D00006' AS RuleCode,
-		N'字段名称：' + t.name  + '.' + c.name   as Informantion, t.name as TableName
+SELECT  N'SPEC:D00006; 枚举字段没有对应的文本字段' AS Reason, 
+        'SPEC:D00006' AS RuleCode,
+		N'字段名称：' + t.name  + '.' + c.name   as Informantion, 
+        t.name  + '.' + c.name   as ObjectName,
+        t.name as TableName
         --ce.name AS EnumTextColName
 FROM    sysobjects t
         INNER JOIN syscolumns c ON t.id = c.id
@@ -241,7 +266,7 @@ order by name
 				result.Reason = "SPEC:D00007; 禁止使用存储过程";
                 result.RuleCode = "SPEC:D00007";
                 result.Informantion = name;
-				//result.BusinessUnit = BusinessUnitManager.OthersBusinessUnitName;	// 这里不分业务单元
+                result.ObjectName = name;
 				list.Add(result);
 			}
 
@@ -284,8 +309,8 @@ order by name
 				result.Reason = "SPEC:D00008; 禁止使用自定义数据库函数";
                 result.RuleCode = "SPEC:D00008";
 				result.Informantion = name;
-				//result.BusinessUnit = BusinessUnitManager.OthersBusinessUnitName;   // 这里不分业务单元
-				list.Add(result);
+                result.ObjectName = name;
+                list.Add(result);
 			}
 
 			return list;

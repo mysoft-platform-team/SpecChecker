@@ -48,10 +48,15 @@ namespace SpecChecker.CoreLibrary.Config
 		/// </summary>
 		public string IgnoreRules { get; set; }
 
-		/// <summary>
-		/// 包含的子系统名称（引用SpecChecker.BusinessUnitConfig.config中的SubSystem）
+        /// <summary>
+		/// 要忽略的数据库对象
 		/// </summary>
-		public string SubSystems { get; set; }
+		public string IgnoreDbObjects { get; set; }
+
+        /// <summary>
+        /// 包含的子系统名称（引用SpecChecker.BusinessUnitConfig.config中的SubSystem）
+        /// </summary>
+        public string SubSystems { get; set; }
 
 
 	}
