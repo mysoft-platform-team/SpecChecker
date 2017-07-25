@@ -29,7 +29,10 @@ namespace SpecChecker.ScanLibrary.UnitTest
 
         public UnitTestRunner(TaskContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+			if( context == null )
+				throw new ArgumentNullException(nameof(context));
+
+			_context = context;
         }
 
         

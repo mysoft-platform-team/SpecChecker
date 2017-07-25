@@ -26,8 +26,11 @@ namespace SpecChecker.ScanLibrary.UnitTest
 
         public UnitTestWorker(TaskContext context, string nunitPath, string dotCoverPath, string projectFile)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _nunitPath = nunitPath;
+			if( context == null )
+				throw new ArgumentNullException(nameof(context));
+
+			_context = context;
+			_nunitPath = nunitPath;
             _dotCoverPath = dotCoverPath;
             _projectFile = projectFile;
 

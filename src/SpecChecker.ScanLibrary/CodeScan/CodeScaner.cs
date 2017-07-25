@@ -156,18 +156,22 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			List<RuleChecker> csCheckerList = GetRuleCheckers(".cs");
 			List<RuleChecker> jsCheckerList = GetRuleCheckers(".js");
 			List<RuleChecker> aspxCheckerList = GetRuleCheckers(".aspx");
+            List<RuleChecker> cshtmlCheckerList = GetRuleCheckers(".cshtml");
+            List<RuleChecker> configCheckerList = GetRuleCheckers(".config");
 
 
-			// 这里不是一次性获取所有CS文件，避免数组太大，占用太多内存空间。
-			// 而是采用先获取所有子目录，再遍历所有子目录下的CS文件。
+            // 这里不是一次性获取所有CS文件，避免数组太大，占用太多内存空间。
+            // 而是采用先获取所有子目录，再遍历所有子目录下的CS文件。
 
-			string[] directories = Directory.GetDirectories(path, "*.*", SearchOption.AllDirectories);
+            string[] directories = Directory.GetDirectories(path, "*.*", SearchOption.AllDirectories);
 
 			foreach( string dir in directories ) {
 				ScanDirectory(dir, ".cs", csCheckerList);
 				ScanDirectory(dir, ".aspx", aspxCheckerList);
 				ScanDirectory(dir, ".js", jsCheckerList);
-			}
+                ScanDirectory(dir, ".cshtml", cshtmlCheckerList);
+                ScanDirectory(dir, ".config", configCheckerList);
+            }
 		}
 
 		private List<RuleChecker> GetRuleCheckers(string extName)
