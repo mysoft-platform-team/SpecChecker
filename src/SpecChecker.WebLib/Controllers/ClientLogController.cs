@@ -68,8 +68,17 @@ namespace SpecChecker.WebLib.Controllers
 
 		private IActionResult ShowFileText(string file)
 		{
-			string fileName = CompressHelper.GzipDecompress(file);
-			string logpath = ClientLogController.GetClientLogPath();
+            string fileName = null;
+            try {
+                fileName = CompressHelper.GzipDecompress(file);
+            }
+            catch { /* 防止人为修改URL，造成解压缩失败  */ }
+
+            if( string.IsNullOrEmpty(fileName))
+                return new TextResult("parameter error.");
+
+
+            string logpath = ClientLogController.GetClientLogPath();
 			string text = null;
 
 			string filePath = Path.Combine(logpath, fileName);

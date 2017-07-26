@@ -108,8 +108,14 @@ namespace SpecChecker.WebLib.Controllers
 			model.DayMonth = today.Day.ToString() + "/" + today.Month.ToString(); //today.ToString("d/M");
 			model.Branch = branch;
 
-			// 加载工具扫描的结果
-			TotalResult totalResult = ScanResultCache.GetTotalResult(id, day);
+            // 加载工具扫描的结果
+            TotalResult totalResult = null;
+            try {
+                totalResult = ScanResultCache.GetTotalResult(id, day);
+            }
+            catch( FileNotFoundException ) {
+                return new TextResult("找不到匹配的数据文件。");
+            }
 			model.SubTotalResults = totalResult.Summary;
 			model.ComplieMessage = totalResult.CompilerError;
 			model.TotalResult = totalResult;

@@ -32,6 +32,8 @@ namespace SpecChecker.WebLib.Common
 //Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E233 Safari/601.1
 
 			string userAgent = this.HttpContext.Request.UserAgent;
+            if( string.IsNullOrEmpty(userAgent) )
+                return false;
 
 			if( userAgent.IndexOf(" Android ", StringComparison.OrdinalIgnoreCase) > 0 )
 				return true;

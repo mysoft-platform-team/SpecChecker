@@ -69,8 +69,8 @@ namespace SpecChecker.CoreLibrary.Config
 		public static BranchSettings GetBranch(int id)
 		{
 			BranchSettings branch = ConfingInstance.Branchs.FirstOrDefault(x => x.Id == id);
-			if( branch == null )
-				return ConfingInstance.Branchs[0];
+			//if( branch == null )
+			//	return ConfingInstance.Branchs[0];
 
 			return branch;
 		}
