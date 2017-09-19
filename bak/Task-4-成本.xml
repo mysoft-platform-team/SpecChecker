@@ -2,6 +2,13 @@
 <JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>4</Id>
   <Name>成本系统</Name>
+  <Branch>
+      <DbLocation>Server=10.5.10.76\sql2008r2;Database=dotnet_ERP400_dev_refactor;User ID=team_cp;Password=95938;</DbLocation>
+      <MongoLocation1>mongodb://admin:1EF9D3F9C68F4FE6B63DA135EA76F390@10.5.106.100/Test_OnlyUse?connectTimeout=5s;socketTimeout=5s</MongoLocation1>
+      <ExceptionAlertEmail>chenb02@mysoft.com.cn</ExceptionAlertEmail>
+      <IgnoreRules></IgnoreRules>
+      <SubSystems>Cbgl</SubSystems>
+    </Branch>
   <CodePath>
     <string>%成本%</string>
   </CodePath>

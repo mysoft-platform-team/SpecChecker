@@ -2,6 +2,13 @@
 <JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>1</Id>
   <Name>运行平台</Name>
+  <Branch>
+      <DbLocation></DbLocation>
+      <MongoLocation1>mongodb://admin:1EF9D3F9C68F4FE6B63DA135EA76F390@10.5.106.100/Test_OnlyUse?connectTimeout=5s;socketTimeout=5s</MongoLocation1>
+      <ExceptionAlertEmail>lijf@mysoft.com.cn</ExceptionAlertEmail>
+      <IgnoreRules>SPEC:C00001;SPEC:C00004;SPEC:C00005;SPEC:C00015;SPEC:C00019;SPEC:C00021;SPEC:RM0018;SPEC:C00031;SPEC:C00032</IgnoreRules>
+      <SubSystems>Platform</SubSystems>
+    </Branch>
   <CodePath>
     <string>%MAP%\01运行平台</string>
   </CodePath>

@@ -1,27 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Id>2</Id>
-  <Name>建模平台</Name>
+  <Id>3</Id>
+  <Name>售楼系统</Name>
+  <Branch>
+      <DbLocation>Server=10.5.10.76\sql2008r2;Database=dotnet_ERP400_dev_refactor;User ID=team_cp;Password=95938;</DbLocation>
+      <MongoLocation1>mongodb://admin:1EF9D3F9C68F4FE6B63DA135EA76F390@10.5.106.100/Test_OnlyUse?connectTimeout=5s;socketTimeout=5s</MongoLocation1>
+      <ExceptionAlertEmail>liux08@mysoft.com.cn</ExceptionAlertEmail>
+      <IgnoreRules></IgnoreRules>
+      <SubSystems>Slxt</SubSystems>
+    </Branch>
   <CodePath>
-    <string>%MAP%\02建模平台</string>
-    <string>%MAP%\00根站点\_base</string>
-    <string>%MAP%\00根站点\_frontend</string>
-    <string>%MAP%\00根站点\modeling</string>
+    <string>%售楼%</string>
   </CodePath>
   <SlnFiles>
-    <string>%MAP%\02建模平台\建模平台.sln</string>
+    <string>%售楼%\售楼整体解决方案.sln</string>
   </SlnFiles>
   <Actions>
     <Action Type="ClearBinObj" />
     <Action Type="Tfs" />
+    <Action Type="ExecuteFile">
+      <item>%售楼%\00_Pull.cmd</item>
+    </Action>
     <Action Type="SetProjecctRule" />
     <Action Type="MsBuild" />
     <Action Type="ResetProjecctRuleTask" />
     <Action Type="ExecuteCommnad">
-      <item>copy CustomizeCheckerAssemblyNames.txt %MAP%\00根站点\bin\ /y</item>
+      <item>copy CustomizeCheckerAssemblyNames.txt  %售楼%\00_根目录\bin\ /y</item>
     </Action>
     <Action Type="AssemblyScan">
-      <item>sln=;bin=%MAP%\00根站点\bin</item>
+      <item>sln=;bin=%售楼%\00_根目录\bin</item>
     </Action>
     <Action Type="CodeScan" />
     <Action Type="ProjectScan" />

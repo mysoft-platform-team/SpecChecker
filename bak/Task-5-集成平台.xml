@@ -2,6 +2,13 @@
 <JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>5</Id>
   <Name>集成平台</Name>
+  <Branch>
+      <DbLocation />
+      <MongoLocation />
+      <ExceptionAlertEmail>wangsy@mysoft.com.cn</ExceptionAlertEmail>
+      <IgnoreRules>SPEC:C00005;SPEC:C00021</IgnoreRules>
+	  <SubSystems>MIP</SubSystems>
+    </Branch>
   <CodePath>
     <string>%MIP%</string>
   </CodePath>
