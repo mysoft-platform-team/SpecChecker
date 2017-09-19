@@ -84,6 +84,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SpecChecker.CoreLibrary\Properties\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="AssemblyScan\AssemblyScaner.cs" />
     <Compile Include="AssemblyScan\AssemblyScanException.cs" />
     <Compile Include="AssemblyScan\AssemblyScanOption.cs" />
@@ -131,7 +134,6 @@
     <Compile Include="Tasks\ExecuteCommnadTask.cs" />
     <Compile Include="Tasks\ExecuteFileTask.cs" />
     <Compile Include="Tasks\ITask.cs" />
-    <Compile Include="Tasks\JobOption.cs" />
     <Compile Include="Tasks\MsBuildTask.cs" />
     <Compile Include="Tasks\OpenWebsiteTask.cs" />
     <Compile Include="Tasks\PerformanceLogTask.cs" />

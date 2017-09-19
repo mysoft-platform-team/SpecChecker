@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using ClownFish.Base.Files;
 using ClownFish.Base.Xml;
+using SpecChecker.CoreLibrary.Common;
 using SpecChecker.CoreLibrary.Config;
 using SpecChecker.CoreLibrary.Models;
 using SpecChecker.ScanLibrary.MethodScan;
@@ -16,23 +17,29 @@ namespace SpecChecker.ScanLibrary.CodeScan
 {
 	public sealed class CodeScaner
 	{
-		#region 操作配置文件
+        #region 操作配置文件
 
-		private static readonly FileDependencyManager<List<Rule>>
-					s_config = new FileDependencyManager<List<Rule>>(		// 基于文件修改通知的缓存实例
-							LoadConfig,		// 读取文件的回调委托
-							Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SpecChecker.CodeRule.config"));
+        private static List<Rule> s_list;
+        private static bool s_inited = false;
+        private static readonly object s_lock = new object();
+
+        public static void Init()
+        {
+            if( s_inited == false ) {
+                lock( s_lock ) {
+                    if( s_inited == false ) {
+                        s_list = LoadConfig();
+                        s_inited = true;
+                    }
+                }
+            }
+        }
 
 
-		private static List<Rule> RuleList
+		private static List<Rule> LoadConfig()
 		{
-			get { return s_config.Result; }
-		}
-
-
-		private static List<Rule> LoadConfig(string[] files)
-		{
-			List<Rule> list = XmlHelper.XmlDeserializeFromFile<List<Rule>>(files[0]);
+            string xml = ConfigHelper.GetFile("SpecChecker.CodeRule.config");
+            List<Rule> list = XmlHelper.XmlDeserialize<List<Rule>>(xml);
 
 			foreach( Rule rule in list ) {
 				// 为了方便判断，给目录名【前后】增加目录分隔符。
@@ -45,9 +52,16 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			return list;
 		}
 
-		#endregion
+        private static List<Rule> RuleList {
+            get {
+                Init();
+                return s_list;
+            }
+        }
 
-		private string _currentFilePath = null;
+        #endregion
+
+        private string _currentFilePath = null;
 		private List<CodeCheckResult> _list = new List<CodeCheckResult>();
 
 		/// <summary>

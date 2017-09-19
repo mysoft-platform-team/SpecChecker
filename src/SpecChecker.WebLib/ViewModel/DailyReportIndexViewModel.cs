@@ -9,8 +9,6 @@ namespace SpecChecker.WebLib.ViewModel
 	public sealed class DailyReportIndexViewModel
 	{
 		public string Today { get; set; }
-
-		//public List<Tuple<string, string>> List { get; set; }
 						
 
 		public QaReportTable QaReportTable { get; set; }

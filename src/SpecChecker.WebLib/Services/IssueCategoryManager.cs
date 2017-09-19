@@ -86,12 +86,13 @@ namespace SpecChecker.WebLib.Services
 		private static void LoadData()
 		{
 			// 加载配置文件
-			string configPath = ConfigHelper.GetFilePath("SpecChecker.IssueCategory.config");
-			s_list = XmlHelper.XmlDeserializeFromFile<List<IssueCategory>>(configPath);
+            string xml = ConfigHelper.GetFile("SpecChecker.IssueCategory.config");
+            s_list = XmlHelper.XmlDeserialize<List<IssueCategory>>(xml);
 
 
-			// 创建一个 KEY为规范编号，VALUE为规范类别 的映射表
-			foreach( var cateogory in s_list ) {
+
+            // 创建一个 KEY为规范编号，VALUE为规范类别 的映射表
+            foreach( var cateogory in s_list ) {
 				if( cateogory.Rules != null ) {
 					foreach(string rule in cateogory.Rules ) {
 						s_dict.TryAdd(rule, cateogory.Name);

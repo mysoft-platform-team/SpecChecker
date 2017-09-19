@@ -113,12 +113,12 @@ namespace SpecChecker.WebLib.Services
 		{
 			List<GroupDailySummary2> list = new List<GroupDailySummary2>();
 
-			foreach( BranchSettings branch in BranchManager.ConfingInstance.Branchs ) {
+			foreach( JobOption job in JobManager.Jobs) {
 				// 计算当天的汇总数据
-				TotalResult data = ScanResultCache.LoadTotalResult(branch.Id, day, true);
+				TotalResult data = ScanResultCache.LoadTotalResult(job.Id, day, true);
 
 				GroupDailySummary2 summary = new GroupDailySummary2();
-				summary.GroupName = branch.Name;
+				summary.GroupName = job.Name;
 				summary.Data = ToSummary2(data);
                 list.Add(summary);
 			}
@@ -137,37 +137,6 @@ namespace SpecChecker.WebLib.Services
 		}
 
 
-
-		//private TotalSummary ToSummary(TotalResult data)
-		//{
-		//	// 如果工具还没有生成扫描数据，就直接创建一个TotalSummary实例（全部属性为零）
-		//	if( data == null )
-		//		return new TotalSummary();
-
-
-		//	TotalSummary summary = new TotalSummary();
-		//	summary.RuntimeScan = data.RuntimeScanException == null ? data.RuntimeScanResults.Count : -1;
-		//	summary.DatabaseScan = data.DbCheckException == null ? data.DbCheckResults.Count : -1;
-		//	summary.JsCodeScan = data.CodeCheckException == null ? data.JsCodeCheckResults.Count : -1;
-		//	summary.CsCodeScan = data.CodeCheckException == null ? data.CsCodeCheckResults.Count : -1;
-		//	summary.ProjectScan = data.ProjectCheckException == null ? data.ProjectCheckResults.Count : -1;
-		//	summary.VsRuleScan = data.VsRuleCheckException == null ? data.VsRuleCheckResults.Count : -1;
-		//          summary.PerformanceLogScan = data.PerformanceLogException == null ? data.PerformanceInfos.Count : -1;
-		//          summary.ExceptionLogScan = data.ExceptionLogException == null ? data.ExceptionInfos.Count : -1;
-		//          summary.UnitTestPassed  = data.UnitTestPassed;
-		//	summary.UnitTestTotal = data.UnitTestTotal;
-		//	summary.CodeCover = data.CodeCover;
-
-		//	if( summary.CsCodeScan > 0 ) {
-		//		// 将注释类的扫描结果独立出来，供报表显示
-		//		summary.CommentScan = data.EvalCommentScanResultCount();
-
-		//		// 扣除注释类的扫描数量
-		//		summary.CsCodeScan -= summary.CommentScan;
-		//	}
-
-		//	return summary;
-		//}
 
 		private int GetIssueCount(string name, params IEnumerable<BaseScanResult>[] array)
 		{
@@ -205,6 +174,7 @@ namespace SpecChecker.WebLib.Services
 						data.VsRuleCheckResults };
 
 			TotalSummary2 summary = new TotalSummary2();
+            summary.BuildIsOK = data.BuildIsOK;
 			summary.Security = GetIssueCount("安全规范", array);
 			summary.Performance = GetIssueCount("高性能规范", array);
 			summary.Stability = GetIssueCount("稳定性规范", array);

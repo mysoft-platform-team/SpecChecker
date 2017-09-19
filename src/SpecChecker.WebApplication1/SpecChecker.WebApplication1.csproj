@@ -144,6 +144,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SpecChecker.CoreLibrary\Properties\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -151,8 +154,8 @@
     <Content Include="Views\PC\CodeScan\DailyReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\config\" />
     <Folder Include="App_Data\ScanData\" />
+    <Folder Include="Client\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpecChecker.CoreLibrary\SpecChecker.CoreLibrary.csproj">
@@ -251,6 +254,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\PC\CodeScan\TotalReport.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Data\config\SpecChecker.Branchs.config" />
+    <None Include="App_Data\config\SpecChecker.BusinessUnitConfig.config" />
+    <None Include="App_Data\config\SpecChecker.CodeRule.config" />
+    <None Include="App_Data\config\SpecChecker.IssueCategory.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

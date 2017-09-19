@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Base.WebClient;
 using SpecChecker.CoreLibrary.Common;
+using SpecChecker.CoreLibrary.Config;
 
 namespace SpecChecker.ScanLibrary.Tasks
 {

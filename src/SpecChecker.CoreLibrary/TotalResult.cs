@@ -25,11 +25,16 @@ namespace SpecChecker.CoreLibrary
 		/// </summary>
 		public BranchSettings Branch { get; set; }
 
+        /// <summary>
+        /// 项目编译是否通过
+        /// </summary>
+        public bool? BuildIsOK { get; set; }
 
-		/// <summary>
-		/// 编译源代码时产生的错误消息（兼容老版本而保留）
-		/// </summary>
-		public string CompilerError { get; set; }
+
+        /// <summary>
+        /// 编译源代码时产生的错误消息（兼容老版本而保留）
+        /// </summary>
+        public string CompilerError { get; set; }
 
 		// 说明：最早规范检查由多种形式构成，程序集扫描直接放到ERP站点，称为运行时扫描，所以命令时采用 RuntimeScan
 		//      这里为了兼容以前的数据文件，保留了这个名称，但是类型名称做了调整。

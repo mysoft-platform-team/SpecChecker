@@ -24,9 +24,14 @@ namespace SpecChecker.WebLib.Services
 				return "authentication-key is invalid.";
 
 
-			// 为了防止提交的数据过大，所以采用压缩的方式提交数据（大约可压缩10倍），
-			// 为了方便调试，将压缩后的数据以BASE64方式传输
-			string json = CompressHelper.GzipDecompress(base64);
+            string appVersion = this.GetHeader("app-version");
+            if( appVersion != SpecChecker.CoreLibrary.Config.JobManager.AppVersion )
+                return "客户端版本不匹配。";
+
+
+            // 为了防止提交的数据过大，所以采用压缩的方式提交数据（大约可压缩10倍），
+            // 为了方便调试，将压缩后的数据以BASE64方式传输
+            string json = CompressHelper.GzipDecompress(base64);
 			TotalResult result = json.FromJson<TotalResult>();
 
 			// 设置问题分类
@@ -62,7 +67,7 @@ namespace SpecChecker.WebLib.Services
 			//Uri requestUri = this.HttpContext.Request.Url;
 			//SendEmailHelper.Send(today, branchId, requestUri);
 
-			return "OK";
+			return "200";
 		}
 
 

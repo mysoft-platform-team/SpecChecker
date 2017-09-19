@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpecChecker.CoreLibrary;
+using SpecChecker.CoreLibrary.Config;
 using SpecChecker.ScanLibrary.UnitTest;
 
 namespace SpecChecker.ScanLibrary.Tasks

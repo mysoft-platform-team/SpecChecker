@@ -104,9 +104,6 @@ namespace SpecChecker.WebLib.Services
 
 			List<AssemblyScanResult> list = _totalResult.RuntimeScanResults;
 
-			//if( _sortField == "BusinessUnit" )
-			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
-
 			if( _sortField == "Message" )
 				list = (from x in list orderby x.Message select x).ToList();
 
@@ -126,9 +123,6 @@ namespace SpecChecker.WebLib.Services
 
 			List<DbCheckResult> list = _totalResult.DbCheckResults;
 
-			//if( _sortField == "BusinessUnit" )
-			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
-
 			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
 
@@ -143,9 +137,6 @@ namespace SpecChecker.WebLib.Services
 
 
 			List<CodeCheckResult> list = _totalResult.JsCodeCheckResults;
-
-			//if( _sortField == "BusinessUnit" )
-			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
 			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
@@ -166,11 +157,7 @@ namespace SpecChecker.WebLib.Services
 								_totalResult.CodeCheckException);
 
 
-			//List<CodeCheckResult> list = _totalResult.CsCodeCheckResults;
 			List<CodeCheckResult> list = _totalResult.GetCsCodeCheckResults();
-
-			//if( _sortField == "BusinessUnit" )
-			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
 			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();
@@ -192,9 +179,6 @@ namespace SpecChecker.WebLib.Services
 
 
 			List<CodeCheckResult> list = _totalResult.GetCommentScanResults();
-
-			//if( _sortField == "BusinessUnit" )
-			//	list = (from x in list orderby x.BusinessUnit select x).ToList();
 
 			if( _sortField == "Reason" )
 				list = (from x in list orderby x.Reason select x).ToList();

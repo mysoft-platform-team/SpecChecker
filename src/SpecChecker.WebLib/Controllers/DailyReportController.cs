@@ -72,7 +72,7 @@ namespace SpecChecker.WebLib.Controllers
 		private DateTime? GetResultfulDay(DateTime today)
 		{
 			// 默认以第一个分支来做判断
-			int firstBranchId = BranchManager.ConfingInstance.Branchs[0].Id;
+			int firstBranchId = JobManager.Jobs[0].Id;
 
 			// 因为有时候数据不是连续的，所以如果当天数据不存在，就往前找，最后尝试100次
 			for( int i = 0; i < 100; i++ ) {
@@ -94,7 +94,7 @@ namespace SpecChecker.WebLib.Controllers
 		[PageRegexUrl(Url = @"/DailyReport/{id}/{day:date}.phtml")]
 		public IActionResult DailyReport(int id, DateTime day)
 		{
-			BranchSettings branch = BranchManager.GetBranch(id);
+			BranchSettings branch = JobManager.GetBranch(id);
 			if( branch == null )
 				return new TextResult("id is invaild.");
 

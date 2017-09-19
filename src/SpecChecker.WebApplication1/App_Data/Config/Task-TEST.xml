@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JobOption xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Name>TEST</Name>
+  <Branch>
+        <DbLocation></DbLocation>
+        <IgnoreRules>SPEC:C00024</IgnoreRules>
+        <IgnoreDbObjects />
+        <SubSystems>TEST</SubSystems>
+  </Branch>
+  <CodePath>
+    <string>G:\my-github\SpecChecker\demo-code\SpecChecker.DEMO</string>
+  </CodePath>
+  <SlnFiles>
+    <string>\SpecChecker.DEMO.sln</string>
+  </SlnFiles>
+  <Actions>
+    <Action Type="SetProjecctRule" />
+    <Action Type="MsBuild" />
+    <Action Type="ResetProjecctRuleTask" />
+    <Action Type="AssemblyScan">
+      <item>sln=;bin=\MyClassLibrary1\bin</item>
+    </Action>
+    <Action Type="DatabaseScan"></Action>
+    <Action Type="CodeScan" />
+    <Action Type="ProjectScan" />
+    <Action Type="VsRuleScan" />
+    <Action Type="UploadResult"></Action>
+  </Actions>
+</JobOption>

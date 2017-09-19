@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SpecChecker.CoreLibrary\Properties\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="Common\MyBaseController.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\ScanResultCache.cs" />
@@ -73,17 +76,16 @@
     <Compile Include="Services\AdminService.cs" />
     <Compile Include="Services\DailySummaryHelper.cs" />
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IssueCategoryExtensions.cs" />
     <Compile Include="Services\IssueCategoryManager.cs" />
     <Compile Include="Services\QaReportTableConvert.cs" />
     <Compile Include="Services\ResultService.cs" />
-    <Compile Include="Services\SendEmailHelper.cs" />
     <Compile Include="Services\SimulateService.cs" />
     <Compile Include="Services\UploadService.cs" />
     <Compile Include="ViewModel\DailyReportIndexViewModel.cs" />
     <Compile Include="ViewModel\DailyReportViewModel.cs" />
     <Compile Include="ViewModel\ExceptionIndexViewModel.cs" />
-    <Compile Include="ViewModel\GroupDailySummary.cs" />
     <Compile Include="ViewModel\GroupDailySummary2.cs" />
     <Compile Include="ViewModel\HighchartsDataSeries.cs" />
     <Compile Include="ViewModel\PagedList.cs" />

@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 using ClownFish.Base;
 using ClownFish.Base.Xml;
 using SpecChecker.CoreLibrary.Common;
+using SpecChecker.CoreLibrary.Config;
 using SpecChecker.ScanLibrary.AssemblyScan;
 
 namespace SpecChecker.ScanLibrary.Tasks
 {
 	public sealed class TaskProcessor
 	{
-		public void Execute(string taskXmlFile, bool enableConsoleOut)
+		public void Execute(JobOption job, bool enableConsoleOut)
 		{
-			if( File.Exists(taskXmlFile) == false )
-				throw new FileNotFoundException("指定的文件不存在：" + taskXmlFile);
-
-			JobOption job = XmlHelper.XmlDeserializeFromFile<JobOption>(taskXmlFile);
+            if( job == null )
+                throw new ArgumentNullException(nameof(job));
 
             if( job.Actions == null )
                 return;
@@ -32,7 +31,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 			PaddingPath(job);
 
             // 记录程序的运行时环境
-            LogRuntimeEnvironment(context, taskXmlFile);
+            LogRuntimeEnvironment(context);
 
 
             try {
@@ -46,39 +45,18 @@ namespace SpecChecker.ScanLibrary.Tasks
 			}
 		}
 
-        private void LogRuntimeEnvironment(TaskContext context, string taskXmlFile)
+        private void LogRuntimeEnvironment(TaskContext context)
         {
-            context.ConsoleWrite("\r\n开始时间：" + DateTime.Now.ToTimeString());
-            context.ConsoleWrite("任务配置文件：");
-            context.ConsoleWrite(File.ReadAllText(taskXmlFile, Encoding.UTF8));
-
+            context.ConsoleWrite("\r\n任务开始时间：" + DateTime.Now.ToTimeString());
             try {
-                context.ConsoleWrite("\r\n当前计算机名：" + System.Environment.MachineName);
-                context.ConsoleWrite("当前登录用户名：" + System.Environment.UserName);
+                context.ConsoleWrite("当前计算机名：" + System.Environment.MachineName);
+                context.ConsoleWrite("当前登录用户：" + System.Environment.UserName);
             }
             catch { // 这二个信息取不到就算了
             }
 
-            if( string.IsNullOrEmpty(context.Branch.MongoLocation) == false ) {
-                MongoDB.Driver.MongoUrlBuilder urlBuilder 
-                    = new MongoDB.Driver.MongoUrlBuilder(context.Branch.MongoLocation);
-
-                if( string.IsNullOrEmpty(urlBuilder.Password) == false )
-                    urlBuilder.Password = "xxxxx";
-
-                context.ConsoleWrite("日志库地址：" + urlBuilder.ToString());
-            }
-
-
-            if( string.IsNullOrEmpty(context.Branch.DbLocation) == false ) {
-                System.Data.SqlClient.SqlConnectionStringBuilder builder 
-                    = new System.Data.SqlClient.SqlConnectionStringBuilder(context.Branch.DbLocation);
-
-                if( string.IsNullOrEmpty(builder.Password) == false)
-                    builder.Password = "xxxxx";
-
-                context.ConsoleWrite("数据库地址：" + builder.ToString());
-            }
+            context.ConsoleWrite("\r\n任务配置文件：");
+            context.ConsoleWrite(ConfigHelper.GetFile(context.JobOption.TaskFileName));
             context.ConsoleWrite("\r\n");
         }
 
@@ -96,7 +74,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 					Directory.CreateDirectory(logPath);
 
 				string logFileName = string.Format("{0}--{1}.log",
-					DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), context.Branch.Id);
+					DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), context.JobOption.Id);
 
 				string logFilePath = Path.Combine(logPath, logFileName);
 

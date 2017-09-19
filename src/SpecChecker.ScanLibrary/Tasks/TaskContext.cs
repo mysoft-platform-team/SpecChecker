@@ -16,7 +16,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 	{
 		private bool _enableConsoleOut;
 		private JobOption _job;
-		private BranchSettings _branch;
+		//private BranchSettings _branch;
 		private string _tempPath;
 		private TotalResult _totalResult;
 		private StringBuilder _sb = new StringBuilder();
@@ -38,7 +38,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 		}
 		public BranchSettings Branch 
 		{
-			get { return _branch; }
+			get { return _job.Branch; }
 		}
 
 		public string OutputText {
@@ -56,21 +56,11 @@ namespace SpecChecker.ScanLibrary.Tasks
 			// 每个小组使用一个临时目录
 			_tempPath = InitTempDirectory(job.Id);
 
-			// 加载小组的分支配置信息
-			_branch = GetBranchConfig();
 
 			// 初始化数据结果对象
 			_totalResult = InitTask();
 		}
 
-		private BranchSettings GetBranchConfig()
-		{
-			var branch = BranchManager.ConfingInstance.Branchs.FirstOrDefault(b => b.Id == _job.Id);
-			if( branch == null )
-				throw new ArgumentException("Id的值无效。");
-
-			return branch;
-		}
 
 		public string WriteTempFile(object data, string filename)
 		{
@@ -81,7 +71,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 			string filePath = Path.Combine(_tempPath,
 					string.Format("{0}-{1}-{2}",
 								DateTime.Today.ToDateString(),
-								_branch.Id.ToString(),
+								_job.Id.ToString(),
 								filename)
 					);
 
@@ -127,7 +117,7 @@ namespace SpecChecker.ScanLibrary.Tasks
 			// 创建测试结果实例
 			TotalResult totalResult = new TotalResult();
 			totalResult.Today = DateTime.Today.ToDateString();
-			totalResult.Branch = _branch;
+			totalResult.Branch = _job.Branch;
 			totalResult.Version = "3.0";
 
 

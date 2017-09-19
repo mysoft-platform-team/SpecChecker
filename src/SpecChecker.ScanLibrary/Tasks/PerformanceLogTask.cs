@@ -38,7 +38,9 @@ namespace SpecChecker.ScanLibrary.Tasks
 
 		private List<PerformanceInfo> FilterResult(TaskContext context, List<PerformanceInfo> list)
 		{
-			string[] bizUnitNames = context.Branch.GetBizUnitNames();
+            // 由于日志库是共用的，所以要根据各小组所配置的子系统获取对应的业务单元后再做过滤
+
+            string[] bizUnitNames = context.Branch.GetBizUnitNames();
 			if( bizUnitNames == null )
 				return list;
 

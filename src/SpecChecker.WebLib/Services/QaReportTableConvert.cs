@@ -30,12 +30,13 @@ namespace SpecChecker.WebLib.Services
 
 		// 顺序必须和页面输出上的标题一致
 		internal static readonly string[] GroupNames =
-			(from x in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs
+			(from x in SpecChecker.CoreLibrary.Config.JobManager.Jobs
 			 select x.Name).ToArray();
 
 
 		private static readonly Dictionary<string, string> s_propertyDict = new Dictionary<string, string>(){
-			{"安全规范", "Security"},
+            {"编译结果", "BuildIsOK"},
+            { "安全规范", "Security"},
 			{"高性能规范", "Performance"},
 			{"稳定性规范", "Stability"},
 			{"数据库规范", "Database"},
@@ -94,7 +95,10 @@ namespace SpecChecker.WebLib.Services
 				else if( kind == "单测代码覆盖率" ) {
 					CreateCodeCoverRow(row);
 				}
-				else {
+                else if( kind == "编译结果" ) {
+                    CreateBuildRow(row);
+                }
+                else {
 					for( int j = 0; j < GroupNames.Length; j++ ) 
 						row.Cells[j] = CreateCell(kind, GroupNames[j]);
 				}
@@ -122,31 +126,6 @@ namespace SpecChecker.WebLib.Services
 
 			return new QaReportDataCell(todayValue, lastdayValue);
 		}
-
-
-		//private QaReportDataCell CreateTotalCell(string groupName)
-		//{
-		//	GroupDailySummary2 todaySummary = this.TodaySummary.Find(x => x.GroupName == groupName);
-		//    int todayValue = 0;
-		//          if (todaySummary?.Data != null)
-		//    {
-		//        todayValue =
-		//            todaySummary.Data.RuntimeScan + todaySummary.Data.DatabaseScan
-		//            + todaySummary.Data.JsCodeScan + todaySummary.Data.CsCodeScan
-		//            + todaySummary.Data.ProjectScan + todaySummary.Data.VsRuleScan;
-		//    }
-
-		//    GroupDailySummary2 lastdaySummary = this.LastdaySummary.Find(x => x.GroupName == groupName);
-		//    int lastdayValue = 0;
-		//    if (lastdaySummary?.Data != null)
-		//    {
-		//        lastdayValue =
-		//            lastdaySummary.Data.RuntimeScan + lastdaySummary.Data.DatabaseScan
-		//            + lastdaySummary.Data.JsCodeScan + lastdaySummary.Data.CsCodeScan
-		//            + lastdaySummary.Data.ProjectScan + lastdaySummary.Data.VsRuleScan;
-		//    }
-		//    return new QaReportDataCell(todayValue, lastdayValue);
-		//}
 
 
 		private QaReportDataCell CreateTotalCell(string groupName)
@@ -256,5 +235,32 @@ namespace SpecChecker.WebLib.Services
 			}
 		}
 
-	}
+
+        private void CreateBuildRow(QaReportDataRow row)
+        {
+            // 增加单元测试结果行
+            for( int j = 0; j < GroupNames.Length; j++ ) {
+                // 取各小组的扫描数据
+                GroupDailySummary2 summary = this.TodaySummary.FirstOrDefault(x => x.GroupName == GroupNames[j]);
+
+                if( summary != null ) {
+                    // 早期没有数据，或者没有启用编译任务
+                    if( summary.Data.BuildIsOK.HasValue == false)
+                        row.Cells[j] = new QaReportDataCell("--", "#999");
+
+                    else if( summary.Data.BuildIsOK.Value )
+                        row.Cells[j] = new QaReportDataCell("PASS", "green");
+
+                    // 编译失败
+                    else
+                        row.Cells[j] = new QaReportDataCell("ERROR", "red");
+                }
+                else {
+                    // 未知场景，也按没有采集数据来处理
+                    row.Cells[j] = new QaReportDataCell("--", "#999");
+                }
+            }
+        }
+
+    }
 }

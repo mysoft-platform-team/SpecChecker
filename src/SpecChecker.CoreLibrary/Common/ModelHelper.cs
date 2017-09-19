@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Log.Model;
 using SpecChecker.CoreLibrary.Config;
+using SpecChecker.CoreLibrary.Models;
 
 namespace SpecChecker.CoreLibrary.Common
 {
@@ -61,5 +62,20 @@ namespace SpecChecker.CoreLibrary.Common
 										 where subSystem.FirstOrDefault(x => x == b.SubSystem) != null
 										 select b.Name).ToArray();
 		}
-	}
+
+
+        public static List<T> ExecExcludeIgnoreRules<T>(this List<T> list, BranchSettings branch) where T : BaseScanResult
+        {
+            if( string.IsNullOrEmpty(branch.IgnoreRules) == false ) {
+                // 存在排除规则
+                string[] rules = branch.IgnoreRules.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                return (from x in list
+                        where rules.FirstOrDefault(r => r == x.RuleCode) == null
+                        select x
+                            ).ToList();
+            }
+
+            return list;
+        }
+    }
 }

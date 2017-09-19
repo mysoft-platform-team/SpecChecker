@@ -1,22 +1,14 @@
-﻿1、copy \bak\*.config  =>  \src\SpecChecker.ConsoleApp\bin
-   copy \bak\Task-TEST.xml  =>  \src\SpecChecker.ConsoleApp\bin
+﻿
+1、打开  \src\SpecChecker.WebApplication1\App_Data\Config 目录
+   根据实际项目情况调整 Task-*.xml 文件内容，建议把文件名也修改下。
+   
 
-
-2、调整 \src\SpecChecker.ConsoleApp\bin\SpecChecker.Branchs.config
-   建议：只保留第一个分支，<Id>1</Id>的这个，然后调整相关参数。
-
-
-3、调整 \src\SpecChecker.ConsoleApp\bin\Task-TEST.xml
-   注意：此文件与SpecChecker.Branchs.config文件中，所有涉及 Id, name 的地方要匹配，
-         且文件要改名（与name属性一致）
-
-
-4、调整配置文件：\src\SpecChecker.ConsoleApp\bin\SpecChecker.ConsoleApp.exe.config
+2、调整配置文件：\src\SpecChecker.ConsoleApp\bin\SpecChecker.ConsoleApp.exe.config
    确保各个路径都是存在的。
 
 
-5、将 \src\SpecChecker.WebApplication1 部署成网站
-   建议监听端口：55768
+3、将 \src\SpecChecker.WebApplication1 部署成网站
+   监听端口：55768
 
 
 

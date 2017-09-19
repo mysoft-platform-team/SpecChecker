@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SpecChecker.ScanLibrary.Tasks
+namespace SpecChecker.CoreLibrary.Config
 {
 	public class JobOption
 	{
@@ -13,12 +13,17 @@ namespace SpecChecker.ScanLibrary.Tasks
 
 		public string Name { get; set; }
 
-		public string[] CodePath { get; set; }
+        public BranchSettings Branch { get; set; }
+
+        public string[] CodePath { get; set; }
 
 		public string[] SlnFiles { get; set; }
 
 		[XmlArrayItem("Action")]
 		public List<TaskAction> Actions { get; set; }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public string TaskFileName { get; internal set; }
 	}
 
 	public sealed class TaskAction

@@ -76,13 +76,13 @@ namespace SpecChecker.WebLib.Common
 		}
 
 
-		public static bool CanLinkToDailyReportPage(this BranchSettings branch, string day)
+		public static bool CanLinkToDailyReportPage(this JobOption job, string day)
 		{
 			DateTime date;
 			if( DateTime.TryParse(day, out date) == false )
 				return false;
 
-			string filename = ScanResultCache.GetTotalResultFilePath(branch.Id, date);
+			string filename = ScanResultCache.GetTotalResultFilePath(job.Id, date);
 			return File.Exists(filename);
 		}
 

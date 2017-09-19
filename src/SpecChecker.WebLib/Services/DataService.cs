@@ -35,7 +35,7 @@ namespace SpecChecker.WebLib.Services
 			// 保存有效的日期值（有数据文件）
 			List<string> dayList = new List<string>();
 
-			HighchartsDataSeries[] series = (from b in BranchManager.ConfingInstance.Branchs
+			HighchartsDataSeries[] series = (from b in JobManager.Jobs
 											 let h = new HighchartsDataSeries {
 												 Name = b.Name,
 												 Data = new List<int>()

@@ -28,10 +28,15 @@ namespace SpecChecker.WebLib.ViewModel
 	/// </summary>
 	public sealed class TotalSummary2
 	{
-		/// <summary>
-		/// 安全规范
-		/// </summary>
-		public int Security { get; set; }
+        /// <summary>
+        /// 项目编译是否通过
+        /// </summary>
+        public bool? BuildIsOK { get; set; }
+
+        /// <summary>
+        /// 安全规范
+        /// </summary>
+        public int Security { get; set; }
 		/// <summary>
 		/// 高性能规范
 		/// </summary>
