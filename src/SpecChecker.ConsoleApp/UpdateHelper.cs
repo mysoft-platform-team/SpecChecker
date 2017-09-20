@@ -21,7 +21,10 @@ namespace SpecChecker.ConsoleApp
     internal static class UpdateHelper
     {
         private static readonly string s_deleteFlagFile 
-                                        = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_temppath.txt");
+                                        = Path.Combine(Path.GetTempPath(), "specchecker_temppath.txt");
+
+        private static readonly string s_lastArgsFile
+                                        = Path.Combine(Path.GetTempPath(), "specchecker_lastArgs.txt");
 
 
         public static void CheckUpdate()
@@ -44,12 +47,24 @@ namespace SpecChecker.ConsoleApp
             Directory.CreateDirectory(tempPath);
             ZipHelper.ExtractFiles(zipFile, tempPath);
 
-            // 记录要删除的临时文件
+            //记录要删除的临时文件
             string deleteMessage = zipFile + "\r\n" + tempPath;
             File.WriteAllText(s_deleteFlagFile, deleteMessage, Encoding.UTF8);
 
+            // 记录当前程序的启动命令行参数
+            string[] args = Environment.GetCommandLineArgs();
+            if( args.Length > 1 ) {
+                StringBuilder sb = new StringBuilder();
+                for(int i=1;i<args.Length;i++ ) 
+                    sb.Append(" \"").Append(args[i]).Append("\"");
 
-            // 启动临时目录下的程序完成更新文件的动作
+                // 将命令行参数写到临时文件
+                File.WriteAllText(s_lastArgsFile, sb.ToString(), Encoding.UTF8);
+            }
+
+
+
+            // 启动临时目录下的程序 执行更新文件的动作
             Process exe = new Process();
             exe.StartInfo.FileName = Path.Combine(tempPath, "SpecChecker.ConsoleApp.exe");
             exe.StartInfo.Arguments = string.Format(" \"/copy:{0}\"", AppDomain.CurrentDomain.BaseDirectory);
@@ -60,6 +75,40 @@ namespace SpecChecker.ConsoleApp
             // 退出当前程序
             throw new AutoUpdateExitException();
         }
+
+
+        public static void CopyFileAndRestart(string destPath)
+        {
+            string args = null;
+            if( File.Exists(s_lastArgsFile) ) {
+                args = File.ReadAllText(s_lastArgsFile, Encoding.UTF8);
+            }
+
+
+            // 等待原进程退出
+            System.Threading.Thread.Sleep(3000);
+
+            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.*");
+
+            foreach( string src in files ) {
+                string dest = Path.Combine(destPath, Path.GetFileName(src));
+                File.Copy(src, dest, true);
+            }
+
+
+            // 重新启动程序（更新后的版本）
+            Process exe = new Process();
+            exe.StartInfo.FileName = Path.Combine(destPath, "SpecChecker.ConsoleApp.exe");
+            if( args != null ) {
+                exe.StartInfo.Arguments = args;
+
+                // 删除上次留下来的临时文件
+                File.Delete(s_lastArgsFile);
+            }
+            exe.StartInfo.WorkingDirectory = destPath;
+            exe.Start();
+        }
+
 
 
         private static string GetServerAppVersion()
@@ -81,28 +130,6 @@ namespace SpecChecker.ConsoleApp
             };
             return option.GetResult<byte[]>();
         }
-
-
-        public static void CopyFileAndRestart(string destPath)
-        {
-            // 等待原进程退出
-            System.Threading.Thread.Sleep(3000);
-
-            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.*");
-
-            foreach(string src in files ) {
-                string dest = Path.Combine(destPath, Path.GetFileName(src));
-                File.Copy(src, dest, true);
-            }
-
-
-            // 重新启动程序
-            Process exe = new Process();
-            exe.StartInfo.FileName = Path.Combine(destPath, "SpecChecker.ConsoleApp.exe");
-            exe.StartInfo.WorkingDirectory = destPath;
-            exe.Start();
-        }
-
 
         /// <summary>
         /// 尝试删除上一次自动更新遗留的临时文件

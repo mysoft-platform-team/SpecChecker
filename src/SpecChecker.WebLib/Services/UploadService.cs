@@ -88,8 +88,8 @@ namespace SpecChecker.WebLib.Services
 			// 释放压缩包中的日志文件，如果存在就覆盖
 			ZipHelper.ExtractFiles(zipPath, savepath);
 
-			System.Threading.Thread.Sleep(2000);
-			return "OK";
+			//System.Threading.Thread.Sleep(2000);
+			return "200";
 		}
 
 	}

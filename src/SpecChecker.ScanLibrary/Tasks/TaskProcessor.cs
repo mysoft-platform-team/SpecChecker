@@ -55,7 +55,8 @@ namespace SpecChecker.ScanLibrary.Tasks
             catch { // 这二个信息取不到就算了
             }
 
-            context.ConsoleWrite("\r\n任务配置文件：");
+            context.ConsoleWrite("扫描工具版本：" + JobManager.AppVersion);
+            context.ConsoleWrite("任务配置文件：");
             context.ConsoleWrite(ConfigHelper.GetFile(context.JobOption.TaskFileName));
             context.ConsoleWrite("\r\n");
         }

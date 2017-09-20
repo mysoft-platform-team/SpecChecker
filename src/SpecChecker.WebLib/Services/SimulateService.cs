@@ -31,7 +31,7 @@ namespace SpecChecker.WebLib.Services
 				this.WriteCookie(cookie);
 			}
 
-			return "OK";
+			return "200";
 		}
 	}
 }

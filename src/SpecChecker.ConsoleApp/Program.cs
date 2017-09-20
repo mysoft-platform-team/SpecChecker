@@ -24,24 +24,22 @@ namespace SpecChecker.ConsoleApp
 
         static void Main(string[] args)
         {
+            //Console.WriteLine("当前版本：" + JobManager.AppVersion);
             //Console.WriteLine("正在等待附加进程，，，，，，");
             //Console.ReadLine();
-            
-            // 放在计划任务中执行时，当前目录是 Windows 目录，这个很坑爹！，所以这里要切到程序所在目录。
-            s_exeWorkingDirectory = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-            Environment.CurrentDirectory = s_exeWorkingDirectory;
 
+            // 放在计划任务中执行时，默认的当前目录是 Windows 目录，这个很坑爹！，所以这里要切到程序所在目录。
+            s_exeWorkingDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            Environment.CurrentDirectory = s_exeWorkingDirectory;
 
             if( RunOnce.CheckApplicationIsRunning() )
                 return;
 
-            // 尝试删除上一次自动更新遗留的临时文件
-            UpdateHelper.DeleteTempDirectory();
-
-
             if( ProcessCommandLineArgs(args) == false )
                 return;
-                        
+
+            // 尝试删除上一次自动更新遗留的临时文件
+            UpdateHelper.DeleteTempDirectory();
 
             if( ClientInit() == false )
                 return;

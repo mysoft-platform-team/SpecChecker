@@ -82,7 +82,7 @@ namespace SpecChecker.WebLib.Services
 			DeleteTxtFiles("*.txt");
 			DeleteZipFiles();
 
-			return "OK";
+			return "200";
 		}
 
 
