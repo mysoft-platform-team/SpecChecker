@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "/Views/Mobile/Shared/_Layout.cshtml";
     var model = this.Model as DailyReportIndexViewModel;
-    var colspan = SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs.Count() + 1;
+    var colspan = SpecChecker.CoreLibrary.Config.JobManager.Jobs.Length + 1;
 }
 @section head{
     @this.RenderCss("/static/css/Mobile/DailyReportIndex.css")
@@ -27,7 +27,7 @@
     <table id="qaReport" border="1">
         <tr class="header">
             <td style="width: 90px">扫描类别</td>
-            @foreach (var b in SpecChecker.CoreLibrary.Config.BranchManager.ConfingInstance.Branchs) {
+            @foreach ( var b in SpecChecker.CoreLibrary.Config.JobManager.Jobs ) {
                 if (b.CanLinkToDailyReportPage(model.Today)) {
                     <td style="width: 70px"><a href="@string.Format("/DailyReport/{0}/{1}.phtml", @b.Id, model.Today)" target="_blank">@b.Name</a></td>
                 }

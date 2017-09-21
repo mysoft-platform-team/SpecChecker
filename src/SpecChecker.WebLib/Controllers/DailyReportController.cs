@@ -71,19 +71,19 @@ namespace SpecChecker.WebLib.Controllers
 		/// <param name="today"></param>
 		private DateTime? GetResultfulDay(DateTime today)
 		{
-			// 默认以第一个分支来做判断
-			int firstBranchId = JobManager.Jobs[0].Id;
+			// 因为有时候数据不是连续的，所以如果当天数据不存在，就往前找，最后尝试30次
+			for( int i = 0; i < 30; i++ ) {
+                foreach(var b in JobManager.Jobs ) {
+                    string datafile = ScanResultCache.GetTotalResultFilePath(b.Id, today);
 
-			// 因为有时候数据不是连续的，所以如果当天数据不存在，就往前找，最后尝试100次
-			for( int i = 0; i < 100; i++ ) {
-				string datafile = ScanResultCache.GetTotalResultFilePath(firstBranchId, today);
+                    if( File.Exists(datafile) ) {
+                        // 只要找到数据就跳出，否则日期减一，继续往前找
+                        return today;
+                    }
+                }
 
-				if( File.Exists(datafile) ) {
-					// 只要找到数据就跳出，否则日期减一，继续往前找
-					return today;
-				}
-				else
-					today = today.AddDays(-1);
+                // 如果所有分支都没有数据，就把日期减1，继续往前找
+				today = today.AddDays(-1);
 			}
 
 			return null;
