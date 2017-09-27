@@ -102,6 +102,8 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			return list;
 		}
 
+
+
 		private void CheckExcludeRule(string srcPath)
 		{
 			List<ExcludeInfo> excludeRules = LoadExcludeSettings(srcPath);
@@ -112,7 +114,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			foreach( CodeCheckResult result in _list ) {
 				if( result.Reason == null  )		// 忽略已经排除的扫描结果
 					continue;
-
 
 				foreach(ExcludeInfo exclude in excludeRules ) {
 					if( result.Reason.StartsWith(exclude.SpecCode)
@@ -125,9 +126,17 @@ namespace SpecChecker.ScanLibrary.CodeScan
 				}
 			}
 		}
-        
 
-		public List<CodeCheckResult> Execute(BranchSettings branch, string srcPath)
+
+        /// <summary>
+        /// 代码行中的排除标记，
+        /// 可匹配的字符串示例： /*SpecCheckerIgnore:排排除原因排除原因除原因*/
+        /// 注意：这里要求排除原因的字数必须包含 10 个文字。
+        /// </summary>
+        private static readonly Regex s_excludeFlag = new Regex(@"/\*SpecCheckerIgnore:\w{10,}\*/", RegexOptions.Compiled);
+
+
+        public List<CodeCheckResult> Execute(BranchSettings branch, string srcPath)
 		{
 			// 扫描所有文件
 			ScanAllFiles(srcPath);
@@ -144,10 +153,10 @@ namespace SpecChecker.ScanLibrary.CodeScan
 			CheckExcludeRule(srcPath);
 
 			// 过滤有效的结果
-			_list = (from x in _list
-					 where x.Reason != null
-					 //orderby x.BusinessUnit
-					 select x).ToList();
+			_list = (from x in _list                        
+                     where x.Reason != null  // Reason = null ，表示需要排除的结果
+                            && s_excludeFlag.IsMatch(x.LineText) == false  // 允许代码行中包含排除标记
+                     select x).ToList();
 
 
             // 排除指定要忽略的规则

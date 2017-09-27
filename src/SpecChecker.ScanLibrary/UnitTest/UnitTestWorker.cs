@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -44,15 +45,22 @@ namespace SpecChecker.ScanLibrary.UnitTest
 
         public void Execute()
         {
-            _thread = new Thread(this.ThreadProc);
-            _thread.IsBackground = true;
-            _thread.Start();
+            string configValue = ConfigurationManager.AppSettings["UnitTestMulitThread"] ?? "1";
+            if( configValue == "1" ) {
+                _thread = new Thread(this.ThreadProc);
+                _thread.IsBackground = true;
+                _thread.Start();
+            }
+            else {
+                this.ThreadProc();
+            }
         }
 
 
         public void Wait()
         {
-            _thread.Join();
+            if( _thread  != null )
+                _thread.Join();
         }
 
 
