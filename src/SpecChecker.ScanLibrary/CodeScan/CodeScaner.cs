@@ -131,9 +131,8 @@ namespace SpecChecker.ScanLibrary.CodeScan
         /// <summary>
         /// 代码行中的排除标记，
         /// 可匹配的字符串示例： /*SpecCheckerIgnore:排排除原因排除原因除原因*/
-        /// 注意：这里要求排除原因的字数必须包含 10 个文字。
         /// </summary>
-        private static readonly Regex s_excludeFlag = new Regex(@"/\*SpecCheckerIgnore:\w{10,}\*/", RegexOptions.Compiled);
+        private static readonly Regex s_excludeFlag = new Regex(@"/\*SpecCheckerIgnore:(?<comment>[\s\S]+)\*/", RegexOptions.Compiled);
 
 
         public List<CodeCheckResult> Execute(BranchSettings branch, string srcPath)
