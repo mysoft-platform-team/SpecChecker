@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.17.927.1015")]
+[assembly: AssemblyFileVersion("1.17.929.1133")]
