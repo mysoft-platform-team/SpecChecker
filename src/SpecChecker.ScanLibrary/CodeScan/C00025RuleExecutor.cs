@@ -112,7 +112,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
 					LineNo = commentStartLine + 1,
 					FileName = _filePath
-					//BusinessUnit = BusinessUnitManager.GetNameByFilePath(_filePath)
 				});
 
 				return;
@@ -139,7 +138,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 					// 默认 <summary> 独占一行，所以行号加 1， 如果遇到奇葩写法，行号可能不准确了！
 					LineNo = commentStartLine + 1,
 					FileName = _filePath
-					//BusinessUnit = BusinessUnitManager.GetNameByFilePath(_filePath)
 				});
 
 			}

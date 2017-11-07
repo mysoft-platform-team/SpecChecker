@@ -256,7 +256,6 @@
     <Content Include="Views\PC\CodeScan\TotalReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\config\SpecChecker.BusinessUnitConfig.config" />
     <None Include="App_Data\config\SpecChecker.CodeRule.config" />
     <None Include="App_Data\config\SpecChecker.IssueCategory.config" />
   </ItemGroup>

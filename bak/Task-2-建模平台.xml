@@ -4,10 +4,12 @@
   <Name>建模平台</Name>
   <Branch>
       <DbLocation>Server=10.5.10.76\sql2008r2;Database=dotnet_ERP400_dev_refactor;User ID=team_cp;Password=95938;</DbLocation>
-      <MongoLocation1>mongodb://admin:1EF9D3F9C68F4FE6B63DA135EA76F390@10.5.106.100/Test_OnlyUse?connectTimeout=5s;socketTimeout=5s</MongoLocation1>
-      <ExceptionAlertEmail>ligf@mysoft.com.cn;wenxz@mysoft.com.cn</ExceptionAlertEmail>
+      <MongoLocation>
+			server=10.5.106.100;uid=sa;pwd=95938;database=ModelingTest_8012_Log
+			server=10.5.106.100;uid=sa;pwd=95938;database=ModelingTest_8022_Log
+			server=10.5.106.100;uid=sa;pwd=95938;database=Modeling_EmptyDB_Log
+	  </MongoLocation>
       <IgnoreRules>SPEC:C00005;SPEC:C00015;SPEC:C00019;SPEC:RM0018;SPEC:C00029</IgnoreRules>
-      <SubSystems>Platform</SubSystems>
     </Branch>
   <CodePath>
     <string>%MAP%\02建模平台</string>

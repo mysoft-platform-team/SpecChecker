@@ -124,11 +124,6 @@ namespace SpecChecker.CoreLibrary
 
 
 		/// <summary>
-		/// 分类汇总结果
-		/// </summary>
-		public List<SubTotalResult> Summary { get; set; }
-
-		/// <summary>
 		/// 注释类的扫描结果数量，从CsCodeCheckResults中将SPEC:C00025;SPEC:C00028;的结果分离出来，
 		/// 注意：扫描工具不填充这个属性，在网站接收扫描结果时计算结果并赋值
 		/// </summary>

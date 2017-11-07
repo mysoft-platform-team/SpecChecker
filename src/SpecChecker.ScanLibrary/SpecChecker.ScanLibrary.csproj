@@ -119,6 +119,7 @@
     <Compile Include="CodeScan\RuleChecker.cs" />
     <Compile Include="DbScan\DatabaseScaner.cs" />
     <Compile Include="ErpLog\ExceptionLogScaner.cs" />
+    <Compile Include="ErpLog\LogConvert.cs" />
     <Compile Include="ErpLog\PerformanceLogScaner.cs" />
     <Compile Include="Tasks\FileHelper.cs" />
     <Compile Include="MethodScan\MethodScaner.cs" />

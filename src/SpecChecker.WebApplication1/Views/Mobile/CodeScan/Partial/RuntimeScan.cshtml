@@ -13,7 +13,6 @@
     divclass = (index % 2) == 0 ? "data0" : "data1";
     <div class="@divclass">
         <p># @(index++.ToString())</p>
-        @*<p>业务单元：@m.BusinessUnit</p>*@
         <p>不规范原因：@Html.Raw(m.Message.Replace(";", "<br />"))</p>
         <p>类型及定义信息：<br />@m.TypeName<br />@m.DllFileName<br />@m.Remark</p>
     </div>

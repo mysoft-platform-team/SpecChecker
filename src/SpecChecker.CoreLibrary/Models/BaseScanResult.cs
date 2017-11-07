@@ -9,11 +9,6 @@ namespace SpecChecker.CoreLibrary.Models
 	[Serializable]
 	public abstract class BaseScanResult
 	{
-		/// <summary>
-		/// 业务单元
-		/// </summary>
-		//public string BusinessUnit { get; set; }
-
 
 		/// <summary>
 		/// 规范编号

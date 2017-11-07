@@ -114,9 +114,6 @@ namespace SpecChecker.ScanLibrary.VsRuleScan
 
 			foreach( var result in list ) {
 				result.RuleCode = result.GetRuleCode();
-
-				//if( result.File.IndexOf('\\') > 0 )
-				//	result.BusinessUnit = BusinessUnitManager.GetNameByFilePath(result.File);
 			}
 
 			// 排除这条规则，因为它基本上是误报！

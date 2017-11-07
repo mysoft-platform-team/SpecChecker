@@ -5,9 +5,7 @@
   <Branch>
       <DbLocation />
       <MongoLocation />
-      <ExceptionAlertEmail>wangsy@mysoft.com.cn</ExceptionAlertEmail>
       <IgnoreRules>SPEC:C00005;SPEC:C00021</IgnoreRules>
-	  <SubSystems>MIP</SubSystems>
     </Branch>
   <CodePath>
     <string>%MIP%</string>

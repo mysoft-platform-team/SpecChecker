@@ -21,24 +21,6 @@
         </table>
     </fieldset>
 </div>
-
-
-<div class="summary">
-    <table border="1">
-        <tr class="header">
-            <td style="width: 200px;">扫描类别</td>
-            <td style="width: 200px;">业务单元</td>
-            <td style="width: 100px;">合计数量</td>
-        </tr>
-        @foreach( var item in @model.SubTotalResults ) {
-            <tr>
-                <td>@item.ScanKind</td>
-                <td>@item.BusinessUnit</td>
-                <td>@item.Count.ToString()</td>
-            </tr>
-        }
-    </table>
-</div>
 }
 else {
     <h3><b>执行消息</b></h3>

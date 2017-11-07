@@ -7,18 +7,15 @@
 <table border="1">
     <tr class="header">
         <td style="width: 30px">#</td>
-        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("BusinessUnit")" title="按业务单元排序">业务单元</a></td>
-        <td style="width: 70px"><a class="sort" href="@model.GetSortLink("Time")" title="按发生时间排序">发生时间</a></td>
+        <td style="width: 80px"><a class="sort" href="@model.GetSortLink("Time")" title="按发生时间排序">发生时间</a></td>
         <td style="width: 35px"><a class="sort" href="@model.GetSortLink("PerformanceType")" title="按分类排序">分类</a></td>
         <td style="width: auto">异常描述
             /<a class="sort" href="@model.GetSortLink("ExecuteTime")" title="按执行时间排序">执行时间</a>
-            /<a class="sort" href="@model.GetSortLink("ExecuteTime2")" title="先按业务单元排序，再按执行时间排序">业务单元and执行时间</a>
         </td>
     </tr>
     @foreach( var m in model.List ) {
         <tr>
             <td>@(index++.ToString())</td>
-            <td class="nowrap">@m.BusinessInfo.Key1</td>
             <td>@m.Time.ToTimeString()</td>
             <td>@m.PerformanceType</td>
             <td>

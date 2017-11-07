@@ -31,15 +31,11 @@ namespace SpecChecker.CoreLibrary.Config
         /// </summary>
         public string DbLocation { get; set; }
 
-        /// <summary>
-        /// MongoDB连接字符串，用于提取日志
-        /// </summary>
-        public string MongoLocation { get; set; }
-
-        /// <summary>
-        /// 如果操作过程出现异常，用于接收通知的邮箱地址
-        /// </summary>
-        public string ExceptionAlertEmail { get; set; }
+		/// <summary>
+		/// MongoDB连接字符串，用于提取日志，
+		/// 也允许是一个SQLSERVER连接字符串，用于提取日志
+		/// </summary>
+		public string MongoLocation { get; set; }
 
 
         /// <summary>
@@ -51,11 +47,6 @@ namespace SpecChecker.CoreLibrary.Config
 		/// 要忽略的数据库对象
 		/// </summary>
 		public string IgnoreDbObjects { get; set; }
-
-        /// <summary>
-        /// 包含的子系统名称（引用SpecChecker.BusinessUnitConfig.config中的SubSystem）
-        /// </summary>
-        public string SubSystems { get; set; }
 
 
     }

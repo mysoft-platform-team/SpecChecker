@@ -45,7 +45,6 @@ namespace SpecChecker.ScanLibrary.CodeScan
 						LineText = (line2.Length > 120 ? line2.Substring(0, 117) + "..." : line2),
 						LineNo = index,
 						FileName = filePath
-						//BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
 					};
 
 

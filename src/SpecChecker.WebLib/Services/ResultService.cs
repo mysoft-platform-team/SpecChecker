@@ -221,10 +221,7 @@ namespace SpecChecker.WebLib.Services
 
 			List<ExceptionInfo> list = _totalResult.ExceptionInfos;
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessInfo.Key1 select x).ToList();
-
-			else if( _sortField == "Time" )
+			if( _sortField == "Time" )
 				list = (from x in list orderby x.Time descending select x).ToList();
 
 			else if( _sortField == "ExceptionType" )
@@ -247,10 +244,7 @@ namespace SpecChecker.WebLib.Services
 
 			List<PerformanceInfo> list = _totalResult.PerformanceInfos;
 
-			if( _sortField == "BusinessUnit" )
-				list = (from x in list orderby x.BusinessInfo.Key1 select x).ToList();
-
-			else if( _sortField == "Time" )
+			if( _sortField == "Time" )
 				list = (from x in list orderby x.Time descending select x).ToList();
 
 			else if( _sortField == "PerformanceType" )
@@ -259,8 +253,6 @@ namespace SpecChecker.WebLib.Services
 			else if( _sortField == "ExecuteTime" )
 				list = (from x in list orderby x.ExecuteTime descending select x).ToList();
 
-			else if( _sortField == "ExecuteTime2" )
-				list = (from x in list orderby x.BusinessInfo.Key1, x.ExecuteTime descending select x).ToList();
 
 			PerformanceIndexViewModel model = new PerformanceIndexViewModel(list, _pageIndex);
 			model.Today = _totalResult.Today;

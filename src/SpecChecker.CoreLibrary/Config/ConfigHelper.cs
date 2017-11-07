@@ -51,7 +51,6 @@ namespace SpecChecker.CoreLibrary.Config
             // 下载其它的配置文件
             DownloadFile("SpecChecker.CodeRule.config");
             DownloadFile("SpecChecker.IssueCategory.config");
-            DownloadFile("SpecChecker.BusinessUnitConfig.config");
         }
 
         private static void GetAppSettings()

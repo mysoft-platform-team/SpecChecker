@@ -41,7 +41,6 @@ namespace SpecChecker.ScanLibrary.MethodScan
 					LineNo = mc.Method.LineNo,
 					LineText = mc.Method.MethodName,
 					Reason = mc.Reason
-					//BusinessUnit = BusinessUnitManager.GetNameByFilePath(mc.FilePath)
 				});
 			}
 

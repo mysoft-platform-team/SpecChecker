@@ -116,7 +116,6 @@ namespace SpecChecker.WebLib.Controllers
             catch( FileNotFoundException ) {
                 return new TextResult("找不到匹配的数据文件。");
             }
-			model.SubTotalResults = totalResult.Summary;
 			model.ComplieMessage = totalResult.CompilerError;
 			model.TotalResult = totalResult;
 

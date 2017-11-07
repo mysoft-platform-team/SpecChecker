@@ -13,7 +13,6 @@
     divclass = (index % 2) == 0 ? "data0" : "data1";
     <div class="@divclass">
         <p># @(index++.ToString())</p>
-        @*<p>业务单元：@m.BusinessInfo.Key1</p>*@
         <p>发生时间：@m.Time.ToTimeString()</p>
         <p>性能分类：@m.PerformanceType</p>
         <p>

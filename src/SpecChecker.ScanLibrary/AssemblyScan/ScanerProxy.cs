@@ -185,8 +185,6 @@ namespace SpecChecker.ScanLibrary.AssemblyScan
 				if( info.DllFileName == null )
 					info.DllFileName = info.Type.Assembly.ManifestModule.Name;
 
-                //info.BusinessUnit = BusinessUnitManager.GetNameByClass(info.Type.ToString().Split(',')[0]);
-
 				info.RuleCode = info.GetRuleCode();
                 info.TypeName = info.Type.FullName;
 				info.Type = null;	// 这个类型不能带到外面的AppDomain

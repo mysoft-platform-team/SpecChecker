@@ -79,9 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\BranchSettings.cs" />
-    <Compile Include="Config\IBusinessUnitResolver.cs" />
     <Compile Include="Config\JobOption.cs" />
-    <Compile Include="Config\MysoftErpBusinessUnitResolver.cs" />
     <Compile Include="Config\JobManager.cs" />
     <Compile Include="Models\BaseScanResult.cs" />
     <Compile Include="Common\CommandLineHelper.cs" />
@@ -91,8 +89,6 @@
     <Compile Include="Common\TextLineSerializer.cs" />
     <Compile Include="Common\ZipHelper.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
-    <Compile Include="Config\BusinessUnitConfig.cs" />
-    <Compile Include="Config\BusinessUnitManager.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Common\PathHelper.cs" />
     <Compile Include="Models\AssemblyScanResult.cs" />
@@ -107,7 +103,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SlnFileHelper.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="SubTotalResult.cs" />
     <Compile Include="TotalResult.cs" />
   </ItemGroup>
   <ItemGroup />

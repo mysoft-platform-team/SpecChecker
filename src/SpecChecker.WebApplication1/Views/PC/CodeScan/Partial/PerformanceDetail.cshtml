@@ -1,15 +1,12 @@
 ﻿@{
     Layout = null;
     var model = this.Model as ClownFish.Log.Model.PerformanceInfo;
-
-    var xml = ClownFish.Base.Xml.XmlHelper.XmlSerialize(model, System.Text.Encoding.UTF8);
-    var xmlLink = HttpContext.Current.Request.RawUrl + "?xml=1";
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <title>查看性能日志</title>
     <style>
         *{
             font-size: 10pt;
@@ -19,15 +16,56 @@
         a{
             text-decoration: none;
         }
+        pre {
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+        table {
+            border-collapse: collapse;
+            border-color: #ccc;
+        }
+
+        td {
+            padding: 5px;
+            border-color: #ccc;
+        }
+
+        tr.header {
+            height: 35px;
+            background-color: azure;
+            font-weight: bold;
+            font-size: 14px;
+        }        
     </style>
 </head>
 <body>
-<pre>
-@xml.ToHtml()
-</pre>
 
-    <p style="padding: 20px 5px">
-        <a href="@xmlLink">以XML方式查看</a>
-    </p>
+<table border="1" style="width: 99%;">
+    <tr class="header"><td colspan="2">性能日志基本信息</td></tr>
+    <tr><td style="width: 90px;">数据行ID</td><td>@model.InfoGuid</td></tr>
+    <tr><td style="width: 90px;">发生时间</td><td>@model.Time.ToTimeString()</td></tr>
+    <tr><td style="width: 90px;">机器名称</td><td>@model.HostName</td></tr>
+    <tr><td style="width: 90px;">性能分类</td><td>@model.PerformanceType</td></tr>
+    <tr><td style="width: 90px;">异常消息</td><td>@model.Message</td></tr>
+    <tr><td style="width: 90px;">执行时间</td><td>@model.ExecuteTimeString</td></tr>
+
+    @if( model.HttpInfo != null ) {
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr class="header"><td colspan="2">HTTP请求信息</td></tr>
+        <tr><td>请求地址</td><td>@model.HttpInfo.Url</td></tr>
+        <tr><td>原始地址</td><td>@model.HttpInfo.RawUrl</td></tr>
+        <tr><td>浏览器</td><td>@model.HttpInfo.Browser</td></tr>
+        <tr class="header"><td colspan="2">请求头与正文</td></tr>
+        <tr><td colspan="2"><pre>@model.HttpInfo.RequestText</pre></td></tr>
+    }
+
+    @if( model.SqlInfo != null ) {
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr class="header"><td colspan="2">SQL脚本</td></tr>
+        <tr><td colspan="2"><pre>@model.SqlInfo.GetSqlScript()</pre></td></tr>
+    }
+</table>
+
+
 </body>
 </html>

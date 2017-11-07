@@ -56,7 +56,6 @@ namespace SpecChecker.ScanLibrary.ProjectScan
 							ProjectName = filePath.Substring(slnPath.Length + 1),
 							Configuration = configuration,
 							Reason = "SPEC:P00001; 请将项目的【输出路径】设置为【bin】"
-							//BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
 						});
 					}
 
@@ -66,7 +65,6 @@ namespace SpecChecker.ScanLibrary.ProjectScan
 							ProjectName = filePath.Substring(slnPath.Length + 1),
 							Configuration = configuration,
 							Reason = "SPEC:P00002; 请将【XML文档文件】设置为选中状态"
-							//BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
 						});
 					}
 
@@ -75,7 +73,6 @@ namespace SpecChecker.ScanLibrary.ProjectScan
 							ProjectName = filePath.Substring(slnPath.Length + 1),
 							Configuration = configuration,
 							Reason = "SPEC:P00003; 请将【警告视为错误】设置为【全部】"
-							//BusinessUnit = BusinessUnitManager.GetNameByFilePath(filePath)
 						});
 					}
 				}
