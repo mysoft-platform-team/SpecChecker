@@ -29,10 +29,14 @@ namespace SpecChecker.ScanLibrary.ErpLog
 
 		public static HttpInfo LoadHttpInfo(DataRow row)
 		{
-			HttpInfo httpInfo = new HttpInfo();
+            string url = row.GetString("Url");
+            if( string.IsNullOrEmpty(url) )
+                return null;
+
+            HttpInfo httpInfo = new HttpInfo();
 			httpInfo.UserName = row.GetString("UserName");
 			httpInfo.RequestText = row.GetString("RequestText");
-			httpInfo.Url = row.GetString("Url");
+			httpInfo.Url = url;
 			httpInfo.RawUrl = row.GetString("RawUrl");
 			httpInfo.Browser = row.GetString("Browser");
 			httpInfo.Session = row.GetString("Session");

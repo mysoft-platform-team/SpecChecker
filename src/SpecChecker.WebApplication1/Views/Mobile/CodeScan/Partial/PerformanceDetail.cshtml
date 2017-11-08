@@ -49,6 +49,12 @@
     <tr><td style="width: 90px;">异常消息</td><td>@model.Message</td></tr>
     <tr><td style="width: 90px;">执行时间</td><td>@model.ExecuteTimeString</td></tr>
 
+    @if( model.SqlInfo != null ) {
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr class="header"><td colspan="2">SQL脚本</td></tr>
+        <tr><td colspan="2"><pre>@model.SqlInfo.GetSqlScript()</pre></td></tr>
+    }
+
     @if( model.HttpInfo != null ) {
         <tr><td colspan="2">&nbsp;</td></tr>
         <tr class="header"><td colspan="2">HTTP请求信息</td></tr>
@@ -58,12 +64,7 @@
         <tr class="header"><td colspan="2">请求头与正文</td></tr>
         <tr><td colspan="2"><pre>@model.HttpInfo.RequestText</pre></td></tr>
     }
-
-    @if( model.SqlInfo != null ) {
-        <tr><td colspan="2">&nbsp;</td></tr>
-        <tr class="header"><td colspan="2">SQL脚本</td></tr>
-        <tr><td colspan="2"><pre>@model.SqlInfo.GetSqlScript()</pre></td></tr>
-    }
+    
 </table>
 
 

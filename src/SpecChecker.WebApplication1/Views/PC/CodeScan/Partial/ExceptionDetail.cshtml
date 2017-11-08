@@ -51,6 +51,12 @@
     <tr class="header"><td colspan="2">异常详细信息及调用堆栈</td></tr>
     <tr><td colspan="2"><pre>@model.Exception</pre></td></tr>
 
+    @if( model.SqlInfo != null ) {
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr class="header"><td colspan="2">SQL脚本</td></tr>
+        <tr><td colspan="2"><pre>@model.SqlInfo.GetSqlScript()</pre></td></tr>
+    }
+
     @if( model.HttpInfo != null ) {
         <tr><td colspan="2">&nbsp;</td></tr>
         <tr class="header"><td colspan="2">HTTP请求信息</td></tr>
@@ -61,11 +67,6 @@
         <tr><td colspan="2"><pre>@model.HttpInfo.RequestText</pre></td></tr>
     }
 
-    @if( model.SqlInfo != null ) {
-        <tr><td colspan="2">&nbsp;</td></tr>
-        <tr class="header"><td colspan="2">SQL脚本</td></tr>
-        <tr><td colspan="2"><pre>@model.SqlInfo.GetSqlScript()</pre></td></tr>
-    }
 </table>
 
 </body>

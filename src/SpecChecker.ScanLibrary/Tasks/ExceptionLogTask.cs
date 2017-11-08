@@ -22,12 +22,23 @@ namespace SpecChecker.ScanLibrary.Tasks
 			TotalResult totalResult = context.TotalResult;
 			try {
 				ExceptionLogScaner scaner = new ExceptionLogScaner();
+                bool isMongoDb = context.Branch.MongoLocation.StartsWith("mongodb", StringComparison.OrdinalIgnoreCase);
 
-				bool isMongoDb = context.Branch.MongoLocation.StartsWith("mongodb", StringComparison.OrdinalIgnoreCase);
-
-				List<ExceptionInfo> list = isMongoDb
-				? scaner.Execute(DateTime.Today, DateTime.Today.AddDays(1d), context.Branch.MongoLocation)
-				: scaner.Execute2(DateTime.Today, DateTime.Today.AddDays(1d), context.Branch.MongoLocation);
+                DateTime start, end;
+                if( DateTime.Now.Hour < 12 ) {
+                    // 有些产品组只在凌晨运行扫描工具，会导致当天的数据几乎是零，
+                    // 所以，这里的规则是：如果在 12点前运行工具，就取前一天的数据
+                    start = DateTime.Today.AddDays(-1);
+                    end = DateTime.Today;
+                }
+                else {
+                    start = DateTime.Today;
+                    end = DateTime.Today.AddDays(1d);
+                }
+                
+                List<ExceptionInfo> list = isMongoDb
+				                        ? scaner.Execute(start, end, context.Branch.MongoLocation)
+				                        : scaner.Execute2(start, end, context.Branch.MongoLocation);
 
 
 				totalResult.ExceptionInfos = list;
