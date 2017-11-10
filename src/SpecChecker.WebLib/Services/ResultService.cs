@@ -222,7 +222,7 @@ namespace SpecChecker.WebLib.Services
 			List<ExceptionInfo> list = _totalResult.ExceptionInfos;
 
 			if( _sortField == "Time" )
-				list = (from x in list orderby x.Time descending select x).ToList();
+				list = (from x in list orderby x.Time ascending select x).ToList();
 
 			else if( _sortField == "ExceptionType" )
 				list = (from x in list orderby x.ExceptionType select x).ToList();
@@ -245,10 +245,10 @@ namespace SpecChecker.WebLib.Services
 			List<PerformanceInfo> list = _totalResult.PerformanceInfos;
 
 			if( _sortField == "Time" )
-				list = (from x in list orderby x.Time descending select x).ToList();
+				list = (from x in list orderby x.Time ascending select x).ToList();
 
 			else if( _sortField == "PerformanceType" )
-				list = (from x in list orderby x.PerformanceType select x).ToList();
+				list = (from x in list orderby x.PerformanceType descending select x).ToList();
 
 			else if( _sortField == "ExecuteTime" )
 				list = (from x in list orderby x.ExecuteTime descending select x).ToList();
