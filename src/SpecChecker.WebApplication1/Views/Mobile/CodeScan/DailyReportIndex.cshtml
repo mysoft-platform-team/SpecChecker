@@ -18,10 +18,28 @@
                     .attr("src", "/TotalReport.phtml");
             });
         });
+
+        $("#todayHeader").click(function () {
+            $("#calendar1").toggle();
+        });
+        $("#txtDate").change(function () {
+            var url = "/Report/" + $("#txtDate").val() + ".phtml";
+            window.location.href = url;
+            //alert($("#txtDate").val());
+        });
+        $("#btnGoToday").click(function () {
+            window.location.href = "/Report.phtml";
+        });
+
     </script>
 }
 
-<h2>代码检查日报-- @model.Today</h2>
+<h2 id="todayHeader">代码检查日报-- @model.Today</h2>
+<div id="calendar1">
+    <input type="date" id="txtDate" name="date" value="@model.Today" />&nbsp;&nbsp;
+    <button id="btnGoToday">今天</button>
+</div>
+
 
 @if( model.QaReportTable != null ) {
     <table id="qaReport" border="1">

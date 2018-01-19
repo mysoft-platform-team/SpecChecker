@@ -44,3 +44,11 @@ a{
 #qaReport tr.header{
 	background-color: #d1eed0;
 }
+
+#calendar1{
+    padding-bottom: 10px;
+    display: none;
+}
+#txtDate, #calendar1 button{
+    height: 25px;
+}
