@@ -1,0 +1,17 @@
+﻿1，如何排除某行代码？
+A：/*SpecCheckerIgnore:排排除原因排除原因除原因*/ 
+   将上面这行注释放在代码行中即可。仅对 SPEC:C 开头的规则有效！
+
+   可参考实现代码：
+   https://github.com/fish-li/SpecChecker/blob/master/src/SpecChecker.ScanLibrary/CodeScan/CodeScaner.cs
+
+
+2，如何为整个项目排除某个规则
+A：可以作业配置文件中指定，例如：<IgnoreRules>SPEC:C00034</IgnoreRules>
+
+3，如何排除某个目录
+A：在源代码根目录，创建一个 SpecChecker-CodeScan-Exclude-Settings.txt，
+   每行一个需要排除的目录，相对路径。
+
+   可参考实现代码：
+   https://github.com/fish-li/SpecChecker/blob/master/src/SpecChecker.ScanLibrary/Tasks/CodeScanTask.cs
