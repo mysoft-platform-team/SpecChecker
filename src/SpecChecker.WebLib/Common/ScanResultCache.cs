@@ -50,7 +50,7 @@ namespace SpecChecker.WebLib.Common
 			//TotalResult result = XmlHelper.XmlDeserializeFromFile<TotalResult>(filename);
 			//string json = File.ReadAllText(filename, Encoding.UTF8);
 
-			string json = ZipHelper.ReadTextFromZipFile(filename);
+			string json = SpecChecker.CoreLibrary.Common.ZipHelper.ReadTextFromZipFile(filename);
 			var data = json.FromJson<TotalResult>();
 
 			if( data.GetVersinNumber() < 3d )

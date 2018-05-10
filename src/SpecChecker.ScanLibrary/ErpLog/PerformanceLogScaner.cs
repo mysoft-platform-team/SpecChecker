@@ -15,16 +15,18 @@ namespace SpecChecker.ScanLibrary.ErpLog
 	{
 		public List<PerformanceInfo> Execute(DateTime start, DateTime end, string connectionString)
 		{
-			MongoDbWriter mongo = new MongoDbWriter();
-			mongo.SetConnectionString(connectionString);
+            throw new NotSupportedException();
 
-			List<PerformanceInfo> list = mongo.GetList<PerformanceInfo>(x => x.Time >= start && x.Time < end);
+			//MongoDbWriter mongo = new MongoDbWriter();
+			//mongo.SetConnectionString(connectionString);
 
-			if( list.Count > 2000 )
-				list = list.Take(2000).ToList();
+			//List<PerformanceInfo> list = mongo.GetList<PerformanceInfo>(x => x.Time >= start && x.Time < end);
+
+			//if( list.Count > 2000 )
+			//	list = list.Take(2000).ToList();
 
 
-			return list;
+			//return list;
 		}
 
 

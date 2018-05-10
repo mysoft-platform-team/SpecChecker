@@ -4,6 +4,23 @@
         <name>ClownFish.Web</name>
     </assembly>
     <members>
+        <member name="T:ClownFish.Web.BinaryResult">
+            <summary>
+            表示一个二进制的Action执行结果
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BinaryResult.#ctor(System.Byte[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="buffer">文件内容的字节数组</param>
+        </member>
+        <member name="M:ClownFish.Web.BinaryResult.Ouput(System.Web.HttpContext)">
+            <summary>
+            实现IActionResult接口，执行输出
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:ClownFish.Web.FileDownloadResult">
             <summary>
             文件下载的执行结果
@@ -111,7 +128,7 @@
         </member>
         <member name="T:ClownFish.Web.StreamResult">
             <summary>
-            包含流的Action执行结果，通常用于实现文件下载。
+            表示一个二进制的Action执行结果，可用于实现文件下载。
             </summary>
         </member>
         <member name="F:ClownFish.Web.StreamResult.DefaultContentType">
@@ -931,6 +948,37 @@
             <param name="headerName">请求头的名称</param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Web.BaseController.OnLoad">
+            <summary>
+            当实例被创建后调用，可用于一些成员的初始化操作
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.OnUnload">
+            <summary>
+            实例在释放前调用，可用于释放资源的操作
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.BeforeExecuteAction(System.Reflection.MethodInfo,System.Object[])">
+            <summary>
+            执行Action前调用
+            </summary>
+            <param name="method"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.AfterExecuteAction(System.Reflection.MethodInfo,System.Object)">
+            <summary>
+            执行Action后调用
+            </summary>
+            <param name="method"></param>
+            <param name="result"></param>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.OnException(System.Reflection.MethodInfo,System.Exception)">
+            <summary>
+            执行Action遇到异常时调用
+            </summary>
+            <param name="method"></param>
+            <param name="ex"></param>
+        </member>
         <member name="T:ClownFish.Web.MvcRouteHandler">
             <summary>
             实现 ASP.NET Routing IRouteHandler的路由处理器，可供UrlRoutingModule使用
@@ -997,6 +1045,11 @@
             用于【外部模块】给 ProxyTransferHandler 传递目标网址
             </summary>
         </member>
+        <member name="P:ClownFish.Web.Proxy.ProxyTransferHandler.OriginalUrl">
+            <summary>
+            原始的请求地址
+            </summary>
+        </member>
         <member name="M:ClownFish.Web.Proxy.ProxyTransferHandler.GetTransferAddress(System.Web.HttpContext)">
             <summary>
             获取需要转发的目标地址
@@ -1061,6 +1114,11 @@
             常量字符串：代理站点的Cookie名字
             </summary>
         </member>
+        <member name="F:ClownFish.Web.Proxy.ReverseProxyModule.s_DefaultProxySite">
+            <summary>
+            默认的反向代理目标站点，可用于将所有请求转发到内网地址
+            </summary>
+        </member>
         <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.Init(System.Web.HttpApplication)">
             <summary>
             实现 IHttpModule.Init 方法
@@ -1077,6 +1135,13 @@
         <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.GetProxySiteAddress(System.Web.HttpApplication)">
             <summary>
             获取代理目标的站点地址
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.GetProxySiteAddressFromCookie(System.Web.HttpApplication)">
+            <summary>
+            尝试从Cookie中获取代理目标的站点地址
             </summary>
             <param name="app"></param>
             <returns></returns>
@@ -1140,27 +1205,6 @@
             判断是否是一个可支持的参数类型。仅包括：基元类型，string ，decimal，DateTime，Guid, string[], 枚举
             </summary>
             <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.GetRealType(System.Type)">
-            <summary>
-            得到一个实际的类型（排除Nullable类型的影响）。比如：int? 最后将得到int
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.IsTaskMethod(System.Reflection.MethodInfo)">
-            <summary>
-            判断是不是一个 Task 方法
-            </summary>
-            <param name="method"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.GetTaskMethodResultType(System.Reflection.MethodInfo)">
-            <summary>
-            检查是不是Task&lt;T&gt;方法，如果是，则返回类型参数T，否则返回 null
-            </summary>
-            <param name="method"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Web.Reflection.ActionDescription">

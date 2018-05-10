@@ -46,11 +46,11 @@ namespace SpecChecker.WebLib.Services
 			if( Directory.Exists(uploadPath) == false )
 				Directory.CreateDirectory(uploadPath);
 
-			// JSON文本的体积小，序列化/反序列化更快，而且特殊字符的支持更好，所以这里使用JSON，不再使用XML
-			//XmlHelper.XmlSerializeToFile(result, filename, Encoding.UTF8);
+            // JSON文本的体积小，序列化/反序列化更快，而且特殊字符的支持更好，所以这里使用JSON，不再使用XML
+            //XmlHelper.XmlSerializeToFile(result, filename, Encoding.UTF8);
 
-			//File.WriteAllText(filename, json, Encoding.UTF8);
-			ZipHelper.CreateZipFileFromText(filename, json);
+            //File.WriteAllText(filename, json, Encoding.UTF8);
+            SpecChecker.CoreLibrary.Common.ZipHelper.CreateZipFileFromText(filename, json);
 			
 
 			// 刷新小组汇总数据
@@ -85,8 +85,8 @@ namespace SpecChecker.WebLib.Services
 			// 将上传文件先保存到临时目录
 			File.WriteAllBytes(zipPath, logFile.FileBody);
 
-			// 释放压缩包中的日志文件，如果存在就覆盖
-			ZipHelper.ExtractFiles(zipPath, savepath);
+            // 释放压缩包中的日志文件，如果存在就覆盖
+            SpecChecker.CoreLibrary.Common.ZipHelper.ExtractFiles(zipPath, savepath);
 
 			//System.Threading.Thread.Sleep(2000);
 			return "200";
