@@ -49,15 +49,15 @@ namespace SpecChecker.ScanLibrary.ProjectScan
 
 					string configuration = match.Groups[1].Value;
 					
-					if( string.IsNullOrEmpty(group.OutputPath)
-						|| group.OutputPath.TrimEnd('\\').Equals("bin", StringComparison.OrdinalIgnoreCase) == false ) {
+					//if( string.IsNullOrEmpty(group.OutputPath)
+					//	|| group.OutputPath.TrimEnd('\\').Equals("bin", StringComparison.OrdinalIgnoreCase) == false ) {
 
-						result.Add(new ProjectCheckResult {
-							ProjectName = filePath.Substring(slnPath.Length + 1),
-							Configuration = configuration,
-							Reason = "SPEC:P00001; 请将项目的【输出路径】设置为【bin】"
-						});
-					}
+					//	result.Add(new ProjectCheckResult {
+					//		ProjectName = filePath.Substring(slnPath.Length + 1),
+					//		Configuration = configuration,
+					//		Reason = "SPEC:P00001; 请将项目的【输出路径】设置为【bin】"
+					//	});
+					//}
 
 
 					if( isLibrary && string.IsNullOrEmpty(group.DocumentationFile) ) {
